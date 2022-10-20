@@ -22,7 +22,7 @@ add_library(cloudio_endpoint_cpp
         include/JsonNlohmannMessageFormat.h
         src/PropertiesEndpointConfiguration.cpp
         include/PropertiesEndpointConfiguration.h
-        )
+        include/CloudioAttributeConstraint.h)
 
 include_directories(${CPP_PROPERTIES_INCLUDE_DIR})
 
