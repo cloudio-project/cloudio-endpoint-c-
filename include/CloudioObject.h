@@ -17,17 +17,27 @@ namespace cloudio {
     class CloudioObject {
 
     public:
+        CloudioObject(string objectName);
+
+        ~CloudioObject();
+
         string getConforms();
 
         list<CloudioObject *> getObjects();
 
         list<CloudioAttribute *> getAttributes();
 
+        void addObject(CloudioObject *object);
+
+        void addAttribute(CloudioAttribute *attribute);
+
+        string getName();
 
     private:
         string conforms;
         list<CloudioObject *> objects;
         list<CloudioAttribute *> attributes;
+        string objectName;
 
 
     };

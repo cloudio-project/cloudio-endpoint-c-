@@ -19,23 +19,21 @@ namespace cloudio {
 
     string PropertiesEndpointConfiguration::getProperty(string key, string defaultValue) {
         string outputProperty;
-        try{
+        try {
             outputProperty = properties.GetProperty(key);
         }
-        catch(PropertyNotFoundException)
-        {
+        catch (PropertyNotFoundException) {
             outputProperty = defaultValue;
         }
         return outputProperty;
     }
 
     bool PropertiesEndpointConfiguration::containsKey(string key) {
-        try{
+        try {
             properties.GetProperty(key);
             return true;
         }
-        catch(PropertyNotFoundException)
-        {
+        catch (PropertyNotFoundException) {
             return false;
         }
     }

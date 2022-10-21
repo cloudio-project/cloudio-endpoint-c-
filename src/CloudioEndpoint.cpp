@@ -5,6 +5,15 @@
 #include "../include/CloudioEndpoint.h"
 
 namespace cloudio {
+
+    CloudioEndpoint::CloudioEndpoint() {
+
+    }
+
+    CloudioEndpoint::~CloudioEndpoint() {
+
+    }
+
     string CloudioEndpoint::getVersion() {
         return this->version;
     }
@@ -15,5 +24,9 @@ namespace cloudio {
 
     list<string> CloudioEndpoint::getSupportedFormats() {
         return this->supportedFormats;
+    }
+
+    void CloudioEndpoint::addNode(CloudioNode *node) {
+        this->nodes.push_front(node);
     }
 } // cloudio

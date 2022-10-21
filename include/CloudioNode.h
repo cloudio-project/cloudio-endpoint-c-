@@ -12,14 +12,24 @@ namespace cloudio {
     class CloudioNode {
 
     public:
+
+        CloudioNode(string nodeName);
+
+        ~CloudioNode();
+
         list<CloudioObject *> getObjects();
 
         list<string> getInterfaces();
+
+        void addObject(CloudioObject *object);
+
+        string getName();
 
 
     private:
         list<CloudioObject *> objects;
         list<string> interfaces;
+        string nodeName;
     };
 
 } // cloudio

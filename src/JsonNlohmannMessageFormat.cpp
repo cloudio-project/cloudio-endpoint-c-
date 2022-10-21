@@ -3,6 +3,7 @@
 //
 
 #include "../include/JsonNlohmannMessageFormat.h"
+#include <iostream>
 
 namespace cloudio {
 
@@ -15,18 +16,21 @@ namespace cloudio {
     }
 
     string JsonNlohmannMessageFormat::serializeEndpoint(CloudioEndpoint *endpoint) {
+        cout << "serializeEndpoint" << endl;
         json endpointJson = jsonSerializeEndpoint(endpoint);
 
         return to_string(endpointJson);
     }
 
     string JsonNlohmannMessageFormat::serializeNode(CloudioNode *node) {
+        cout << "serializeNode" << endl;
         json nodeJson = jsonSerializeNode(node);
 
         return to_string(nodeJson);
     }
 
     string JsonNlohmannMessageFormat::serializeAttribute(CloudioAttribute *attribute) {
+        cout << "serializeAttribute" << endl;
         json attributeJson = jsonSerializeAttribute(attribute);
 
         return to_string(attributeJson);
@@ -34,6 +38,7 @@ namespace cloudio {
 
 
     json JsonNlohmannMessageFormat::jsonSerializeEndpoint(CloudioEndpoint *endpoint) {
+        cout << "jsonSerializeEndpoint" << endl;
         json endpointJson;
 
         endpointJson["version"] = endpoint->getVersion();
@@ -41,18 +46,17 @@ namespace cloudio {
 
         json supportedFormats = json::array();
 
-        for (std::list<string>::iterator formatIt = endpoint->getSupportedFormats().begin();
-             formatIt != endpoint->getSupportedFormats().end(); ++formatIt) {
-            supportedFormats.push_back(*formatIt);
+        for (auto &formatIt: endpoint->getSupportedFormats()) {
+            supportedFormats.push_back(formatIt);
         }
+
 
         endpointJson["supportedFormats"] = supportedFormats;
 
-        json nodes = json::array();
+        json nodes;
 
-        for (std::list<CloudioNode *>::iterator nodeIt = endpoint->getNodes().begin();
-             nodeIt != endpoint->getNodes().end(); ++nodeIt) {
-            nodes.push_back(jsonSerializeNode(*nodeIt));
+        for (auto &nodeIt: endpoint->getNodes()) {
+            nodes[nodeIt->getName()] = jsonSerializeNode(nodeIt);
         }
 
         endpointJson["nodes"] = nodes;
@@ -61,22 +65,22 @@ namespace cloudio {
     }
 
     json JsonNlohmannMessageFormat::jsonSerializeNode(CloudioNode *node) {
+        cout << "jsonSerializeNode" << endl;
         json nobeJson;
 
         json implements = json::array();
-
-        for (std::list<string>::iterator interfaceIt = node->getInterfaces().begin();
-             interfaceIt != node->getInterfaces().end(); ++interfaceIt) {
-            implements.push_back(*interfaceIt);
+        if (!node->getInterfaces().empty()) {
+            for (auto &interfaceIt: node->getInterfaces()) {
+                implements.push_back(interfaceIt);
+            }
         }
 
         nobeJson["implements"] = implements;
 
-        json innerObjects = json::array();
+        json innerObjects;
 
-        for (std::list<CloudioObject *>::iterator objectIt = node->getObjects().begin();
-             objectIt != node->getObjects().end(); ++objectIt) {
-            innerObjects.push_back(jsonSerializeObject(*objectIt));
+        for (auto &objectIt: node->getObjects()) {
+            innerObjects[objectIt->getName()] = jsonSerializeObject(objectIt);
         }
 
         nobeJson["objects"] = innerObjects;
@@ -85,24 +89,23 @@ namespace cloudio {
     }
 
     json JsonNlohmannMessageFormat::jsonSerializeObject(CloudioObject *object) {
+        cout << "jsonSerializeObject" << endl;
         json objectJson;
 
         if (object->getConforms().empty())
             objectJson["conforms"] = object->getConforms();
-        json innerObjects = json::array();
+        json innerObjects;
 
-        for (std::list<CloudioObject *>::iterator objectIt = object->getObjects().begin();
-             objectIt != object->getObjects().end(); ++objectIt) {
-            innerObjects.push_back(jsonSerializeObject(*objectIt));
+        for (auto &objectIt: object->getObjects()) {
+            innerObjects[objectIt->getName()] = jsonSerializeObject(objectIt);
         }
 
         objectJson["objects"] = innerObjects;
 
-        json attributes = json::array();
+        json attributes;
 
-        for (std::list<CloudioAttribute *>::iterator attributeIt = object->getAttributes().begin();
-             attributeIt != object->getAttributes().end(); ++attributeIt) {
-            innerObjects.push_back(jsonSerializeAttribute(*attributeIt));
+        for (auto &attributeIt: object->getAttributes()) {
+            innerObjects[attributeIt->getName()] = jsonSerializeAttribute(attributeIt);
         }
 
         objectJson["attributes"] = innerObjects;
@@ -111,6 +114,7 @@ namespace cloudio {
     }
 
     json JsonNlohmannMessageFormat::jsonSerializeAttribute(CloudioAttribute *attribute) {
+        cout << "jsonSerializeAttribute" << endl;
         json attributeJson;
         switch (attribute->getType()) {
             case Invalid:

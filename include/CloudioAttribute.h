@@ -8,12 +8,16 @@
 #include "CloudioAttributeConstraint.h"
 #include "CloudioAttributeType.h"
 
+#include <string>
+
+using namespace std;
+
 namespace cloudio {
 
     class CloudioAttribute {
 
     public:
-        CloudioAttribute();
+        CloudioAttribute(string attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint);
 
         ~CloudioAttribute();
 
@@ -25,12 +29,15 @@ namespace cloudio {
 
         CloudioAttributeType getType();
 
+        string getName();
+
 
     private:
         void *value;
         long timestamp = 0;
         CloudioAttributeConstraint constraint;
         CloudioAttributeType attributeType;
+        string attributeName;
 
     };
 

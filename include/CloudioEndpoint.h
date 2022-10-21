@@ -12,16 +12,22 @@ namespace cloudio {
     class CloudioEndpoint {
 
     public:
+        CloudioEndpoint();
+
+        ~CloudioEndpoint();
+
         string getVersion();
 
         list<CloudioNode *> getNodes();
 
         list<string> getSupportedFormats();
 
+        void addNode(CloudioNode *node);
+
     private:
         string version = "v0.2";
         list<CloudioNode *> nodes;
-        list<string> supportedFormats{"json"};
+        list<string> supportedFormats{"JSON"};
 
     };
 
