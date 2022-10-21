@@ -10,10 +10,12 @@
 using namespace std;
 
 namespace cloudio {
-    class ICloudioEndpointConfiguration{
+    class ICloudioEndpointConfiguration {
     public:
         virtual string getProperty(string key) = 0;
+
         virtual string getProperty(string key, string defaultValue) = 0;
+
         virtual bool containsKey(string key) = 0;
     };
 } // cloudio

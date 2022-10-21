@@ -5,7 +5,7 @@
 #ifndef CLOUDIO_ENDPOINT_CPP_CLOUDIOATTRIBUTECONSTRAINT_H
 #define CLOUDIO_ENDPOINT_CPP_CLOUDIOATTRIBUTECONSTRAINT_H
 
-enum CloudioAttributeConstraint{
+enum CloudioAttributeConstraint {
     Static,
     Parameter,
     Status,

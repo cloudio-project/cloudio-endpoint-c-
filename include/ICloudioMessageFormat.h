@@ -13,15 +13,13 @@
 using namespace std;
 
 namespace cloudio {
-    class ICloudioMessageFormat{
+    class ICloudioMessageFormat {
     public:
-        virtual string serializeEndpoint(CloudioEndpoint endpoint) = 0;
-        virtual string serializeNode(CloudioNode node) = 0;
+        virtual string serializeEndpoint(CloudioEndpoint *endpoint) = 0;
 
-        virtual string serializeAttribute(CloudioAttribute<int> attribute) = 0;
-        virtual string serializeAttribute(CloudioAttribute<double> attribute) = 0;
-        virtual string serializeAttribute(CloudioAttribute<bool> attribute) = 0;
-        virtual string serializeAttribute(CloudioAttribute<string> attribute) = 0;
+        virtual string serializeNode(CloudioNode *node) = 0;
+
+        virtual string serializeAttribute(CloudioAttribute *attribute) = 0;
     };
 } // cloudio
 #endif //CLOUDIO_ENDPOINT_CPP__ICLOUDIOMESSAGEFORMAT_H

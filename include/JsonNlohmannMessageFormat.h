@@ -6,6 +6,7 @@
 #define CLOUDIO_ENDPOINT_CPP_JSONNLOHMANNMESSAGEFORMAT_H
 
 #include "ICloudioMessageFormat.h"
+#include "CloudioObject.h"
 
 #include <string>
 #include <fstream>
@@ -19,25 +20,25 @@ namespace cloudio {
 
     public:
         JsonNlohmannMessageFormat();
+
         ~JsonNlohmannMessageFormat();
 
-        string serializeEndpoint(CloudioEndpoint endpoint);
-        string serializeNode(CloudioNode node);
-        string serializeAttribute(CloudioAttribute<int> attribute);
-        string serializeAttribute(CloudioAttribute<double> attribute);
-        string serializeAttribute(CloudioAttribute<bool> attribute);
-        string serializeAttribute(CloudioAttribute<string> attribute);
+        string serializeEndpoint(CloudioEndpoint *endpoint);
+
+        string serializeNode(CloudioNode *node);
+
+        string serializeAttribute(CloudioAttribute *attribute);
 
     private:
-        void serializeEndpoint(CloudioEndpoint endpoint, json& endpointJson);
-        void serializeNode(CloudioNode node, json& nodeJson);
-        void serializeAttribute(CloudioAttribute<int> attribute, json& attributeJson);
-        void serializeAttribute(CloudioAttribute<double> attribute, json& attributeJson);
-        void serializeAttribute(CloudioAttribute<bool> attribute, json& attributeJson);
-        void serializeAttribute(CloudioAttribute<string> attribute, json& attributeJson);
+        static json jsonSerializeEndpoint(CloudioEndpoint *endpoint);
+
+        static json jsonSerializeNode(CloudioNode *node);
+
+        static json jsonSerializeObject(CloudioObject *object);
+
+        static json jsonSerializeAttribute(CloudioAttribute *attribute);
 
     };
 }//cloudio
-
 
 #endif //CLOUDIO_ENDPOINT_CPP_JSONNLOHMANNMESSAGEFORMAT_H

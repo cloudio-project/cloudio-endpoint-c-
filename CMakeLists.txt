@@ -15,14 +15,17 @@ add_library(cloudio_endpoint_cpp
         include/CloudioEndpoint.h
         include/ICloudioEndpointConfiguration.h
         include/ICloudioMessageFormat.h
+        include/JsonNlohmannMessageFormat.h
+        include/PropertiesEndpointConfiguration.h
+        include/CloudioAttributeConstraint.h
+        include/CloudioObject.h
+        include/CloudioAttributeType.h
         src/CloudioAttribute.cpp
         src/CloudioNode.cpp
         src/CloudioEndpoint.cpp
         src/JsonNlohmannMessageFormat.cpp
-        include/JsonNlohmannMessageFormat.h
         src/PropertiesEndpointConfiguration.cpp
-        include/PropertiesEndpointConfiguration.h
-        include/CloudioAttributeConstraint.h)
+        src/CloudioObject.cpp )
 
 include_directories(${CPP_PROPERTIES_INCLUDE_DIR})
 

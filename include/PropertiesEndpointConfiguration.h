@@ -17,11 +17,15 @@ namespace cloudio {
     class PropertiesEndpointConfiguration : public ICloudioEndpointConfiguration {
     public:
         PropertiesEndpointConfiguration(const string propertiesFilePath);
+
         ~PropertiesEndpointConfiguration();
 
         string getProperty(string key);
+
         string getProperty(string key, string defaultValue);
+
         bool containsKey(string key);
+
     private:
         Properties properties;
 

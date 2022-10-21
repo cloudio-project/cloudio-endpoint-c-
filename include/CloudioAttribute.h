@@ -6,45 +6,33 @@
 #define CLOUDIO_ENDPOINT_CPP__CLOUDIOATTRIBUTE_H
 
 #include "CloudioAttributeConstraint.h"
+#include "CloudioAttributeType.h"
 
 namespace cloudio {
 
-    template <class AttributeType>
     class CloudioAttribute {
 
     public:
         CloudioAttribute();
+
         ~CloudioAttribute();
 
-        AttributeType getValue();
-        long getTimestamp();;
+        void *getValue();
+
+        long getTimestamp();
+
+        CloudioAttributeConstraint getConstraint();;
+
+        CloudioAttributeType getType();
+
 
     private:
-        AttributeType value;
-        long timestamp;
+        void *value;
+        long timestamp = 0;
         CloudioAttributeConstraint constraint;
+        CloudioAttributeType attributeType;
 
     };
-
-    template<class AttributeType>
-    CloudioAttribute<AttributeType>::CloudioAttribute() {
-
-    }
-
-    template<class AttributeType>
-    CloudioAttribute<AttributeType>::~CloudioAttribute() {
-
-    }
-
-    template<class AttributeType>
-    AttributeType CloudioAttribute<AttributeType>::getValue() {
-        return this->value;
-    }
-
-    template<class AttributeType>
-    long CloudioAttribute<AttributeType>::getTimestamp() {
-        return timestamp;
-    }
 
 } // cloudio
 
