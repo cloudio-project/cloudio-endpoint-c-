@@ -6,13 +6,14 @@
 #define CLOUDIO_ENDPOINT_CPP__ICLOUDIOMESSAGEFORMAT_H
 
 #include <string>
-#include "CloudioEndpoint.h"
+
 #include "CloudioNode.h"
 #include "CloudioAttribute.h"
 
 using namespace std;
 
 namespace cloudio {
+    class CloudioEndpoint;
     class ICloudioMessageFormat {
     public:
         virtual string serializeEndpoint(CloudioEndpoint *endpoint) = 0;

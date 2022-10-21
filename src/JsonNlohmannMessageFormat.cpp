@@ -3,6 +3,7 @@
 //
 
 #include "../include/JsonNlohmannMessageFormat.h"
+#include "../include/CloudioEndpoint.h"
 #include <iostream>
 
 namespace cloudio {

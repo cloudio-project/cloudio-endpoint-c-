@@ -25,7 +25,7 @@ add_library(cloudio_endpoint_cpp
         src/CloudioEndpoint.cpp
         src/JsonNlohmannMessageFormat.cpp
         src/PropertiesEndpointConfiguration.cpp
-        src/CloudioObject.cpp )
+        src/CloudioObject.cpp include/ITransportLayer.h src/PahoMqttCppTransportLayer.cpp include/PahoMqttCppTransportLayer.h)
 
 include_directories(${CPP_PROPERTIES_INCLUDE_DIR})
 
