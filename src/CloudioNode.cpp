@@ -23,6 +23,7 @@ namespace cloudio {
     }
 
     void CloudioNode::addObject(CloudioObject *object) {
+        object->setParent(this);
         this->objects.push_front(object);
     }
 

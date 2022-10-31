@@ -27,10 +27,12 @@ namespace cloudio {
     }
 
     void CloudioObject::addObject(CloudioObject *object) {
+        object->setParent(this);
         this->objects.push_front(object);
     }
 
     void CloudioObject::addAttribute(CloudioAttribute *attribute) {
+        attribute->setParent(this);
         this->attributes.push_front(attribute);
     }
 

@@ -62,6 +62,7 @@ namespace cloudio {
     }
 
     void CloudioEndpoint::addNode(CloudioNode *node) {
+        node->setParent(this);
         this->nodes.push_front(node);
     }
 
