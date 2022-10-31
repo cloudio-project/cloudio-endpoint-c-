@@ -14,6 +14,7 @@ using namespace std;
 
 namespace cloudio {
     class CloudioEndpoint;
+
     class ICloudioMessageFormat {
     public:
         virtual string serializeEndpoint(CloudioEndpoint *endpoint) = 0;

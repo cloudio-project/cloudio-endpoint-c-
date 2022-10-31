@@ -34,13 +34,13 @@ namespace cloudio {
         this->transportLayer->initTransportLayer(uuid, endpointConfiguration);
         this->transportLayer->connect();
 
-        string testPayload = "{\"constraint\": \"Measure\",\"type\": \"Number\",\"timestamp\": "+to_string(time(nullptr))+",\"value\": 40.0}";
+        string testPayload =
+                "{\"constraint\": \"Measure\",\"type\": \"Number\",\"timestamp\": " + to_string(time(nullptr)) +
+                ",\"value\": 40.0}";
 
-        this->transportLayer->publish("@update/"+uuid+"/myNode/myObject/myMeasure", testPayload, 1, false);
+        this->transportLayer->publish("@update/" + uuid + "/myNode/myObject/myMeasure", testPayload, 1, false);
 
         this->transportLayer->disconnect();
-
-
 
 
     }

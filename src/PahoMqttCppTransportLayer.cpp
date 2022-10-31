@@ -20,11 +20,11 @@ namespace cloudio {
 
         // MQTT parameters
         int connectTimeout = stoi(endpointConfiguration->getProperty(MQTT_CONNECTION_TIMEOUT_PROPERTY,
-                                                                    MQTT_CONNECTION_TIMEOUT_DEFAULT));
+                                                                     MQTT_CONNECTION_TIMEOUT_DEFAULT));
         int retryInterval = stoi(endpointConfiguration->getProperty(MQTT_CONNECT_RETRY_PROPERTY,
-                                                                   MQTT_CONNECT_RETRY_DEFAULT));
+                                                                    MQTT_CONNECT_RETRY_DEFAULT));
         int keepAliveInterval = stoi(endpointConfiguration->getProperty(MQTT_KEEPALIVE_INTERVAL_PROPERTY,
-                                                                       MQTT_KEEPALIVE_INTERVAL_DEFAULT));
+                                                                        MQTT_KEEPALIVE_INTERVAL_DEFAULT));
 
         // Certificates parameters
         string endpointIdentityFilePath;
@@ -57,9 +57,8 @@ namespace cloudio {
         }
 
 
-
         string verifyHostnameStr = endpointConfiguration->getProperty(SSL_VERIFY_HOSTNAME_PROPERTY,
-                                                                     SSL_VERIFY_HOSTNAME_DEFAULT);
+                                                                      SSL_VERIFY_HOSTNAME_DEFAULT);
         bool verifyHostname = verifyHostnameStr.compare("true") == 0;
 
 
@@ -74,7 +73,7 @@ namespace cloudio {
                 .verify(verifyHostname)
                 .finalize();
 
-        mqtt::message willmsg = mqtt::message("@offline/"+uuid, "", mqtt::GRANTED_QOS_1, true);
+        mqtt::message willmsg = mqtt::message("@offline/" + uuid, "", mqtt::GRANTED_QOS_1, true);
 
         this->connopts = mqtt::connect_options_builder()
                 .keep_alive_interval(chrono::seconds(keepAliveInterval))

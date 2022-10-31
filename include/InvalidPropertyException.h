@@ -6,6 +6,7 @@
 #define CLOUDIO_ENDPOINT_CPP_INVALIDPROPERTYEXCEPTION_H
 
 #include <iostream>
+
 using namespace std;
 
 namespace cloudio {
