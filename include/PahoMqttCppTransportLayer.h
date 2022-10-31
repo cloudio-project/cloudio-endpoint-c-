@@ -6,12 +6,16 @@
 #define CLOUDIO_ENDPOINT_CPP_PAHOMQTTCPPTRANSPORTLAYER_H
 
 #include "ITransportLayer.h"
+#include <mqtt/client.h>
+
 
 namespace cloudio {
 
     class PahoMqttCppTransportLayer : public ITransportLayer {
     public:
         PahoMqttCppTransportLayer();
+
+        ~PahoMqttCppTransportLayer();
 
         void initTransportLayer(string uuid, ICloudioEndpointConfiguration *endpointConfiguration);
 
@@ -20,6 +24,12 @@ namespace cloudio {
         void disconnect();
 
         void publish(string topic, string payload, int qos, bool retained);
+
+    private:
+
+        // Mqtt objects
+        mqtt::async_client *mqttClient;
+        mqtt::connect_options connopts;
 
     };
 
