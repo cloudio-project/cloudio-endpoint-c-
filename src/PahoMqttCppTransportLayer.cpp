@@ -96,11 +96,9 @@ namespace cloudio {
     void PahoMqttCppTransportLayer::publish(string topic, string payload, int qos, bool retained) {
         mqtt::message_ptr timeLeftMessagePointer = mqtt::make_message(
                 topic,
-                "",
+                payload,
                 qos,
                 retained);
-
-        timeLeftMessagePointer->set_payload(payload);
 
         mqttClient->publish(timeLeftMessagePointer);
     }

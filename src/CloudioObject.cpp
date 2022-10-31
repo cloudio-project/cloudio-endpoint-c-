@@ -37,4 +37,15 @@ namespace cloudio {
     string CloudioObject::getName() {
         return this->objectName;
     }
+
+    void CloudioObject::attributeHasChangedByEndpoint(CloudioAttribute *attribute) {
+        if(this->parent != nullptr)
+        {
+            this->parent->attributeHasChangedByEndpoint(attribute);
+        }
+    }
+
+    void CloudioObject::setParent(ICloudioObjectContainer *parent) {
+        this->parent = parent;
+    }
 } // cloudio

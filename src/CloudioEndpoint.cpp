@@ -64,4 +64,9 @@ namespace cloudio {
     void CloudioEndpoint::addNode(CloudioNode *node) {
         this->nodes.push_front(node);
     }
+
+    void CloudioEndpoint::attributeHasChangedByEndpoint(CloudioAttribute attribute) {
+        //TODO update here
+
+    }
 } // cloudio

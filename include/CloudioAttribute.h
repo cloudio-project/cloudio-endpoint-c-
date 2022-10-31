@@ -8,11 +8,14 @@
 #include "CloudioAttributeConstraint.h"
 #include "CloudioAttributeType.h"
 
+
 #include <string>
 
 using namespace std;
 
 namespace cloudio {
+
+    class ICloudioAttributeContainer;
 
     class CloudioAttribute {
 
@@ -31,6 +34,24 @@ namespace cloudio {
 
         string getName();
 
+        void setValue(int value);
+
+        void setValue(double value);
+
+        void setValue(string value);
+
+        void setValue(bool value);
+
+        void setValue(int value, long timestamp);
+
+        void setValue(double value, long timestamp);
+
+        void setValue(string value, long timestamp);
+
+        void setValue(bool value, long timestamp);
+
+        void setParent(ICloudioAttributeContainer *parent);
+
 
     private:
         void *value;
@@ -38,6 +59,9 @@ namespace cloudio {
         CloudioAttributeConstraint constraint;
         CloudioAttributeType attributeType;
         string attributeName;
+        ICloudioAttributeContainer *parent = nullptr;
+
+        void innerPostSetValue(long timestamp);
 
     };
 

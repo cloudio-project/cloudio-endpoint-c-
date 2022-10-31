@@ -6,6 +6,8 @@
 #define CLOUDIO_ENDPOINT_CPP_CLOUDIOOBJECT_H
 
 #include "CloudioAttribute.h"
+#include "ICloudioAttributeContainer.h"
+#include "ICloudioObjectContainer.h"
 
 #include <string>
 #include<list>
@@ -14,7 +16,7 @@ using namespace std;
 
 namespace cloudio {
 
-    class CloudioObject {
+    class CloudioObject : public ICloudioAttributeContainer, public ICloudioObjectContainer {
 
     public:
         CloudioObject(string objectName);
@@ -33,11 +35,16 @@ namespace cloudio {
 
         string getName();
 
+        void attributeHasChangedByEndpoint(CloudioAttribute *attribute);
+
+        void setParent(ICloudioObjectContainer *parent);
+
     private:
         string conforms;
         list<CloudioObject *> objects;
         list<CloudioAttribute *> attributes;
         string objectName;
+        ICloudioObjectContainer *parent = nullptr;
 
 
     };

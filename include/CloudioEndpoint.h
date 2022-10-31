@@ -8,11 +8,12 @@
 #include "CloudioNode.h"
 #include "ITransportLayer.h"
 #include "ICloudioMessageFormat.h"
+#include "ICloudioNodeContainer.h"
 #include <mqtt/client.h>
 
 namespace cloudio {
 
-    class CloudioEndpoint {
+    class CloudioEndpoint : public ICloudioNodeContainer {
 
     public:
         CloudioEndpoint(string uuidOrAppName, ICloudioMessageFormat *cloudioMessageFormat = nullptr,
@@ -27,6 +28,8 @@ namespace cloudio {
         list<string> getSupportedFormats();
 
         void addNode(CloudioNode *node);
+
+        void attributeHasChangedByEndpoint(CloudioAttribute attribute);
 
     private:
         string uuid;

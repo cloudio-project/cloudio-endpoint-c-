@@ -6,10 +6,12 @@
 #define CLOUDIO_ENDPOINT_CPP__CLOUDIONODE_H
 
 #include "CloudioObject.h"
+#include "ICloudioNodeContainer.h"
+#include "ICloudioObjectContainer.h"
 
 namespace cloudio {
 
-    class CloudioNode {
+    class CloudioNode : public ICloudioObjectContainer {
 
     public:
 
@@ -25,11 +27,16 @@ namespace cloudio {
 
         string getName();
 
+        void setParent(ICloudioNodeContainer *parent);
+
+        void attributeHasChangedByEndpoint(CloudioAttribute *attribute);
+
 
     private:
         list<CloudioObject *> objects;
         list<string> interfaces;
         string nodeName;
+        ICloudioNodeContainer *parent = nullptr;
     };
 
 } // cloudio

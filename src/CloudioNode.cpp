@@ -29,4 +29,14 @@ namespace cloudio {
     string CloudioNode::getName() {
         return this->nodeName;
     }
+
+    void CloudioNode::attributeHasChangedByEndpoint(CloudioAttribute *attribute) {
+        if (this->parent != nullptr) {
+            this->parent->attributeHasChangedByEndpoint(attribute);
+        }
+    }
+
+    void CloudioNode::setParent(ICloudioNodeContainer *parent) {
+        this->parent = parent;
+    }
 } // cloudio
