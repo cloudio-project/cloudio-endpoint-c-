@@ -11,6 +11,7 @@
 namespace cloudio {
 
     class CloudioAttribute;
+
     class ICloudioNodeContainer;
 
     class ICloudioObjectContainer : public INamedItem {

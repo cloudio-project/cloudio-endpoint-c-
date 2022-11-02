@@ -41,8 +41,7 @@ namespace cloudio {
     }
 
     void CloudioObject::attributeHasChangedByEndpoint(CloudioAttribute *attribute) {
-        if(this->parent != nullptr)
-        {
+        if (this->parent != nullptr) {
             this->parent->attributeHasChangedByEndpoint(attribute);
         }
     }

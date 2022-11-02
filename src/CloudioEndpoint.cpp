@@ -61,10 +61,11 @@ namespace cloudio {
         this->nodes.push_front(node);
     }
 
-    void CloudioEndpoint::attributeHasChangedByEndpoint(CloudioAttribute* attribute) {
+    void CloudioEndpoint::attributeHasChangedByEndpoint(CloudioAttribute *attribute) {
 
         string topicUUID = getAttributeTopic(attribute);
-        this->transportLayer->publish("@update/"+topicUUID, this->messageFormat->serializeAttribute(attribute), 1 ,true);
+        this->transportLayer->publish("@update/" + topicUUID, this->messageFormat->serializeAttribute(attribute), 1,
+                                      true);
     }
 
 } // cloudio

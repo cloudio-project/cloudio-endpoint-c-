@@ -13,7 +13,7 @@ namespace cloudio {
 
     class ICloudioObjectContainer;
 
-    class ICloudioAttributeContainer : public INamedItem{
+    class ICloudioAttributeContainer : public INamedItem {
     public:
         virtual void attributeHasChangedByEndpoint(CloudioAttribute *attribute) = 0;
 

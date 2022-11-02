@@ -31,7 +31,7 @@ namespace cloudio {
 
         void addNode(CloudioNode *node);
 
-        void attributeHasChangedByEndpoint(CloudioAttribute* attribute);
+        void attributeHasChangedByEndpoint(CloudioAttribute *attribute);
 
     private:
         string uuid;

@@ -12,15 +12,16 @@ namespace cloudio {
     }
 
     string getAttributeContainerTopic(ICloudioAttributeContainer *attributeContainer) {
-        return getObjectContainerTopic(attributeContainer->getParentObjectContainer()) + "/" + attributeContainer->getName();
+        return getObjectContainerTopic(attributeContainer->getParentObjectContainer()) + "/" +
+               attributeContainer->getName();
     }
 
     string getObjectContainerTopic(ICloudioObjectContainer *objectContainer) {
-        ICloudioObjectContainer * parentObjectContainer = objectContainer->getParentObjectContainer();
+        ICloudioObjectContainer *parentObjectContainer = objectContainer->getParentObjectContainer();
         if (parentObjectContainer != nullptr) {
             return getObjectContainerTopic(parentObjectContainer) + "/" + objectContainer->getName();
         }
-        ICloudioNodeContainer * parentNodeContainer = objectContainer->getParentNodeContainer();
+        ICloudioNodeContainer *parentNodeContainer = objectContainer->getParentNodeContainer();
         if (parentNodeContainer != nullptr) {
             return getNodeContainerTopic(parentNodeContainer) + "/" + objectContainer->getName();
         }
