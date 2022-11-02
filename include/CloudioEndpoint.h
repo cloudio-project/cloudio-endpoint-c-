@@ -27,9 +27,11 @@ namespace cloudio {
 
         list<string> getSupportedFormats();
 
+        string getName();
+
         void addNode(CloudioNode *node);
 
-        void attributeHasChangedByEndpoint(CloudioAttribute attribute);
+        void attributeHasChangedByEndpoint(CloudioAttribute* attribute);
 
     private:
         string uuid;

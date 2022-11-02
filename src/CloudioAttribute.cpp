@@ -96,78 +96,58 @@ namespace cloudio {
     void CloudioAttribute::setValue(bool value) {
         this->setValue(value, time(nullptr));
     }
-    void CloudioAttribute::setValue(int value, long timestamp) {
-        switch (this->attributeType) {
-            case Invalid:
-            case Boolean:
-            case Number:
-            case String:
-                //raise exception
-                break;
 
-            case Integer:
-                (*(int*)this->value) = value;
-                break;
+    void CloudioAttribute::setValue(int value, long timestamp) {
+        if (this->attributeType == Integer) {
+            (*(int *) this->value) = value;
+        } else {
+            // raise exception
         }
+        this->innerPostSetValue(timestamp);
     }
 
     void CloudioAttribute::setValue(double value, long timestamp) {
 
-        switch (this->attributeType) {
-            case Invalid:
-            case Boolean:
-            case Integer:
-            case String:
-                //raise exception
-                break;
-
-            case Number:
-                (*(double*)this->value) = value;
-                break;
+        if (this->attributeType == Number) {
+            (*(double *) this->value) = value;
+        } else {
+            // raise exception
         }
+        this->innerPostSetValue(timestamp);
     }
 
     void CloudioAttribute::setValue(string value, long timestamp) {
 
-        switch (this->attributeType) {
-            case Invalid:
-            case Boolean:
-            case Number:
-            case Integer:
-                //raise exception
-                break;
-
-            case String:
-                (*(string*)this->value) = value;
-                break;
+        if (this->attributeType == String) {
+            (*(string *) this->value) = value;
+        } else {
+            // raise exception
         }
+        this->innerPostSetValue(timestamp);
     }
 
     void CloudioAttribute::setValue(bool value, long timestamp) {
 
-        switch (this->attributeType) {
-            case Invalid:
-            case Integer:
-            case Number:
-            case String:
-                //raise exception
-                break;
-
-            case Boolean:
-                (*(bool*)this->value) = value;
-                break;
+        if (this->attributeType == Boolean) {
+            (*(bool *) this->value) = value;
+        } else {
+            // raise exception
         }
+        this->innerPostSetValue(timestamp);
     }
 
     void CloudioAttribute::innerPostSetValue(long timestamp) {
         this->timestamp = timestamp;
-        if(this->parent != nullptr)
-        {
+        if (this->parent != nullptr) {
             this->parent->attributeHasChangedByEndpoint(this);
         }
     }
 
     void CloudioAttribute::setParent(ICloudioAttributeContainer *parent) {
         this->parent = parent;
+    }
+
+    ICloudioAttributeContainer *CloudioAttribute::getParent() {
+        return this->parent;
     }
 } // cloudio

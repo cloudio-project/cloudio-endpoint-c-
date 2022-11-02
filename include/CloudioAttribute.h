@@ -52,6 +52,8 @@ namespace cloudio {
 
         void setParent(ICloudioAttributeContainer *parent);
 
+        ICloudioAttributeContainer* getParent();
+
 
     private:
         void *value;

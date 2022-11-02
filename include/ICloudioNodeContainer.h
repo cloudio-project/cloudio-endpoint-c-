@@ -5,11 +5,13 @@
 #ifndef CLOUDIO_ENDPOINT_CPP_ICLOUDIONODECONTAINER_H
 #define CLOUDIO_ENDPOINT_CPP_ICLOUDIONODECONTAINER_H
 
-class CloudioAttribute;
+#include "INamedItem.h"
 
 namespace cloudio {
 
-    class ICloudioNodeContainer {
+    class CloudioAttribute;
+
+    class ICloudioNodeContainer : public INamedItem {
     public:
         virtual void attributeHasChangedByEndpoint(CloudioAttribute *attribute) = 0;
     };

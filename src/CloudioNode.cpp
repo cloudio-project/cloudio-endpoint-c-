@@ -40,4 +40,12 @@ namespace cloudio {
     void CloudioNode::setParent(ICloudioNodeContainer *parent) {
         this->parent = parent;
     }
+
+    ICloudioObjectContainer *CloudioNode::getParentObjectContainer() {
+        return nullptr;
+    }
+
+    ICloudioNodeContainer *CloudioNode::getParentNodeContainer() {
+        return parent;
+    }
 } // cloudio

@@ -37,6 +37,10 @@ namespace cloudio {
 
         void attributeHasChangedByEndpoint(CloudioAttribute *attribute);
 
+        ICloudioObjectContainer *getParentObjectContainer();
+
+        ICloudioNodeContainer *getParentNodeContainer();
+
         void setParent(ICloudioObjectContainer *parent);
 
     private:

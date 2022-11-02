@@ -8,6 +8,7 @@
 #include "../include/JsonNlohmannMessageFormat.h"
 #include "../include/InvalidPropertyException.h"
 #include "../include/CloudioEndpointPropertyConstants.h"
+#include "../include/TopicUuidHelper.h"
 
 namespace cloudio {
 
@@ -61,13 +62,21 @@ namespace cloudio {
         return this->supportedFormats;
     }
 
+    string CloudioEndpoint::getName() {
+        return this->uuid;
+    }
+
     void CloudioEndpoint::addNode(CloudioNode *node) {
         node->setParent(this);
         this->nodes.push_front(node);
     }
 
-    void CloudioEndpoint::attributeHasChangedByEndpoint(CloudioAttribute attribute) {
+    void CloudioEndpoint::attributeHasChangedByEndpoint(CloudioAttribute* attribute) {
         //TODO update here
 
+
+        string topic = getAttributeTopic(attribute);
+        cout << topic << endl;
     }
+
 } // cloudio
