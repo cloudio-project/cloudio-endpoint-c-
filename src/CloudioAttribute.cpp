@@ -4,6 +4,7 @@
 
 #include "../include/CloudioAttribute.h"
 #include "../include/ICloudioAttributeContainer.h"
+#include "../include/CloudioAttributeConstrainException.h"
 
 namespace cloudio {
 
@@ -98,6 +99,8 @@ namespace cloudio {
     }
 
     void CloudioAttribute::setValue(int value, long timestamp) {
+        this->innerPreSetValue();
+
         if (this->attributeType == Integer) {
             (*(int *) this->value) = value;
         } else {
@@ -107,6 +110,7 @@ namespace cloudio {
     }
 
     void CloudioAttribute::setValue(double value, long timestamp) {
+        this->innerPreSetValue();
 
         if (this->attributeType == Number) {
             (*(double *) this->value) = value;
@@ -117,6 +121,7 @@ namespace cloudio {
     }
 
     void CloudioAttribute::setValue(string value, long timestamp) {
+        this->innerPreSetValue();
 
         if (this->attributeType == String) {
             (*(string *) this->value) = value;
@@ -127,6 +132,7 @@ namespace cloudio {
     }
 
     void CloudioAttribute::setValue(bool value, long timestamp) {
+        this->innerPreSetValue();
 
         if (this->attributeType == Boolean) {
             (*(bool *) this->value) = value;
@@ -134,6 +140,13 @@ namespace cloudio {
             // raise exception
         }
         this->innerPostSetValue(timestamp);
+    }
+
+    void CloudioAttribute::innerPreSetValue() {
+        if (this->constraint != Status && this->constraint != Measure) {
+            string message = "Can only change Status and Measure constraint attribute";
+            throw CloudioAttributeConstrainException("Can only change Status and Measure constraint attribute");
+        }
     }
 
     void CloudioAttribute::innerPostSetValue(long timestamp) {

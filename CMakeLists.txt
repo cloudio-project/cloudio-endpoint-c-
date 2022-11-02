@@ -20,12 +20,26 @@ add_library(cloudio_endpoint_cpp
         include/CloudioAttributeConstraint.h
         include/CloudioObject.h
         include/CloudioAttributeType.h
+        include/ITransportLayer.h
+        include/PahoMqttCppTransportLayer.h
+        include/InvalidPropertyException.h
+        include/CloudioEndpointPropertyConstants.h
+        include/ICloudioAttributeContainer.h
+        include/ICloudioObjectContainer.h
+        include/ICloudioNodeContainer.h
+        include/TopicUuidHelper.h
+        include/INamedItem.h
+        include/CloudioAttributeConstrainException.h
         src/CloudioAttribute.cpp
         src/CloudioNode.cpp
         src/CloudioEndpoint.cpp
         src/JsonNlohmannMessageFormat.cpp
         src/PropertiesEndpointConfiguration.cpp
-        src/CloudioObject.cpp include/ITransportLayer.h src/PahoMqttCppTransportLayer.cpp include/PahoMqttCppTransportLayer.h src/InvalidPropertyException.cpp include/InvalidPropertyException.h include/CloudioEndpointPropertyConstants.h include/ICloudioAttributeContainer.h include/ICloudioObjectContainer.h include/ICloudioNodeContainer.h src/TopicUuidHelper.cpp include/TopicUuidHelper.h include/INamedItem.h)
+        src/CloudioObject.cpp
+        src/PahoMqttCppTransportLayer.cpp
+        src/InvalidPropertyException.cpp
+        src/TopicUuidHelper.cpp
+        src/CloudioAttributeConstrainException.cpp)
 
 include_directories(${CPP_PROPERTIES_INCLUDE_DIR})
 

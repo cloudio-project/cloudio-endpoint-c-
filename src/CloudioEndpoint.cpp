@@ -34,6 +34,8 @@ namespace cloudio {
 
         this->transportLayer->initTransportLayer(uuid, endpointConfiguration);
         this->transportLayer->connect();
+
+        this->transportLayer->publish("@online/" + this->uuid, this->messageFormat->serializeEndpoint(this), 1, true);
     }
 
     CloudioEndpoint::~CloudioEndpoint() {
@@ -59,6 +61,8 @@ namespace cloudio {
     void CloudioEndpoint::addNode(CloudioNode *node) {
         node->setParent(this);
         this->nodes.push_front(node);
+        this->transportLayer->publish("@nodeAdded/" + this->uuid + "/" + node->getName(),
+                                      this->messageFormat->serializeNode(node), 1, false);
     }
 
     void CloudioEndpoint::attributeHasChangedByEndpoint(CloudioAttribute *attribute) {

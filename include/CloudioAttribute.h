@@ -63,6 +63,8 @@ namespace cloudio {
         string attributeName;
         ICloudioAttributeContainer *parent = nullptr;
 
+        void innerPreSetValue();
+
         void innerPostSetValue(long timestamp);
 
     };
