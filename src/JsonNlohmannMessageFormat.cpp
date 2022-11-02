@@ -17,21 +17,18 @@ namespace cloudio {
     }
 
     string JsonNlohmannMessageFormat::serializeEndpoint(CloudioEndpoint *endpoint) {
-        cout << "serializeEndpoint" << endl;
         json endpointJson = jsonSerializeEndpoint(endpoint);
 
         return to_string(endpointJson);
     }
 
     string JsonNlohmannMessageFormat::serializeNode(CloudioNode *node) {
-        cout << "serializeNode" << endl;
         json nodeJson = jsonSerializeNode(node);
 
         return to_string(nodeJson);
     }
 
     string JsonNlohmannMessageFormat::serializeAttribute(CloudioAttribute *attribute) {
-        cout << "serializeAttribute" << endl;
         json attributeJson = jsonSerializeAttribute(attribute);
 
         return to_string(attributeJson);
@@ -39,7 +36,6 @@ namespace cloudio {
 
 
     json JsonNlohmannMessageFormat::jsonSerializeEndpoint(CloudioEndpoint *endpoint) {
-        cout << "jsonSerializeEndpoint" << endl;
         json endpointJson;
 
         endpointJson["version"] = endpoint->getVersion();
@@ -66,7 +62,6 @@ namespace cloudio {
     }
 
     json JsonNlohmannMessageFormat::jsonSerializeNode(CloudioNode *node) {
-        cout << "jsonSerializeNode" << endl;
         json nobeJson;
 
         json implements = json::array();
@@ -90,7 +85,6 @@ namespace cloudio {
     }
 
     json JsonNlohmannMessageFormat::jsonSerializeObject(CloudioObject *object) {
-        cout << "jsonSerializeObject" << endl;
         json objectJson;
 
         if (object->getConforms().empty())
@@ -115,7 +109,6 @@ namespace cloudio {
     }
 
     json JsonNlohmannMessageFormat::jsonSerializeAttribute(CloudioAttribute *attribute) {
-        cout << "jsonSerializeAttribute" << endl;
         json attributeJson;
         switch (attribute->getType()) {
             case Invalid:
@@ -125,19 +118,19 @@ namespace cloudio {
             case Boolean: {
                 attributeJson["type"] = "Boolean";
                 bool *attributeValue = (bool *) attribute->getValue();
-                attributeJson["value"] = *attributeValue ? "true" : "false";
+                attributeJson["value"] = *attributeValue;
                 break;
             }
             case Integer: {
                 attributeJson["type"] = "Integer";
                 int *attributeValue = (int *) attribute->getValue();
-                attributeJson["value"] = to_string(*attributeValue);
+                attributeJson["value"] = *attributeValue;
                 break;
             }
             case Number: {
                 attributeJson["type"] = "Number";
                 double *attributeValue = (double *) attribute->getValue();
-                attributeJson["value"] = to_string(*attributeValue);
+                attributeJson["value"] = *attributeValue;
                 break;
             }
 
@@ -150,8 +143,24 @@ namespace cloudio {
 
             default:
                 break;
-        };
-        attributeJson["constraint"] = attribute->getConstraint();
+        }
+        switch (attribute->getConstraint()) {
+            case Static:
+                attributeJson["constraint"] = "Static";
+                break;
+            case Parameter:
+                attributeJson["constraint"] = "Parameter";
+                break;
+            case Status:
+                attributeJson["constraint"] = "Status";
+                break;
+            case SetPoint:
+                attributeJson["constraint"] = "SetPoint";
+                break;
+            case Measure:
+                attributeJson["constraint"] = "Measure";
+                break;
+        }
 
         if (attribute->getConstraint() != CloudioAttributeConstraint::Static) {
             if (attribute->getTimestamp() != 0) {

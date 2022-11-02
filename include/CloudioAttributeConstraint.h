@@ -10,7 +10,7 @@ enum CloudioAttributeConstraint {
     Parameter,
     Status,
     SetPoint,
-    measure
+    Measure
 };
 
 #endif //CLOUDIO_ENDPOINT_CPP_CLOUDIOATTRIBUTECONSTRAINT_H

@@ -34,16 +34,6 @@ namespace cloudio {
 
         this->transportLayer->initTransportLayer(uuid, endpointConfiguration);
         this->transportLayer->connect();
-
-        string testPayload =
-                "{\"constraint\": \"Measure\",\"type\": \"Number\",\"timestamp\": " + to_string(time(nullptr)) +
-                ",\"value\": 40.0}";
-
-        this->transportLayer->publish("@update/" + uuid + "/myNode/myObject/myMeasure", testPayload, 1, false);
-
-        this->transportLayer->disconnect();
-
-
     }
 
     CloudioEndpoint::~CloudioEndpoint() {
@@ -72,11 +62,9 @@ namespace cloudio {
     }
 
     void CloudioEndpoint::attributeHasChangedByEndpoint(CloudioAttribute* attribute) {
-        //TODO update here
 
-
-        string topic = getAttributeTopic(attribute);
-        cout << topic << endl;
+        string topicUUID = getAttributeTopic(attribute);
+        this->transportLayer->publish("@update/"+topicUUID, this->messageFormat->serializeAttribute(attribute), 1 ,true);
     }
 
 } // cloudio

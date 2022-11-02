@@ -85,7 +85,6 @@ namespace cloudio {
     void PahoMqttCppTransportLayer::connect() {
         // Use the connect method of the client to establish a connection to the broker.
         mqtt::token_ptr conntok = mqttClient->connect(connopts);
-        cout << "Waiting for the connection..." << endl;
         conntok->wait();
     }
 
