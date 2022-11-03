@@ -7,6 +7,6 @@ find_path(CPP_PROPERTIES_INCLUDE_DIR Properties.h
         PATHS ${FIND_CPP_PROPERTIES_PATHS})
 
 find_library(CPP_PROPERTIES_LIBRARY
-        NAMES libcppproperties
+        NAMES cppproperties
         PATH_SUFFIXES lib
         PATHS ${FIND_CPP_PROPERTIES_PATHS})
