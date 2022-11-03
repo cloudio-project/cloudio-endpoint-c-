@@ -21,6 +21,10 @@ namespace cloudio {
 
     public:
         CloudioAttribute(string attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint);
+        CloudioAttribute(string attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint, int initialValue);
+        CloudioAttribute(string attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint, double initialValue);
+        CloudioAttribute(string attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint, string initialValue);
+        CloudioAttribute(string attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint, bool initialValue);
 
         ~CloudioAttribute();
 

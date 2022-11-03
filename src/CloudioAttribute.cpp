@@ -36,6 +36,31 @@ namespace cloudio {
         }
     }
 
+    CloudioAttribute::CloudioAttribute(string attributeName, CloudioAttributeType type,
+                                       CloudioAttributeConstraint constraint, int initialValue) :
+            CloudioAttribute(attributeName, type, constraint) {
+        (*(int *) this->value) = initialValue;
+
+    }
+
+    CloudioAttribute::CloudioAttribute(string attributeName, CloudioAttributeType type,
+                                       CloudioAttributeConstraint constraint, double initialValue) :
+            CloudioAttribute(attributeName, type, constraint) {
+        (*(double *) this->value) = initialValue;
+    }
+
+    CloudioAttribute::CloudioAttribute(string attributeName, CloudioAttributeType type,
+                                       CloudioAttributeConstraint constraint, string initialValue) :
+            CloudioAttribute(attributeName, type, constraint) {
+        (*(string *) this->value) = initialValue;
+    }
+
+    CloudioAttribute::CloudioAttribute(string attributeName, CloudioAttributeType type,
+                                       CloudioAttributeConstraint constraint, bool initialValue) :
+            CloudioAttribute(attributeName, type, constraint) {
+        (*(bool *) this->value) = initialValue;
+    }
+
     CloudioAttribute::~CloudioAttribute() {
         switch (this->attributeType) {
             case Invalid:
