@@ -12,6 +12,6 @@ add_executable(usingLib main.cpp)
 
 include(FindPkgConfig)
 
-include_directories(${CPP_PROPERTIES_INCLUDE_DIR} ${CLOUDIO_INCLUDE_DIR})
+include_directories(${CLOUDIO_INCLUDE_DIR} ${CPP_PROPERTIES_INCLUDE_DIR})
 
-target_link_libraries(${PROJECT_NAME} ${CPP_PROPERTIES_LIBRARY}  ${CLOUDIO_LIBRARY} paho-mqtt3as paho-mqttpp3)
+target_link_libraries(${PROJECT_NAME} ${CLOUDIO_LIBRARY} ${CPP_PROPERTIES_LIBRARY} paho-mqtt3as paho-mqttpp3 )

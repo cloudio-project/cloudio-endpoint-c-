@@ -43,4 +43,4 @@ add_library(cloudio_endpoint_cpp
 
 include_directories(${CPP_PROPERTIES_INCLUDE_DIR})
 
-target_link_libraries(${PROJECT_NAME} ${CPP_PROPERTIES_LIBRARY} paho-mqtt3as paho-mqttpp3 nlohmann_json::nlohmann_json libcppproperties)
+target_link_libraries(${PROJECT_NAME} ${CPP_PROPERTIES_LIBRARY} paho-mqtt3as paho-mqttpp3)
