@@ -25,6 +25,8 @@ namespace cloudio {
     const string ENDPOINT_IDENTITY_KEY_PROPERTY = "ch.hevs.cloudio.endpoint.ssl.clientKey";
     const string SSL_VERIFY_HOSTNAME_PROPERTY = "ch.hevs.cloudio.endpoint.ssl.verifyHostname";
     const string SSL_VERIFY_HOSTNAME_DEFAULT = "true";
+    const string MQTT_MAXINFLIGHT_PROPERTY = "ch.hevs.cloudio.endpoint.maxInFlight";
+    const string MQTT_MAXINFLIGHT_DEFAULT = "1000";
 
 }
 

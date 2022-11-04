@@ -4,7 +4,6 @@
 
 #include "../include/PahoMqttCppTransportLayer.h"
 #include "../include/CloudioEndpointPropertyConstants.h"
-#include "../include/InvalidPropertyException.h"
 
 namespace cloudio {
     PahoMqttCppTransportLayer::PahoMqttCppTransportLayer() {
@@ -19,12 +18,47 @@ namespace cloudio {
     PahoMqttCppTransportLayer::initTransportLayer(string uuid, ICloudioEndpointConfiguration *endpointConfiguration) {
 
         // MQTT parameters
-        int connectTimeout = stoi(endpointConfiguration->getProperty(MQTT_CONNECTION_TIMEOUT_PROPERTY,
+        int connectTimeout;
+        int retryInterval;
+        int keepAliveInterval;
+        int maxInflight;
+
+        try {
+            connectTimeout = stoi(endpointConfiguration->getProperty(MQTT_CONNECTION_TIMEOUT_PROPERTY,
                                                                      MQTT_CONNECTION_TIMEOUT_DEFAULT));
-        int retryInterval = stoi(endpointConfiguration->getProperty(MQTT_CONNECT_RETRY_PROPERTY,
+        }
+        catch (exception e) {
+            throw InvalidPropertyException("Invalid connect timeout (" + MQTT_CONNECTION_TIMEOUT_PROPERTY +
+                                           "), must be a valid integer number, " + e.what());
+        }
+
+        try {
+            retryInterval = stoi(endpointConfiguration->getProperty(MQTT_CONNECT_RETRY_PROPERTY,
                                                                     MQTT_CONNECT_RETRY_DEFAULT));
-        int keepAliveInterval = stoi(endpointConfiguration->getProperty(MQTT_KEEPALIVE_INTERVAL_PROPERTY,
+        }
+        catch (exception e) {
+            throw InvalidPropertyException("Invalid retry interval (" + MQTT_CONNECT_RETRY_PROPERTY +
+                                           "), must be a valid integer number, " + e.what());
+        }
+
+        try {
+            keepAliveInterval = stoi(endpointConfiguration->getProperty(MQTT_KEEPALIVE_INTERVAL_PROPERTY,
                                                                         MQTT_KEEPALIVE_INTERVAL_DEFAULT));
+        }
+        catch (exception e) {
+            throw InvalidPropertyException("Invalid keep alive interval (" + MQTT_KEEPALIVE_INTERVAL_PROPERTY +
+                                           "), must be a valid integer number, " + e.what());
+        }
+
+        try {
+            maxInflight = stoi(endpointConfiguration->getProperty(MQTT_MAXINFLIGHT_PROPERTY,
+                                                                  MQTT_MAXINFLIGHT_DEFAULT));
+        }
+        catch (exception e) {
+            throw InvalidPropertyException("Invalid max in flight messages (" + MQTT_MAXINFLIGHT_PROPERTY +
+                                           "), must be a valid integer number, " + e.what());
+        }
+
 
         // Certificates parameters
         string endpointIdentityFilePath;
@@ -56,6 +90,12 @@ namespace cloudio {
             throw InvalidPropertyException("No hoste URI given");
         }
 
+        if (endpointConfiguration->containsKey(MQTT_HOST_URI_PROPERTY)) {
+            hostURI = endpointConfiguration->getProperty(MQTT_HOST_URI_PROPERTY);
+        } else {
+            throw InvalidPropertyException("No hoste URI given");
+        }
+
 
         string verifyHostnameStr = endpointConfiguration->getProperty(SSL_VERIFY_HOSTNAME_PROPERTY,
                                                                       SSL_VERIFY_HOSTNAME_DEFAULT);
@@ -78,6 +118,7 @@ namespace cloudio {
         this->connopts = mqtt::connect_options_builder()
                 .connect_timeout(chrono::seconds(connectTimeout))
                 .keep_alive_interval(chrono::seconds(keepAliveInterval))
+                .max_inflight(maxInflight)
                 .will(move(willmsg))
                 .ssl(move(sslopts))
                 .finalize();
@@ -117,11 +158,12 @@ namespace cloudio {
             }
             catch (mqtt::exception &e) {
                 throw TransportLayerException(
-                        "Error while sending "+topic+" message to mqtt broker, mqtt::exception : " + string(e.what()));
+                        "Error while sending " + topic + " message to mqtt broker, mqtt::exception : " +
+                        string(e.what()));
             }
         }
         if (!messageSend) {
-            throw TransportLayerException("Error "+topic+" message not sent");
+            throw TransportLayerException("Error " + topic + " message not sent");
         }
     }
 

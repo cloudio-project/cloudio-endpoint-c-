@@ -12,7 +12,7 @@
 namespace cloudio {
 
     CloudioEndpoint::CloudioEndpoint(string uuidOrAppName, ICloudioMessageFormat *cloudioMessageFormat,
-                                     ITransportLayer *transportLayer) {
+                                     ITransportLayer *transportLayer, ICloudioEndpointConfiguration *endpointConfiguration) {
         try {
 
             if (cloudioMessageFormat == nullptr) {
@@ -27,13 +27,16 @@ namespace cloudio {
                 this->transportLayer = transportLayer;
             }
 
+            if(endpointConfiguration == nullptr) {
+                this->endpointConfiguration = new PropertiesEndpointConfiguration(
+                        "/etc/cloud.io/" + uuidOrAppName + ".properties");
+            }else {
+                this->endpointConfiguration = endpointConfiguration;
+            }
 
-            ICloudioEndpointConfiguration *endpointConfiguration = new PropertiesEndpointConfiguration(
-                    "/etc/cloud.io/" + uuidOrAppName + ".properties");
+            this->uuid = this->endpointConfiguration->getProperty(UUID_PROPERTY, uuidOrAppName);
 
-            this->uuid = endpointConfiguration->getProperty(UUID_PROPERTY, uuidOrAppName);
-
-            this->transportLayer->initTransportLayer(uuid, endpointConfiguration);
+            this->transportLayer->initTransportLayer(uuid, this->endpointConfiguration);
             this->transportLayer->connect();
 
             this->transportLayer->publish("@online/" + this->uuid, this->messageFormat->serializeEndpoint(this), 1,

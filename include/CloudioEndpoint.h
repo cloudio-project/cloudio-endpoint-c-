@@ -16,7 +16,8 @@ namespace cloudio {
 
     public:
         CloudioEndpoint(string uuidOrAppName, ICloudioMessageFormat *cloudioMessageFormat = nullptr,
-                        ITransportLayer *transportLayer = nullptr);
+                        ITransportLayer *transportLayer = nullptr,
+                        ICloudioEndpointConfiguration *endpointConfiguration = nullptr);
 
         ~CloudioEndpoint();
 
@@ -39,6 +40,7 @@ namespace cloudio {
         list<string> supportedFormats{"JSON"};
         ICloudioMessageFormat *messageFormat;
         ITransportLayer *transportLayer;
+        ICloudioEndpointConfiguration *endpointConfiguration;
 
     };
 
