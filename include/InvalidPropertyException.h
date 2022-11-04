@@ -12,12 +12,13 @@ using namespace std;
 namespace cloudio {
     class InvalidPropertyException : public exception {
     private:
-        char *message;
+        string message;
 
     public:
-        InvalidPropertyException(char *msg);
+        InvalidPropertyException(string msg);
 
-        char *what();
+        const char *what();
+
     };
 }
 

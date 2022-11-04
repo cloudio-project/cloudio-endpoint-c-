@@ -6,6 +6,7 @@
 #define CLOUDIO_ENDPOINT_CPP_ITRANSPORTLAYER_H
 
 #include "ICloudioEndpointConfiguration.h"
+#include "TransportLayerException.h"
 
 namespace cloudio {
 

@@ -6,11 +6,11 @@
 
 namespace cloudio {
 
-    CloudioAttributeConstrainException::CloudioAttributeConstrainException(char *msg) : message(msg) {
+    CloudioAttributeConstrainException::CloudioAttributeConstrainException(string msg) : message(msg) {
 
     }
 
-    char *CloudioAttributeConstrainException::what() {
-        return message;
+    const char *CloudioAttributeConstrainException::what() {
+        return message.c_str();
     }
 } // cloudio

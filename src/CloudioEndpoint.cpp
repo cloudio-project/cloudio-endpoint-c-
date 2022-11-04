@@ -6,7 +6,6 @@
 #include "../include/PahoMqttCppTransportLayer.h"
 #include "../include/PropertiesEndpointConfiguration.h"
 #include "../include/JsonNlohmannMessageFormat.h"
-#include "../include/InvalidPropertyException.h"
 #include "../include/CloudioEndpointPropertyConstants.h"
 #include "../include/TopicUuidHelper.h"
 
@@ -14,28 +13,34 @@ namespace cloudio {
 
     CloudioEndpoint::CloudioEndpoint(string uuidOrAppName, ICloudioMessageFormat *cloudioMessageFormat,
                                      ITransportLayer *transportLayer) {
-        if (cloudioMessageFormat == nullptr) {
-            this->messageFormat = new JsonNlohmannMessageFormat();
-        } else {
-            this->messageFormat = cloudioMessageFormat;
+        try {
+
+            if (cloudioMessageFormat == nullptr) {
+                this->messageFormat = new JsonNlohmannMessageFormat();
+            } else {
+                this->messageFormat = cloudioMessageFormat;
+            }
+
+            if (transportLayer == nullptr) {
+                this->transportLayer = new PahoMqttCppTransportLayer();
+            } else {
+                this->transportLayer = transportLayer;
+            }
+
+
+            ICloudioEndpointConfiguration *endpointConfiguration = new PropertiesEndpointConfiguration(
+                    "/etc/cloud.io/" + uuidOrAppName + ".properties");
+
+            this->uuid = endpointConfiguration->getProperty(UUID_PROPERTY, uuidOrAppName);
+
+            this->transportLayer->initTransportLayer(uuid, endpointConfiguration);
+            this->transportLayer->connect();
+
+            this->transportLayer->publish("@online/" + this->uuid, this->messageFormat->serializeEndpoint(this), 1,
+                                          true);
+        } catch (TransportLayerException &e) {
+            throw;
         }
-
-        if (transportLayer == nullptr) {
-            this->transportLayer = new PahoMqttCppTransportLayer();
-        } else {
-            this->transportLayer = transportLayer;
-        }
-
-
-        ICloudioEndpointConfiguration *endpointConfiguration = new PropertiesEndpointConfiguration(
-                "/etc/cloud.io/" + uuidOrAppName + ".properties");
-
-        this->uuid = endpointConfiguration->getProperty(UUID_PROPERTY, uuidOrAppName);
-
-        this->transportLayer->initTransportLayer(uuid, endpointConfiguration);
-        this->transportLayer->connect();
-
-        this->transportLayer->publish("@online/" + this->uuid, this->messageFormat->serializeEndpoint(this), 1, true);
     }
 
     CloudioEndpoint::~CloudioEndpoint() {

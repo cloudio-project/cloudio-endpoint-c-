@@ -76,6 +76,7 @@ namespace cloudio {
         mqtt::message willmsg = mqtt::message("@offline/" + uuid, "", mqtt::GRANTED_QOS_1, true);
 
         this->connopts = mqtt::connect_options_builder()
+                .connect_timeout(chrono::seconds(connectTimeout))
                 .keep_alive_interval(chrono::seconds(keepAliveInterval))
                 .will(move(willmsg))
                 .ssl(move(sslopts))
@@ -84,8 +85,18 @@ namespace cloudio {
 
     void PahoMqttCppTransportLayer::connect() {
         // Use the connect method of the client to establish a connection to the broker.
-        mqtt::token_ptr conntok = mqttClient->connect(connopts);
-        conntok->wait();
+        try {
+            mqtt::token_ptr conntok = mqttClient->connect(connopts);
+            conntok->wait();
+        }
+        catch (mqtt::security_exception &e) {
+            throw TransportLayerException(
+                    "Error while connecting to mqtt broker, mqtt::security_exception : " + string(e.what()));
+        }
+        catch (mqtt::exception &e) {
+            throw TransportLayerException(
+                    "Error while connecting to mqtt broker, mqtt::exception : " + string(e.what()));
+        }
     }
 
     void PahoMqttCppTransportLayer::disconnect() {
@@ -99,6 +110,6 @@ namespace cloudio {
                 qos,
                 retained);
 
-        mqttClient->publish(timeLeftMessagePointer);
+        mqtt::delivery_token_ptr publishok = mqttClient->publish(timeLeftMessagePointer);
     }
 } // cloudio

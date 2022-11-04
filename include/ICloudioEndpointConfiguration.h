@@ -6,6 +6,7 @@
 #define CLOUDIO_ENDPOINT_CPP_ICLOUDIOENDPOINTCONFIGURATION_H
 
 #include <string>
+#include "InvalidPropertyException.h"
 
 using namespace std;
 

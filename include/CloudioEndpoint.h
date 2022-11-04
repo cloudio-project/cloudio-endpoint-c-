@@ -9,7 +9,6 @@
 #include "ITransportLayer.h"
 #include "ICloudioMessageFormat.h"
 #include "ICloudioNodeContainer.h"
-#include <mqtt/client.h>
 
 namespace cloudio {
 
@@ -40,10 +39,6 @@ namespace cloudio {
         list<string> supportedFormats{"JSON"};
         ICloudioMessageFormat *messageFormat;
         ITransportLayer *transportLayer;
-
-        // Mqtt objects
-        mqtt::async_client *mqttClient;
-        mqtt::connect_options connopts;
 
     };
 

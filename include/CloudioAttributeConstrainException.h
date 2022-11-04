@@ -13,12 +13,13 @@ namespace cloudio {
 
     class CloudioAttributeConstrainException : public exception {
     private:
-        char *message;
+        string message;
 
     public:
-        CloudioAttributeConstrainException(char *msg);
+        CloudioAttributeConstrainException(string msg);
 
-        char *what();
+        const char *what();
+
     };
 } // cloudio
 

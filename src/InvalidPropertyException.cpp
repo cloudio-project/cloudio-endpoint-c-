@@ -5,12 +5,12 @@
 #include "../include/InvalidPropertyException.h"
 
 namespace cloudio {
-    InvalidPropertyException::InvalidPropertyException(char *msg) : message(msg) {
+    InvalidPropertyException::InvalidPropertyException(string msg) : message(msg) {
 
     }
 
-    char *InvalidPropertyException::what() {
-        return message;
+    const char *InvalidPropertyException::what() {
+        return message.c_str();
     }
 
 }

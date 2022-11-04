@@ -30,6 +30,7 @@ add_library(cloudio_endpoint_cpp
         include/TopicUuidHelper.h
         include/INamedItem.h
         include/CloudioAttributeConstrainException.h
+        include/TransportLayerException.h
         src/CloudioAttribute.cpp
         src/CloudioNode.cpp
         src/CloudioEndpoint.cpp
@@ -39,7 +40,8 @@ add_library(cloudio_endpoint_cpp
         src/PahoMqttCppTransportLayer.cpp
         src/InvalidPropertyException.cpp
         src/TopicUuidHelper.cpp
-        src/CloudioAttributeConstrainException.cpp)
+        src/CloudioAttributeConstrainException.cpp
+        src/TransportLayerException.cpp )
 
 include_directories(${CPP_PROPERTIES_INCLUDE_DIR})
 

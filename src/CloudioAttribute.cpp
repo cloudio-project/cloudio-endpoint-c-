@@ -4,7 +4,6 @@
 
 #include "../include/CloudioAttribute.h"
 #include "../include/ICloudioAttributeContainer.h"
-#include "../include/CloudioAttributeConstrainException.h"
 
 namespace cloudio {
 
