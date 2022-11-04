@@ -117,11 +117,11 @@ namespace cloudio {
             }
             catch (mqtt::exception &e) {
                 throw TransportLayerException(
-                        "Error while sending @update message to mqtt broker, mqtt::exception : " + string(e.what()));
+                        "Error while sending "+topic+" message to mqtt broker, mqtt::exception : " + string(e.what()));
             }
         }
         if (!messageSend) {
-            throw TransportLayerException("Error @update message not sent");
+            throw TransportLayerException("Error "+topic+" message not sent");
         }
     }
 
