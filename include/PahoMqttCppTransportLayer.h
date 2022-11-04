@@ -25,6 +25,8 @@ namespace cloudio {
 
         void publish(string topic, string payload, int qos, bool retained);
 
+        bool isOnline();
+
     private:
 
         // Mqtt objects

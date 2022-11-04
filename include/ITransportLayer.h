@@ -20,6 +20,8 @@ namespace cloudio {
 
         virtual void publish(string topic, string payload, int qos, bool retained) = 0;
 
+        virtual bool isOnline() = 0;
+
     };
 
 } // cloudio

@@ -104,12 +104,28 @@ namespace cloudio {
     }
 
     void PahoMqttCppTransportLayer::publish(string topic, string payload, int qos, bool retained) {
+        bool messageSend = false;
         mqtt::message_ptr timeLeftMessagePointer = mqtt::make_message(
                 topic,
                 payload,
                 qos,
                 retained);
+        if (this->isOnline()) {
+            try {
+                mqtt::delivery_token_ptr publishok = mqttClient->publish(timeLeftMessagePointer);
+                messageSend = true;
+            }
+            catch (mqtt::exception &e) {
+                throw TransportLayerException(
+                        "Error while sending @update message to mqtt broker, mqtt::exception : " + string(e.what()));
+            }
+        }
+        if (!messageSend) {
+            throw TransportLayerException("Error @update message not sent");
+        }
+    }
 
-        mqtt::delivery_token_ptr publishok = mqttClient->publish(timeLeftMessagePointer);
+    bool PahoMqttCppTransportLayer::isOnline() {
+        return mqttClient->is_connected();
     }
 } // cloudio
