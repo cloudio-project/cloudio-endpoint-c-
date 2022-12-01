@@ -11,7 +11,7 @@
 
 namespace cloudio {
 
-    class PahoMqttCppTransportLayer : public ITransportLayer {
+    class PahoMqttCppTransportLayer : public ITransportLayer, public mqtt::callback{
     public:
         PahoMqttCppTransportLayer();
 
@@ -25,7 +25,16 @@ namespace cloudio {
 
         void publish(string topic, string payload, int qos, bool retained);
 
+        void subscribe(string topic, int qos);
+
         bool isOnline();
+
+        void setTransportLayerMessageListener(ICloudioTransportLayerMessageListener*);
+
+        void connected(const string& cause);
+        void connection_lost(const string& cause);
+        void message_arrived(mqtt::const_message_ptr msg);
+        void delivery_complete(mqtt::delivery_token_ptr tok);
 
     private:
 

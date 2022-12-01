@@ -105,6 +105,8 @@ namespace cloudio {
         // Construct a client using the Ip and Id
         mqttClient = new mqtt::async_client(hostURI, uuid);
 
+        mqttClient->set_callback(*this);
+
         mqtt::ssl_options sslopts = mqtt::ssl_options_builder()
                 .trust_store(authorityFilePath)
                 .key_store(endpointIdentityFilePath)
@@ -122,6 +124,7 @@ namespace cloudio {
                 .will(move(willmsg))
                 .ssl(move(sslopts))
                 .finalize();
+
     }
 
     void PahoMqttCppTransportLayer::connect() {
@@ -167,7 +170,34 @@ namespace cloudio {
         }
     }
 
+    void PahoMqttCppTransportLayer::subscribe(string topic, int qos)
+    {
+        this->mqttClient->subscribe(topic, qos);
+    }
+
     bool PahoMqttCppTransportLayer::isOnline() {
         return mqttClient->is_connected();
+    }
+
+    void PahoMqttCppTransportLayer::setTransportLayerMessageListener(ICloudioTransportLayerMessageListener* cloudioTransportLayerMessageListener)
+    {
+        this->cloudioTransportLayerMessageListener = cloudioTransportLayerMessageListener;
+    }
+    void PahoMqttCppTransportLayer::connected(const string& cause)
+    {
+        //cout<<"connected"<<endl;
+    }
+    void PahoMqttCppTransportLayer::connection_lost(const string& cause)
+    {
+        //cout<<"connection_lost"<<endl;
+    }
+    void PahoMqttCppTransportLayer::message_arrived(mqtt::const_message_ptr msg)
+    {
+        //cout<<"message_arrived"<<endl;
+        this->cloudioTransportLayerMessageListener->messageArrived(msg->get_topic(),msg->get_payload_str());
+    }
+    void PahoMqttCppTransportLayer::delivery_complete(mqtt::delivery_token_ptr tok)
+    {
+        //cout<<"delivery_complete"<<endl;
     }
 } // cloudio

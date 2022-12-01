@@ -12,7 +12,8 @@
 namespace cloudio {
 
     CloudioEndpoint::CloudioEndpoint(string uuidOrAppName, ICloudioMessageFormat *cloudioMessageFormat,
-                                     ITransportLayer *transportLayer, ICloudioEndpointConfiguration *endpointConfiguration) {
+                                     ITransportLayer *transportLayer,
+                                     ICloudioEndpointConfiguration *endpointConfiguration) {
         try {
 
             if (cloudioMessageFormat == nullptr) {
@@ -27,10 +28,10 @@ namespace cloudio {
                 this->transportLayer = transportLayer;
             }
 
-            if(endpointConfiguration == nullptr) {
+            if (endpointConfiguration == nullptr) {
                 this->endpointConfiguration = new PropertiesEndpointConfiguration(
                         "/etc/cloud.io/" + uuidOrAppName + ".properties");
-            }else {
+            } else {
                 this->endpointConfiguration = endpointConfiguration;
             }
 
@@ -41,6 +42,10 @@ namespace cloudio {
 
             this->transportLayer->publish("@online/" + this->uuid, this->messageFormat->serializeEndpoint(this), 1,
                                           true);
+            this->transportLayer->setTransportLayerMessageListener(this);
+
+            this->transportLayer->subscribe("@set/" + this->uuid + "/#", 1);
+
         } catch (TransportLayerException &e) {
             throw;
         }
@@ -78,6 +83,12 @@ namespace cloudio {
         string topicUUID = getAttributeTopic(attribute);
         this->transportLayer->publish("@update/" + topicUUID, this->messageFormat->serializeAttribute(attribute), 1,
                                       true);
+    }
+
+    void CloudioEndpoint::messageArrived(string topic, string payload) {
+        cout << topic << endl;
+        cout << payload << endl;
+        this->messageFormat
     }
 
 } // cloudio

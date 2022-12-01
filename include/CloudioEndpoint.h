@@ -12,7 +12,7 @@
 
 namespace cloudio {
 
-    class CloudioEndpoint : public ICloudioNodeContainer {
+    class CloudioEndpoint : public ICloudioNodeContainer, public ICloudioTransportLayerMessageListener {
 
     public:
         CloudioEndpoint(string uuidOrAppName, ICloudioMessageFormat *cloudioMessageFormat = nullptr,
@@ -32,6 +32,8 @@ namespace cloudio {
         void addNode(CloudioNode *node);
 
         void attributeHasChangedByEndpoint(CloudioAttribute *attribute);
+
+        void messageArrived(string topic, string payload);
 
     private:
         string uuid;

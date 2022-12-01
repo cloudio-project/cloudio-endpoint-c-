@@ -7,6 +7,7 @@
 
 #include "ICloudioEndpointConfiguration.h"
 #include "TransportLayerException.h"
+#include "ICloudioTransportLayerMessageListener.h"
 
 namespace cloudio {
 
@@ -20,7 +21,14 @@ namespace cloudio {
 
         virtual void publish(string topic, string payload, int qos, bool retained) = 0;
 
+        virtual void subscribe(string topic, int qos) = 0;
+
         virtual bool isOnline() = 0;
+
+        virtual void setTransportLayerMessageListener(ICloudioTransportLayerMessageListener*) = 0;
+
+    protected:
+        ICloudioTransportLayerMessageListener* cloudioTransportLayerMessageListener;
 
     };
 
