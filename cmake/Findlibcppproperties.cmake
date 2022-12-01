@@ -1,5 +1,5 @@
 set(FIND_CPP_PROPERTIES_PATHS
-        ${CMAKE_CURRENT_SOURCE_DIR}/../cpp-properties
+        ${CMAKE_CURRENT_SOURCE_DIR}/../cpp-properties/build/cpp-properties
         )
 
 find_path(CPP_PROPERTIES_INCLUDE_DIR Properties.h
