@@ -156,26 +156,55 @@ namespace cloudio {
 
 
     bool CloudioAttribute::setValueFromCloud(int value, long timestamp) {
-        setIntegerValue(value);
+        bool isSetPossible = innerPostSetValueFromCloud(timestamp);
+
+        if(isSetPossible) {
+            setIntegerValue(value);
+            this->notifyListeners();
+        }
+        return isSetPossible;
     }
 
     bool CloudioAttribute::setValueFromCloud(double value, long timestamp) {
-        setBooleanValue(value);
+        bool isSetPossible = innerPostSetValueFromCloud(timestamp);
+
+        if(isSetPossible) {
+            setBooleanValue(value);
+            this->notifyListeners();
+        }
+        return isSetPossible;
     }
 
     bool CloudioAttribute::setValueFromCloud(string value, long timestamp) {
-        setStringValue(value);
+        bool isSetPossible = innerPostSetValueFromCloud(timestamp);
+
+        if(isSetPossible) {
+            setStringValue(value);
+            this->notifyListeners();
+        }
+        return isSetPossible;
     }
 
     bool CloudioAttribute::setValueFromCloud(bool value, long timestamp) {
-        setBooleanValue(value);
-        //TODO make something with timestamp
-        //TODO attribute has changed in every setValueFromCloud
-        if (!this->listeners.empty()) {
-            for (auto &listener: this->listeners) {
-                listener->attributeHasChanged(this);
-            }
+        bool isSetPossible = innerPostSetValueFromCloud(timestamp);
+
+        if(isSetPossible) {
+            setBooleanValue(value);
+            this->notifyListeners();
         }
+        return isSetPossible;
+    }
+
+    bool CloudioAttribute::innerPostSetValueFromCloud(long timestamp) {
+        if (this->constraint != Parameter && this->constraint != SetPoint) {
+            throw CloudioAttributeConstrainException(
+                    "Can not change an attribute whose constraint is neither Parameter nor SetPoint ");
+        }
+        if (this->timestamp >= timestamp)
+            return false;
+
+        this->timestamp = timestamp;
+        return true;
     }
 
 
@@ -239,5 +268,13 @@ namespace cloudio {
 
     void CloudioAttribute::removeListener(ICloudioAttributeListener *listener) {
         this->listeners.remove(listener);
+    }
+
+    void CloudioAttribute::notifyListeners() {
+        if (!this->listeners.empty()) {
+            for (auto &listener: this->listeners) {
+                listener->attributeHasChanged(this);
+            }
+        }
     }
 } // cloudio

@@ -94,6 +94,8 @@ namespace cloudio {
 
         void innerPostSetValue(long timestamp);
 
+        bool innerPostSetValueFromCloud(long timestamp);
+
         void setIntegerValue(int value);
 
         void setNumberValue(double value);
@@ -101,6 +103,8 @@ namespace cloudio {
         void setStringValue(string value);
 
         void setBooleanValue(bool value);
+
+        void notifyListeners();
 
     };
 
