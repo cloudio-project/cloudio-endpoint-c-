@@ -25,14 +25,19 @@ namespace cloudio {
 
         list<CloudioNode *> getNodes();
 
+        CloudioNode * getNodeByName(string nodeName);
+
         list<string> getSupportedFormats();
 
         string getName();
 
         void addNode(CloudioNode *node);
 
+
+        // ICloudioNodeContainer interface
         void attributeHasChangedByEndpoint(CloudioAttribute *attribute);
 
+        // ICloudioTransportLayerMessageListener interface
         void messageArrived(string topic, string payload);
 
     private:
@@ -43,6 +48,8 @@ namespace cloudio {
         ICloudioMessageFormat *messageFormat;
         ITransportLayer *transportLayer;
         ICloudioEndpointConfiguration *endpointConfiguration;
+
+        void set(list<string> topics, string payload);
 
     };
 

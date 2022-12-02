@@ -34,6 +34,63 @@ namespace cloudio {
         return to_string(attributeJson);
     }
 
+    void JsonNlohmannMessageFormat::deserializeAttribute(string payload, CloudioAttribute *attribute) {
+        json attributeJson = json::parse(payload);
+
+        long timestamp;
+        try {
+            timestamp = attributeJson["timestamp"];
+        }
+        catch (exception e) {
+            //TODO better error management
+            cout<< e.what()<<endl;
+            return;
+        }
+
+
+        if (timestamp != 0) {
+            switch (attribute->getType()) {
+                case Invalid:
+                    break;
+                case Boolean: {
+                    bool boolValue = attributeJson["value"];
+                    attribute->setValueFromCloud(boolValue, timestamp);
+                    break;
+                }
+                case Integer: {
+                    int integerValue = attributeJson["value"];
+                    attribute->setValueFromCloud(integerValue, timestamp);
+                    break;
+                }
+
+                case Number: {
+                    double doubleValue = attributeJson["value"];
+                    attribute->setValueFromCloud(doubleValue, timestamp);
+                    break;
+                }
+
+                case String: {
+                    string strValue = attributeJson["value"];
+                    attribute->setValueFromCloud(strValue, timestamp);
+                    break;
+                }
+
+                default:
+                    //throw new IOException("Attribute type not supported!");
+                    break;
+            }
+        }
+    }
+
+
+    string JsonNlohmannMessageFormat::deserializeSetAttribute(string payload, CloudioAttribute *attribute) {
+        json attributeJson = json::parse(payload);
+
+        this->deserializeAttribute(payload, attribute);
+
+        return attributeJson["correlationID"];
+    }
+
 
     json JsonNlohmannMessageFormat::jsonSerializeEndpoint(CloudioEndpoint *endpoint) {
         json endpointJson;

@@ -22,6 +22,10 @@ namespace cloudio {
         virtual string serializeNode(CloudioNode *node) = 0;
 
         virtual string serializeAttribute(CloudioAttribute *attribute) = 0;
+
+        virtual void deserializeAttribute(string payload, CloudioAttribute* attribute) = 0;
+
+        virtual string deserializeSetAttribute(string payload, CloudioAttribute* attribute) = 0;
     };
 } // cloudio
 #endif //CLOUDIO_ENDPOINT_CPP__ICLOUDIOMESSAGEFORMAT_H

@@ -27,7 +27,11 @@ namespace cloudio {
 
         list<CloudioObject *> getObjects();
 
+        CloudioObject * getObjectByName(string objectName);
+
         list<CloudioAttribute *> getAttributes();
+
+        CloudioAttribute * getAttributeByName(string attributeName);
 
         void addObject(CloudioObject *object);
 
@@ -40,6 +44,8 @@ namespace cloudio {
         ICloudioObjectContainer *getParentObjectContainer();
 
         ICloudioNodeContainer *getParentNodeContainer();
+
+        CloudioAttribute* findAttribute(list<string>& topics);
 
         void setParent(ICloudioObjectContainer *parent);
 

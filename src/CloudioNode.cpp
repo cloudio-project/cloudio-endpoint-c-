@@ -18,6 +18,15 @@ namespace cloudio {
         return this->objects;
     }
 
+    CloudioObject *CloudioNode::getObjectByName(string objectName) {
+        for (auto &objectIt: this->objects) {
+            if (objectIt->getName() == objectName) {
+                return objectIt;
+            }
+        }
+        return nullptr;
+    }
+
     list<string> CloudioNode::getInterfaces() {
         return this->interfaces;
     }
@@ -47,5 +56,18 @@ namespace cloudio {
 
     ICloudioNodeContainer *CloudioNode::getParentNodeContainer() {
         return parent;
+    }
+
+
+    CloudioAttribute *CloudioNode::findAttribute(list<string>& topics) {
+        if(!topics.empty()){
+            CloudioObject* object = this->getObjectByName(topics.front());
+            topics.pop_front(); //pop object name
+            if(object != nullptr)
+            {
+                return object->findAttribute(topics);
+            }
+        }
+        return nullptr;
     }
 } // cloudio

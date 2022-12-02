@@ -7,9 +7,11 @@
 
 #include "CloudioAttributeConstraint.h"
 #include "CloudioAttributeType.h"
-#include "../include/CloudioAttributeConstrainException.h"
+#include "CloudioAttributeConstrainException.h"
+#include "ICloudioAttributeListener.h"
 
 #include <string>
+#include <list>
 
 using namespace std;
 
@@ -62,25 +64,46 @@ namespace cloudio {
 
         void setValue(bool value, long timestamp);
 
+        bool setValueFromCloud(int value, long timestamp);
+
+        bool setValueFromCloud(double value, long timestamp);
+
+        bool setValueFromCloud(string value, long timestamp);
+
+        bool setValueFromCloud(bool value, long timestamp);
+
         void setParent(ICloudioAttributeContainer *parent);
 
         ICloudioAttributeContainer *getParent();
 
+        void addListener(ICloudioAttributeListener *listener);
 
-    private:
-        void *value;
-        long timestamp = 0;
-        CloudioAttributeConstraint constraint;
-        CloudioAttributeType attributeType;
-        string attributeName;
-        ICloudioAttributeContainer *parent = nullptr;
+        void removeListener(ICloudioAttributeListener *listener);
 
-        void innerPreSetValue();
 
-        void innerPostSetValue(long timestamp);
+            private:
+            void *value;
+            long timestamp = 0;
+            CloudioAttributeConstraint constraint;
+            CloudioAttributeType attributeType;
+            string attributeName;
+            ICloudioAttributeContainer *parent = nullptr;
+            list<ICloudioAttributeListener *> listeners;
 
-    };
+            void innerPreSetValue();
 
-} // cloudio
+            void innerPostSetValue(long timestamp);
+
+            void setIntegerValue(int value);
+
+            void setNumberValue(double value);
+
+            void setStringValue(string value);
+
+            void setBooleanValue(bool value);
+
+        };
+
+    } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP__CLOUDIOATTRIBUTE_H

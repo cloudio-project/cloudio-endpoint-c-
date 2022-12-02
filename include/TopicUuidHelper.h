@@ -8,7 +8,8 @@
 #include "../include/ICloudioObjectContainer.h"
 #include "../include/ICloudioNodeContainer.h"
 
-#include "string"
+#include <string>
+#include <list>
 
 using namespace std;
 
@@ -23,6 +24,8 @@ namespace cloudio {
     string getObjectContainerTopic(ICloudioObjectContainer *objectContainer);
 
     string getNodeContainerTopic(ICloudioNodeContainer *nodeContainer);
+
+    list<string> split(string s, string delimiter);
 
 } // cloudio
 

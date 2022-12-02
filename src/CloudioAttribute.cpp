@@ -125,45 +125,90 @@ namespace cloudio {
     void CloudioAttribute::setValue(int value, long timestamp) {
         this->innerPreSetValue();
 
-        if (this->attributeType == Integer) {
-            (*(int *) this->value) = value;
-        } else {
-            // raise exception
-        }
+        this->setIntegerValue(value);
+
         this->innerPostSetValue(timestamp);
     }
 
     void CloudioAttribute::setValue(double value, long timestamp) {
         this->innerPreSetValue();
 
-        if (this->attributeType == Number) {
-            (*(double *) this->value) = value;
-        } else {
-            // raise exception
-        }
+        this->setNumberValue(value);
+
         this->innerPostSetValue(timestamp);
     }
 
     void CloudioAttribute::setValue(string value, long timestamp) {
         this->innerPreSetValue();
 
-        if (this->attributeType == String) {
-            (*(string *) this->value) = value;
-        } else {
-            // raise exception
-        }
+        this->setStringValue(value);
+
         this->innerPostSetValue(timestamp);
     }
 
     void CloudioAttribute::setValue(bool value, long timestamp) {
         this->innerPreSetValue();
 
+        this->setBooleanValue(value);
+
+        this->innerPostSetValue(timestamp);
+    }
+
+
+    bool CloudioAttribute::setValueFromCloud(int value, long timestamp) {
+        setIntegerValue(value);
+    }
+
+    bool CloudioAttribute::setValueFromCloud(double value, long timestamp) {
+        setBooleanValue(value);
+    }
+
+    bool CloudioAttribute::setValueFromCloud(string value, long timestamp) {
+        setStringValue(value);
+    }
+
+    bool CloudioAttribute::setValueFromCloud(bool value, long timestamp) {
+        setBooleanValue(value);
+        //TODO make something with timestamp
+        //TODO attribute has changed in every setValueFromCloud
+        if (!this->listeners.empty()) {
+            for (auto &listener: this->listeners) {
+                listener->attributeHasChanged(this);
+            }
+        }
+    }
+
+
+    void CloudioAttribute::setIntegerValue(int value) {
+        if (this->attributeType == Integer) {
+            (*(int *) this->value) = value;
+        } else {
+            // raise exception
+        }
+    }
+
+    void CloudioAttribute::setNumberValue(double value) {
+        if (this->attributeType == Number) {
+            (*(double *) this->value) = value;
+        } else {
+            // raise exception
+        }
+    }
+
+    void CloudioAttribute::setStringValue(string value) {
+        if (this->attributeType == String) {
+            (*(string *) this->value) = value;
+        } else {
+            // raise exception
+        }
+    }
+
+    void CloudioAttribute::setBooleanValue(bool value) {
         if (this->attributeType == Boolean) {
             (*(bool *) this->value) = value;
         } else {
             // raise exception
         }
-        this->innerPostSetValue(timestamp);
     }
 
     void CloudioAttribute::innerPreSetValue() {
@@ -186,5 +231,13 @@ namespace cloudio {
 
     ICloudioAttributeContainer *CloudioAttribute::getParent() {
         return this->parent;
+    }
+
+    void CloudioAttribute::addListener(ICloudioAttributeListener *listener) {
+        this->listeners.push_back(listener);
+    }
+
+    void CloudioAttribute::removeListener(ICloudioAttributeListener *listener) {
+        this->listeners.remove(listener);
     }
 } // cloudio

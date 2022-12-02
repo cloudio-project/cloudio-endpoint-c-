@@ -22,8 +22,26 @@ namespace cloudio {
         return this->objects;
     }
 
+    CloudioObject *CloudioObject::getObjectByName(string objectName) {
+        for (auto &objectIt: this->objects) {
+            if (objectIt->getName() == objectName) {
+                return objectIt;
+            }
+        }
+        return nullptr;
+    }
+
     list<CloudioAttribute *> CloudioObject::getAttributes() {
         return this->attributes;
+    }
+
+    CloudioAttribute *CloudioObject::getAttributeByName(string attributeName) {
+        for (auto &attributeIt: this->attributes) {
+            if (attributeIt->getName() == attributeName) {
+                return attributeIt;
+            }
+        }
+        return nullptr;
     }
 
     void CloudioObject::addObject(CloudioObject *object) {
@@ -55,6 +73,28 @@ namespace cloudio {
     }
 
     ICloudioNodeContainer *CloudioObject::getParentNodeContainer() {
+        return nullptr;
+    }
+
+
+    CloudioAttribute *CloudioObject::findAttribute(list<string> &topics) {
+        if (!topics.empty()) {
+            if (topics.size() > 1) {
+                CloudioObject *object = getObjectByName(topics.front());
+                topics.pop_front(); // pop object name
+                if (object != nullptr) {
+                    return object->findAttribute(topics);
+                }
+            } else {
+                if (!topics.empty()) {
+                    CloudioAttribute *attribute = getAttributeByName(topics.front());
+                    topics.pop_front(); // pop attribute name
+                    if (attribute != nullptr && topics.empty()) {
+                        return attribute;
+                    }
+                }
+            }
+        }
         return nullptr;
     }
 } // cloudio

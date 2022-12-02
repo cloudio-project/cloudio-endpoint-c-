@@ -63,6 +63,16 @@ namespace cloudio {
         return this->nodes;
     }
 
+    CloudioNode *CloudioEndpoint::getNodeByName(string nodeName) {
+        for (auto &nodeIt: this->nodes) {
+            if (nodeIt->getName() == nodeName) {
+                return nodeIt;
+            }
+        }
+        return nullptr;
+    }
+
+
     list<string> CloudioEndpoint::getSupportedFormats() {
         return this->supportedFormats;
     }
@@ -78,6 +88,72 @@ namespace cloudio {
                                       this->messageFormat->serializeNode(node), 1, false);
     }
 
+    void CloudioEndpoint::set(list<string> topics, string payload) {
+
+        if (!topics.empty() && uuid == topics.front()) {
+            topics.pop_front(); // pop the uuid
+            // Get the node with the name according to the topic.
+            CloudioNode *node = this->getNodeByName(topics.front());
+            if (node != nullptr) {
+                topics.pop_front(); // pop the node name
+
+                // Get the attribute reference.
+                CloudioAttribute *attribute = node->findAttribute(topics);
+                if (attribute != nullptr) {
+                    cout<<"Got the attribute!!"<<endl;
+
+
+                    // Deserialize the message into the attribute.
+                    string correlationID = messageFormat->deserializeSetAttribute(payload, attribute);
+
+                    if (correlationID != "null")
+                    {
+
+                    }
+                    /*
+                    byte[]
+                    dataDidSet = messageFormat.serializeDidSetAttribute(attribute, correlationID);
+
+                    boolean messageSend = false;
+                    if (isOnline()) {
+                        try {
+                            mqtt.publish("@didSet/" + attribute.getUuid().toString(), dataDidSet, 1, true);
+                            messageSend = true;
+                        } catch (MqttException exception) {
+                            log.error("Exception :" + exception.getMessage());
+                            exception.printStackTrace();
+                        }
+                    }
+
+                    // If the message could not be send for any reason, add the message to the pending updates persistence if
+                    // available.
+                    if (!messageSend && persistence) {
+                        try {
+                            CloudioPersistence.Message
+                            message
+                                    = new CloudioPersistence.Message("@didSet/" + attribute.getUuid().toString(),
+                                                                     dataDidSet);
+
+                            cloudioPersistence.storeMessage(PERSISTENCE_MQTT_UPDATE, updatePersistenceLimit, message);
+                        } catch (Exception exception) {
+                            log.error("Exception :" + exception.getMessage());
+                            exception.printStackTrace();
+                        }
+                    }*/
+
+
+                } else {
+                    cout<<("Attribute at \"" + topics.front() + "\" not found!");
+                }
+            } else {
+                cout<<("Node \"" + topics.front() + "\" not found!");
+            }
+        } else {
+            cout<<("Invalid topic: " + topics.front());
+        }
+        cout<<"end of set"<<endl;
+    }
+
     void CloudioEndpoint::attributeHasChangedByEndpoint(CloudioAttribute *attribute) {
 
         string topicUUID = getAttributeTopic(attribute);
@@ -88,7 +164,12 @@ namespace cloudio {
     void CloudioEndpoint::messageArrived(string topic, string payload) {
         cout << topic << endl;
         cout << payload << endl;
-        this->messageFormat
+        list<string> topics = split(topic, "/");
+
+        if (topics.front() == "@set") {
+            topics.pop_front(); // pop the @set
+            set(topics, payload);
+        }
     }
 
 } // cloudio
