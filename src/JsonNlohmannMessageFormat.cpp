@@ -95,7 +95,7 @@ namespace cloudio {
 
         this->deserializeAttribute(payload, attribute);
 
-        return attributeJson["correlationID"] !=  "null" ? attributeJson["correlationID"] : "";
+        return attributeJson["correlationID"] != "null" ? attributeJson["correlationID"] : "";
     }
 
 

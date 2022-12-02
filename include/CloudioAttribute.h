@@ -81,29 +81,29 @@ namespace cloudio {
         void removeListener(ICloudioAttributeListener *listener);
 
 
-            private:
-            void *value;
-            long timestamp = 0;
-            CloudioAttributeConstraint constraint;
-            CloudioAttributeType attributeType;
-            string attributeName;
-            ICloudioAttributeContainer *parent = nullptr;
-            list<ICloudioAttributeListener *> listeners;
+    private:
+        void *value;
+        long timestamp = 0;
+        CloudioAttributeConstraint constraint;
+        CloudioAttributeType attributeType;
+        string attributeName;
+        ICloudioAttributeContainer *parent = nullptr;
+        list<ICloudioAttributeListener *> listeners;
 
-            void innerPreSetValue();
+        void innerPreSetValue();
 
-            void innerPostSetValue(long timestamp);
+        void innerPostSetValue(long timestamp);
 
-            void setIntegerValue(int value);
+        void setIntegerValue(int value);
 
-            void setNumberValue(double value);
+        void setNumberValue(double value);
 
-            void setStringValue(string value);
+        void setStringValue(string value);
 
-            void setBooleanValue(bool value);
+        void setBooleanValue(bool value);
 
-        };
+    };
 
-    } // cloudio
+} // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP__CLOUDIOATTRIBUTE_H

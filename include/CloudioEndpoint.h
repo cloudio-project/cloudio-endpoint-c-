@@ -25,7 +25,7 @@ namespace cloudio {
 
         list<CloudioNode *> getNodes();
 
-        CloudioNode * getNodeByName(string nodeName);
+        CloudioNode *getNodeByName(string nodeName);
 
         list<string> getSupportedFormats();
 

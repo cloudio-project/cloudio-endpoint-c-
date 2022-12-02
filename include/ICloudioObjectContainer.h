@@ -23,7 +23,7 @@ namespace cloudio {
 
         virtual ICloudioNodeContainer *getParentNodeContainer() = 0;
 
-        virtual CloudioAttribute* findAttribute(list<string>& topics) = 0;
+        virtual CloudioAttribute *findAttribute(list<string> &topics) = 0;
     };
 
 } // cloudio

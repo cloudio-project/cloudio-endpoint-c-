@@ -21,7 +21,7 @@ namespace cloudio {
 
         list<CloudioObject *> getObjects();
 
-        CloudioObject * getObjectByName(string objectName);
+        CloudioObject *getObjectByName(string objectName);
 
         list<string> getInterfaces();
 
@@ -37,7 +37,7 @@ namespace cloudio {
 
         ICloudioNodeContainer *getParentNodeContainer();
 
-        CloudioAttribute* findAttribute(list<string>& location);
+        CloudioAttribute *findAttribute(list<string> &location);
 
 
     private:
