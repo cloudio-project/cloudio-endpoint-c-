@@ -34,6 +34,13 @@ namespace cloudio {
         return to_string(attributeJson);
     }
 
+
+    string JsonNlohmannMessageFormat::serializeDidSetAttribute(CloudioAttribute *attribute, string correlationID) {
+        json attributeJson = jsonSerializeAttribute(attribute);
+        attributeJson["correlationID"] = correlationID;
+        return to_string(attributeJson);
+    }
+
     void JsonNlohmannMessageFormat::deserializeAttribute(string payload, CloudioAttribute *attribute) {
         json attributeJson = json::parse(payload);
 
@@ -43,7 +50,7 @@ namespace cloudio {
         }
         catch (exception e) {
             //TODO better error management
-            cout<< e.what()<<endl;
+            cout << e.what() << endl;
             return;
         }
 
@@ -88,7 +95,7 @@ namespace cloudio {
 
         this->deserializeAttribute(payload, attribute);
 
-        return attributeJson["correlationID"];
+        return attributeJson["correlationID"] !=  "null" ? attributeJson["correlationID"] : "";
     }
 
 

@@ -23,6 +23,8 @@ namespace cloudio {
 
         virtual string serializeAttribute(CloudioAttribute *attribute) = 0;
 
+        virtual string serializeDidSetAttribute(CloudioAttribute *attribute, string correlationID) = 0;
+
         virtual void deserializeAttribute(string payload, CloudioAttribute* attribute) = 0;
 
         virtual string deserializeSetAttribute(string payload, CloudioAttribute* attribute) = 0;

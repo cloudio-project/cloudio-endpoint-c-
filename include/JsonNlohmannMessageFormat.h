@@ -29,9 +29,12 @@ namespace cloudio {
 
         string serializeAttribute(CloudioAttribute *attribute);
 
+        string serializeDidSetAttribute(CloudioAttribute *attribute, string correlationID);
+
         void deserializeAttribute(string payload, CloudioAttribute *attribute);
 
         string deserializeSetAttribute(string payload, CloudioAttribute *attribute);
+
 
     private:
         static json jsonSerializeEndpoint(CloudioEndpoint *endpoint);

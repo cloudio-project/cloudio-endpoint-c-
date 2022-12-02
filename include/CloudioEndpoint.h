@@ -49,7 +49,7 @@ namespace cloudio {
         ITransportLayer *transportLayer;
         ICloudioEndpointConfiguration *endpointConfiguration;
 
-        void set(list<string> topics, string payload);
+        void set(string topic, list<string> location, string payload);
 
     };
 

@@ -77,19 +77,19 @@ namespace cloudio {
     }
 
 
-    CloudioAttribute *CloudioObject::findAttribute(list<string> &topics) {
-        if (!topics.empty()) {
-            if (topics.size() > 1) {
-                CloudioObject *object = getObjectByName(topics.front());
-                topics.pop_front(); // pop object name
+    CloudioAttribute *CloudioObject::findAttribute(list<string> &location) {
+        if (!location.empty()) {
+            if (location.size() > 1) {
+                CloudioObject *object = getObjectByName(location.front());
+                location.pop_front(); // pop object name
                 if (object != nullptr) {
-                    return object->findAttribute(topics);
+                    return object->findAttribute(location);
                 }
             } else {
-                if (!topics.empty()) {
-                    CloudioAttribute *attribute = getAttributeByName(topics.front());
-                    topics.pop_front(); // pop attribute name
-                    if (attribute != nullptr && topics.empty()) {
+                if (!location.empty()) {
+                    CloudioAttribute *attribute = getAttributeByName(location.front());
+                    location.pop_front(); // pop attribute name
+                    if (attribute != nullptr && location.empty()) {
                         return attribute;
                     }
                 }

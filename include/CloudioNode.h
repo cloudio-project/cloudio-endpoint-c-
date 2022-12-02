@@ -37,7 +37,7 @@ namespace cloudio {
 
         ICloudioNodeContainer *getParentNodeContainer();
 
-        CloudioAttribute* findAttribute(list<string>& topics);
+        CloudioAttribute* findAttribute(list<string>& location);
 
 
     private:

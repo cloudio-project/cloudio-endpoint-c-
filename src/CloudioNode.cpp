@@ -59,13 +59,13 @@ namespace cloudio {
     }
 
 
-    CloudioAttribute *CloudioNode::findAttribute(list<string>& topics) {
-        if(!topics.empty()){
-            CloudioObject* object = this->getObjectByName(topics.front());
-            topics.pop_front(); //pop object name
+    CloudioAttribute *CloudioNode::findAttribute(list<string>& location) {
+        if(!location.empty()){
+            CloudioObject* object = this->getObjectByName(location.front());
+            location.pop_front(); //pop object name
             if(object != nullptr)
             {
-                return object->findAttribute(topics);
+                return object->findAttribute(location);
             }
         }
         return nullptr;
