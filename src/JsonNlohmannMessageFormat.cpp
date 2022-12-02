@@ -9,7 +9,8 @@
 namespace cloudio {
 
     JsonNlohmannMessageFormat::JsonNlohmannMessageFormat() {
-
+        //TODO instantiate cbor or json
+        jsonNolhmannMessageFormatSerializer = new CBORJsonNolhmannMessageFormatSerializer();
     }
 
     JsonNlohmannMessageFormat::~JsonNlohmannMessageFormat() {
@@ -19,30 +20,30 @@ namespace cloudio {
     string JsonNlohmannMessageFormat::serializeEndpoint(CloudioEndpoint *endpoint) {
         json endpointJson = jsonSerializeEndpoint(endpoint);
 
-        return to_string(endpointJson);
+        return jsonNolhmannMessageFormatSerializer->serialize(endpointJson);
     }
 
     string JsonNlohmannMessageFormat::serializeNode(CloudioNode *node) {
         json nodeJson = jsonSerializeNode(node);
 
-        return to_string(nodeJson);
+        return jsonNolhmannMessageFormatSerializer->serialize(nodeJson);
     }
 
     string JsonNlohmannMessageFormat::serializeAttribute(CloudioAttribute *attribute) {
         json attributeJson = jsonSerializeAttribute(attribute);
 
-        return to_string(attributeJson);
+        return jsonNolhmannMessageFormatSerializer->serialize(attributeJson);
     }
 
 
     string JsonNlohmannMessageFormat::serializeDidSetAttribute(CloudioAttribute *attribute, string correlationID) {
         json attributeJson = jsonSerializeAttribute(attribute);
         attributeJson["correlationID"] = correlationID;
-        return to_string(attributeJson);
+        return jsonNolhmannMessageFormatSerializer->serialize(attributeJson);
     }
 
     void JsonNlohmannMessageFormat::deserializeAttribute(string payload, CloudioAttribute *attribute) {
-        json attributeJson = json::parse(payload);
+        json attributeJson = jsonNolhmannMessageFormatSerializer->deserialize(payload);
 
         long timestamp;
         try {
@@ -53,7 +54,6 @@ namespace cloudio {
             cout << e.what() << endl;
             return;
         }
-
 
         if (timestamp != 0) {
             switch (attribute->getType()) {
@@ -91,11 +91,14 @@ namespace cloudio {
 
 
     string JsonNlohmannMessageFormat::deserializeSetAttribute(string payload, CloudioAttribute *attribute) {
-        json attributeJson = json::parse(payload);
+        json attributeJson = jsonNolhmannMessageFormatSerializer->deserialize(payload);
 
         this->deserializeAttribute(payload, attribute);
 
-        return attributeJson["correlationID"] != "null" ? attributeJson["correlationID"] : "";
+        string correlationID = "";
+        if (attributeJson["correlationID"] != nullptr)
+            correlationID = attributeJson["correlationID"];
+        return correlationID != "null" ? correlationID : "";
     }
 
 

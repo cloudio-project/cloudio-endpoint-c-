@@ -18,6 +18,38 @@ using json = nlohmann::json;
 namespace cloudio {
     class JsonNlohmannMessageFormat : public ICloudioMessageFormat {
 
+    private:
+        class IJsonNolhmannMessageFormatSerializer {
+        public:
+            virtual string serialize(json data) = 0;
+
+            virtual json deserialize(string payload) = 0;
+        };
+
+        class JSONJsonNolhmannMessageFormatSerializer : public IJsonNolhmannMessageFormatSerializer {
+        public:
+            string serialize(json data) {
+                return to_string(data);
+            };
+
+            json deserialize(string payload) {
+                return json::parse(payload);
+            }
+        };
+
+        class CBORJsonNolhmannMessageFormatSerializer : public IJsonNolhmannMessageFormatSerializer {
+        public:
+            string serialize(json data) {
+                vector<uint8_t> cbor_data = json::to_cbor(data);
+                unsigned char *cbordata = cbor_data.data();
+                return string((char *) cbordata);
+            };
+
+            json deserialize(string payload) {
+                return json::from_cbor(payload);
+            };
+        };
+
     public:
         JsonNlohmannMessageFormat();
 
@@ -44,6 +76,9 @@ namespace cloudio {
         static json jsonSerializeObject(CloudioObject *object);
 
         static json jsonSerializeAttribute(CloudioAttribute *attribute);
+
+        IJsonNolhmannMessageFormatSerializer *jsonNolhmannMessageFormatSerializer;
+
 
     };
 }//cloudio

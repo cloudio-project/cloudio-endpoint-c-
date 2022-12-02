@@ -28,7 +28,6 @@ namespace cloudio {
                 this->value = new double;
                 break;
 
-
             case String:
                 this->value = new string;
                 break;
@@ -77,11 +76,9 @@ namespace cloudio {
                 delete ((double *) this->value);
                 break;
 
-
             case String:
                 delete ((string *) this->value);
                 break;
-
         }
 
     }
@@ -154,11 +151,10 @@ namespace cloudio {
         this->innerPostSetValue(timestamp);
     }
 
-
     bool CloudioAttribute::setValueFromCloud(int value, long timestamp) {
         bool isSetPossible = innerPostSetValueFromCloud(timestamp);
 
-        if(isSetPossible) {
+        if (isSetPossible) {
             setIntegerValue(value);
             this->notifyListeners();
         }
@@ -168,7 +164,7 @@ namespace cloudio {
     bool CloudioAttribute::setValueFromCloud(double value, long timestamp) {
         bool isSetPossible = innerPostSetValueFromCloud(timestamp);
 
-        if(isSetPossible) {
+        if (isSetPossible) {
             setBooleanValue(value);
             this->notifyListeners();
         }
@@ -178,7 +174,7 @@ namespace cloudio {
     bool CloudioAttribute::setValueFromCloud(string value, long timestamp) {
         bool isSetPossible = innerPostSetValueFromCloud(timestamp);
 
-        if(isSetPossible) {
+        if (isSetPossible) {
             setStringValue(value);
             this->notifyListeners();
         }
@@ -188,7 +184,7 @@ namespace cloudio {
     bool CloudioAttribute::setValueFromCloud(bool value, long timestamp) {
         bool isSetPossible = innerPostSetValueFromCloud(timestamp);
 
-        if(isSetPossible) {
+        if (isSetPossible) {
             setBooleanValue(value);
             this->notifyListeners();
         }
