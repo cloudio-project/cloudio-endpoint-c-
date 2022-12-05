@@ -8,6 +8,7 @@
 #include "../include/JsonNlohmannMessageFormat.h"
 #include "../include/CloudioEndpointPropertyConstants.h"
 #include "../include/TopicUuidHelper.h"
+#include "../include/CloudioMessageFormatFactory.h"
 
 namespace cloudio {
 
@@ -15,12 +16,6 @@ namespace cloudio {
                                      ITransportLayer *transportLayer,
                                      ICloudioEndpointConfiguration *endpointConfiguration) {
         try {
-
-            if (cloudioMessageFormat == nullptr) {
-                this->messageFormat = new JsonNlohmannMessageFormat();
-            } else {
-                this->messageFormat = cloudioMessageFormat;
-            }
 
             if (transportLayer == nullptr) {
                 this->transportLayer = new PahoMqttCppTransportLayer();
@@ -36,6 +31,14 @@ namespace cloudio {
             }
 
             this->uuid = this->endpointConfiguration->getProperty(UUID_PROPERTY, uuidOrAppName);
+
+            if (cloudioMessageFormat == nullptr) {
+                string messageFormatId = this->endpointConfiguration->getProperty(MESSAGE_FORMAT,
+                                                                                  MESSAGE_FORMAT_DEFAULT);
+                this->messageFormat = new JsonNlohmannMessageFormat(messageFormatId);
+            } else {
+                this->messageFormat = cloudioMessageFormat;
+            }
 
             this->transportLayer->initTransportLayer(uuid, this->endpointConfiguration);
             this->transportLayer->connect();
@@ -87,8 +90,8 @@ namespace cloudio {
                                       this->messageFormat->serializeNode(node), 1, false);
     }
 
-    void CloudioEndpoint::set(string topic, list<string> location, string payload) {
-
+    void
+    CloudioEndpoint::set(string topic, list<string> location, ICloudioMessageFormat *messageFormat, string payload) {
         if (!location.empty() && uuid == location.front()) {
             location.pop_front(); // pop the uuid
             // Get the node with the name according to the topic.
@@ -128,11 +131,19 @@ namespace cloudio {
     }
 
     void CloudioEndpoint::messageArrived(string topic, string payload) {
+
+        // First determine the message format (first byte identifies the message format).
+        ICloudioMessageFormat *messageFormat = CloudioMessageFormatFactory::messageFormat(payload[0]);
+        if (messageFormat == nullptr) {
+            cout << "Message-format " << (char) payload[0] << " not supported!" << endl;
+            return;
+        }
+
         list<string> location = split(topic, "/");
 
         if (location.front() == "@set") {
             location.pop_front(); // pop the @set
-            set(topic, location, payload);
+            set(topic, location, messageFormat, payload);
         }
     }
 

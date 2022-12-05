@@ -33,6 +33,7 @@ add_library(cloudio_endpoint_cpp
         include/TransportLayerException.h
         include/ICloudioTransportLayerMessageListener.h
         include/ICloudioAttributeListener.h
+        include/CloudioMessageFormatFactory.h
         src/CloudioAttribute.cpp
         src/CloudioNode.cpp
         src/CloudioEndpoint.cpp
@@ -43,7 +44,8 @@ add_library(cloudio_endpoint_cpp
         src/InvalidPropertyException.cpp
         src/TopicUuidHelper.cpp
         src/CloudioAttributeConstrainException.cpp
-        src/TransportLayerException.cpp)
+        src/TransportLayerException.cpp
+        src/CloudioMessageFormatFactory.cpp)
 
 include_directories(${CPP_PROPERTIES_INCLUDE_DIR})
 

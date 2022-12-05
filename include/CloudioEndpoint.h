@@ -44,12 +44,12 @@ namespace cloudio {
         string uuid;
         string version = "v0.2";
         list<CloudioNode *> nodes;
-        list<string> supportedFormats{"JSON"};
+        list<string> supportedFormats{"JSON", "CBOR"};
         ICloudioMessageFormat *messageFormat;
         ITransportLayer *transportLayer;
         ICloudioEndpointConfiguration *endpointConfiguration;
 
-        void set(string topic, list<string> location, string payload);
+        void set(string topic, list<string> location, ICloudioMessageFormat *messageFormat, string payload);
 
     };
 

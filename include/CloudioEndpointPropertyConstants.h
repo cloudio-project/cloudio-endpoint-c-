@@ -27,6 +27,8 @@ namespace cloudio {
     const string SSL_VERIFY_HOSTNAME_DEFAULT = "true";
     const string MQTT_MAXINFLIGHT_PROPERTY = "ch.hevs.cloudio.endpoint.maxInFlight";
     const string MQTT_MAXINFLIGHT_DEFAULT = "1000";
+    const string MESSAGE_FORMAT = "ch.hevs.cloudio.endpoint.messageFormat";
+    const string MESSAGE_FORMAT_DEFAULT = "CBOR";
 
 }
 

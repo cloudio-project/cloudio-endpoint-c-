@@ -8,9 +8,14 @@
 
 namespace cloudio {
 
-    JsonNlohmannMessageFormat::JsonNlohmannMessageFormat() {
-        //TODO instantiate cbor or json
-        jsonNolhmannMessageFormatSerializer = new CBORJsonNolhmannMessageFormatSerializer();
+    JsonNlohmannMessageFormat::JsonNlohmannMessageFormat(string format) {
+        if (format == "JSON") {
+            jsonNolhmannMessageFormatSerializer = new JSONJsonNlohmannMessageFormatSerializer();
+        } else if (format == "CBOR") {
+            jsonNolhmannMessageFormatSerializer = new CBORJsonNlohmannMessageFormatSerializer();
+        } else {    //default, JSON
+            jsonNolhmannMessageFormatSerializer = new JSONJsonNlohmannMessageFormatSerializer();
+        }
     }
 
     JsonNlohmannMessageFormat::~JsonNlohmannMessageFormat() {
