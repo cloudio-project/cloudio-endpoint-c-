@@ -103,14 +103,13 @@ namespace cloudio {
                 CloudioAttribute *attribute = node->findAttribute(location);
                 if (attribute != nullptr) {
 
-                    // Deserialize the message into the attribute.
+                    // Deserialize the message into the attribute using determined messageFormat
                     string correlationID = messageFormat->deserializeSetAttribute(payload, attribute);
 
-                    if (!correlationID.empty()) {
-                        string dataDidSet = messageFormat->serializeDidSetAttribute(attribute, correlationID);
-                        string topicUUID = getAttributeTopic(attribute);
-                        this->transportLayer->publish("@didSet/" + topicUUID, dataDidSet, 1, true);
-                    }
+                    // User endpoint messageFormat to serialize diSet attribute
+                    string dataDidSet = this->messageFormat->serializeDidSetAttribute(attribute, correlationID);
+                    string topicUUID = getAttributeTopic(attribute);
+                    this->transportLayer->publish("@didSet/" + topicUUID, dataDidSet, 1, true);
 
                 } else {
                     cout << ("Attribute from topic \"" + topic + "\" not found!") << endl;
