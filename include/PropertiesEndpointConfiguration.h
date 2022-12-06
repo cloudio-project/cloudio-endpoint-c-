@@ -20,6 +20,7 @@ namespace cloudio {
 
         ~PropertiesEndpointConfiguration();
 
+        // ICloudioEndpointConfiguration interface
         string getProperty(const string &key);
 
         string getProperty(const string &key, const string &defaultValue);

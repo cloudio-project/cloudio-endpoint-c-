@@ -27,10 +27,12 @@ namespace cloudio {
 
         void addObject(CloudioObject *object);
 
-        string getName();
-
         void setParent(ICloudioNodeContainer *parent);
 
+        // INamedItem interface
+        string getName();
+
+        // ICloudioObjectContainer interface
         void attributeHasChangedByEndpoint(CloudioAttribute *attribute);
 
         ICloudioObjectContainer *getParentObjectContainer();

@@ -33,7 +33,7 @@ namespace cloudio {
         return nodeContainer->getName();
     }
 
-    list<string> split(string s, string delimiter) {
+    list<string> split(const string &s, const string &delimiter) {
         size_t pos_start = 0, pos_end, delim_len = delimiter.length();
         string token;
         list<string> res;

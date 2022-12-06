@@ -259,4 +259,4 @@ namespace cloudio {
 
         return attributeJson;
     }
-}
+} // cloudio

@@ -17,6 +17,7 @@ namespace cloudio {
 
         ~PahoMqttCppTransportLayer();
 
+        // ITransportLayer interface
         void initTransportLayer(const string &uuid, ICloudioEndpointConfiguration *endpointConfiguration);
 
         void connect();
@@ -31,6 +32,7 @@ namespace cloudio {
 
         void setTransportLayerMessageListener(ICloudioTransportLayerMessageListener *);
 
+        // mqtt::callback interface
         void connected(const string &cause);
 
         void connection_lost(const string &cause);

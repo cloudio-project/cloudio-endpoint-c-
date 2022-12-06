@@ -186,19 +186,15 @@ namespace cloudio {
     }
 
     void PahoMqttCppTransportLayer::connected(const string &cause) {
-        //cout<<"connected"<<endl;
     }
 
     void PahoMqttCppTransportLayer::connection_lost(const string &cause) {
-        //cout<<"connection_lost"<<endl;
     }
 
     void PahoMqttCppTransportLayer::message_arrived(mqtt::const_message_ptr msg) {
-        //cout<<"message_arrived"<<endl;
         this->cloudioTransportLayerMessageListener->messageArrived(msg->get_topic(), msg->get_payload_str());
     }
 
     void PahoMqttCppTransportLayer::delivery_complete(mqtt::delivery_token_ptr tok) {
-        //cout<<"delivery_complete"<<endl;
     }
 } // cloudio

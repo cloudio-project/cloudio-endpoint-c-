@@ -12,5 +12,4 @@ namespace cloudio {
     const char *InvalidPropertyException::what() {
         return message.c_str();
     }
-
-}
+} // cloudio

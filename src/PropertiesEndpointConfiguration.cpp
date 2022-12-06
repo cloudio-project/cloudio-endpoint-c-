@@ -37,5 +37,4 @@ namespace cloudio {
             return false;
         }
     }
-
 } // cloudio

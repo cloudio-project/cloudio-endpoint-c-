@@ -25,7 +25,7 @@ namespace cloudio {
 
     string getNodeContainerTopic(ICloudioNodeContainer *nodeContainer);
 
-    list<string> split(string s, string delimiter);
+    list<string> split(const string &s, const string &delimiter);
 
 } // cloudio
 

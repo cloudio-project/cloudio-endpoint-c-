@@ -33,7 +33,6 @@ namespace cloudio {
 
         void addNode(CloudioNode *node);
 
-
         // ICloudioNodeContainer interface
         void attributeHasChangedByEndpoint(CloudioAttribute *attribute);
 

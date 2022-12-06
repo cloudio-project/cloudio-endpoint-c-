@@ -33,6 +33,7 @@ namespace cloudio {
 
         class JSONJsonNlohmannMessageFormatSerializer : public IJsonNlohmannMessageFormatSerializer {
         public:
+            // IJsonNlohmannMessageFormatSerializer interface
             string serialize(json data) {
                 return to_string(data);
             };
@@ -44,6 +45,7 @@ namespace cloudio {
 
         class CBORJsonNlohmannMessageFormatSerializer : public IJsonNlohmannMessageFormatSerializer {
         public:
+            // IJsonNlohmannMessageFormatSerializer interface
             string serialize(json data) {
                 vector<uint8_t> cbor_data = json::to_cbor(data);
                 unsigned char *cbordata = cbor_data.data();
@@ -60,6 +62,7 @@ namespace cloudio {
 
         ~JsonNlohmannMessageFormat();
 
+        // ICloudioMessageFormat interface
         string serializeEndpoint(CloudioEndpoint *endpoint);
 
         string serializeNode(CloudioNode *node);

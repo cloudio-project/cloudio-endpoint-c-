@@ -146,5 +146,4 @@ namespace cloudio {
             set(topic, location, arrivedMessageFormat, payload);
         }
     }
-
 } // cloudio

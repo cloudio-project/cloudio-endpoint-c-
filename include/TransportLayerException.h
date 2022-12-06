@@ -18,6 +18,7 @@ namespace cloudio {
     public:
         TransportLayerException(const string &msg);
 
+        // exception interface
         const char *what();
 
     };
