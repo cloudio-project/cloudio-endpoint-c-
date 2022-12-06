@@ -48,60 +48,77 @@ namespace cloudio {
     }
 
     void JsonNlohmannMessageFormat::deserializeAttribute(string payload, CloudioAttribute *attribute) {
-        json attributeJson = jsonNolhmannMessageFormatSerializer->deserialize(payload);
+        json attributeJson;
+        try {
+            attributeJson = jsonNolhmannMessageFormatSerializer->deserialize(payload);
+        }catch (exception e) {
+            cout << "Error during main deserialization process " << e.what() << endl;
+            return;
+        }
 
         long timestamp;
         try {
             timestamp = attributeJson["timestamp"];
         }
         catch (exception e) {
-            //TODO better error management
-            cout << e.what() << endl;
+            cout << "Error during deserialization, no valid timestamp found " << e.what() << endl;
             return;
         }
 
         if (timestamp != 0) {
-            switch (attribute->getType()) {
-                case Invalid:
-                    break;
-                case Boolean: {
-                    bool boolValue = attributeJson["value"];
-                    attribute->setValueFromCloud(boolValue, timestamp);
-                    break;
-                }
-                case Integer: {
-                    int integerValue = attributeJson["value"];
-                    attribute->setValueFromCloud(integerValue, timestamp);
-                    break;
-                }
+            try {
+                switch (attribute->getType()) {
+                    case Invalid:
+                        break;
+                    case Boolean: {
+                        bool boolValue = attributeJson["value"];
+                        attribute->setValueFromCloud(boolValue, timestamp);
+                        break;
+                    }
+                    case Integer: {
+                        int integerValue = attributeJson["value"];
+                        attribute->setValueFromCloud(integerValue, timestamp);
+                        break;
+                    }
 
-                case Number: {
-                    double doubleValue = attributeJson["value"];
-                    attribute->setValueFromCloud(doubleValue, timestamp);
-                    break;
-                }
+                    case Number: {
+                        double doubleValue = attributeJson["value"];
+                        attribute->setValueFromCloud(doubleValue, timestamp);
+                        break;
+                    }
 
-                case String: {
-                    string strValue = attributeJson["value"];
-                    attribute->setValueFromCloud(strValue, timestamp);
-                    break;
-                }
+                    case String: {
+                        string strValue = attributeJson["value"];
+                        attribute->setValueFromCloud(strValue, timestamp);
+                        break;
+                    }
 
-                default:
-                    //throw new IOException("Attribute type not supported!");
-                    break;
+                    default:
+                        cout << "Type error while deserializing value from @set message" << endl;
+                        break;
+                }
+            }
+            catch (exception e) {
+                cout << "Type error while deserializing value from @set message" << endl;
+                return;
             }
         }
     }
 
 
     string JsonNlohmannMessageFormat::deserializeSetAttribute(string payload, CloudioAttribute *attribute) {
-        json attributeJson = jsonNolhmannMessageFormatSerializer->deserialize(payload);
+        json attributeJson;
+        try {
+            attributeJson = jsonNolhmannMessageFormatSerializer->deserialize(payload);
+        }catch (exception e) {
+            cout << "Error during main deserialization process " << e.what() << endl;
+            return "";
+        }
 
         this->deserializeAttribute(payload, attribute);
 
         string correlationID = "";
-        if (attributeJson["correlationID"] != nullptr)
+        if (attributeJson["correlationID"] != nullptr && attributeJson["correlationID"].type() == value_t::string)
             correlationID = attributeJson["correlationID"];
         return correlationID != "null" ? correlationID : "";
     }
