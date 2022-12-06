@@ -15,12 +15,11 @@ namespace cloudio {
         string message;
 
     public:
-        InvalidPropertyException(string msg);
+        InvalidPropertyException(const string &msg);
 
         const char *what();
 
     };
-}
-
+} // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP_INVALIDPROPERTYEXCEPTION_H

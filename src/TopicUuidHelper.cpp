@@ -7,16 +7,16 @@
 
 namespace cloudio {
 
-    string getAttributeTopic(CloudioAttribute *attribute) {
+    string getAttributeTopic(CloudioAttribute *const attribute) {
         return getAttributeContainerTopic(attribute->getParent()) + "/" + attribute->getName();
     }
 
-    string getAttributeContainerTopic(ICloudioAttributeContainer *attributeContainer) {
+    string getAttributeContainerTopic(ICloudioAttributeContainer *const attributeContainer) {
         return getObjectContainerTopic(attributeContainer->getParentObjectContainer()) + "/" +
                attributeContainer->getName();
     }
 
-    string getObjectContainerTopic(ICloudioObjectContainer *objectContainer) {
+    string getObjectContainerTopic(ICloudioObjectContainer *const objectContainer) {
         ICloudioObjectContainer *parentObjectContainer = objectContainer->getParentObjectContainer();
         if (parentObjectContainer != nullptr) {
             return getObjectContainerTopic(parentObjectContainer) + "/" + objectContainer->getName();
@@ -29,7 +29,7 @@ namespace cloudio {
         return "";
     }
 
-    string getNodeContainerTopic(ICloudioNodeContainer *nodeContainer) {
+    string getNodeContainerTopic(ICloudioNodeContainer *const nodeContainer) {
         return nodeContainer->getName();
     }
 

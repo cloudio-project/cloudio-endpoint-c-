@@ -6,7 +6,7 @@
 
 namespace cloudio {
 
-    CloudioAttributeConstrainException::CloudioAttributeConstrainException(string msg) : message(msg) {
+    CloudioAttributeConstrainException::CloudioAttributeConstrainException(const string &msg) : message(msg) {
 
     }
 

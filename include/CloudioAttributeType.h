@@ -15,6 +15,7 @@ namespace cloudio {
         String
     };
 
+    const char *CloudioAttributeTypeToString(CloudioAttributeType constraint);
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP_CLOUDIOATTRIBUTETYPE_H

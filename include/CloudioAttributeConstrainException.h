@@ -16,7 +16,7 @@ namespace cloudio {
         string message;
 
     public:
-        CloudioAttributeConstrainException(string msg);
+        CloudioAttributeConstrainException(const string &msg);
 
         const char *what();
 

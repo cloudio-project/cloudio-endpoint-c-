@@ -16,21 +16,19 @@ namespace cloudio {
 
     class PropertiesEndpointConfiguration : public ICloudioEndpointConfiguration {
     public:
-        PropertiesEndpointConfiguration(const string propertiesFilePath);
+        PropertiesEndpointConfiguration(const string &propertiesFilePath);
 
         ~PropertiesEndpointConfiguration();
 
-        string getProperty(string key);
+        string getProperty(const string &key);
 
-        string getProperty(string key, string defaultValue);
+        string getProperty(const string &key, const string &defaultValue);
 
-        bool containsKey(string key);
+        bool containsKey(const string &key);
 
     private:
         Properties properties;
-
     };
-
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP_PROPERTIESENDPOINTCONFIGURATION_H

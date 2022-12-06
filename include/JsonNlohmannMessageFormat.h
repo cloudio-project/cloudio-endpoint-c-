@@ -23,9 +23,12 @@ namespace cloudio {
     private:
         class IJsonNlohmannMessageFormatSerializer {
         public:
+
+            virtual ~IJsonNlohmannMessageFormatSerializer() {}
+
             virtual string serialize(json data) = 0;
 
-            virtual json deserialize(string payload) = 0;
+            virtual json deserialize(const string &payload) = 0;
         };
 
         class JSONJsonNlohmannMessageFormatSerializer : public IJsonNlohmannMessageFormatSerializer {
@@ -34,7 +37,7 @@ namespace cloudio {
                 return to_string(data);
             };
 
-            json deserialize(string payload) {
+            json deserialize(const string &payload) {
                 return json::parse(payload);
             }
         };
@@ -47,13 +50,13 @@ namespace cloudio {
                 return string((char *) cbordata);
             };
 
-            json deserialize(string payload) {
+            json deserialize(const string &payload) {
                 return json::from_cbor(payload);
             };
         };
 
     public:
-        JsonNlohmannMessageFormat(string format);
+        JsonNlohmannMessageFormat(const string &format);
 
         ~JsonNlohmannMessageFormat();
 
@@ -63,12 +66,11 @@ namespace cloudio {
 
         string serializeAttribute(CloudioAttribute *attribute);
 
-        string serializeDidSetAttribute(CloudioAttribute *attribute, string correlationID);
+        string serializeDidSetAttribute(CloudioAttribute *attribute, const string &correlationID);
 
-        void deserializeAttribute(string payload, CloudioAttribute *attribute);
+        void deserializeAttribute(const string &payload, CloudioAttribute *attribute);
 
-        string deserializeSetAttribute(string payload, CloudioAttribute *attribute);
-
+        string deserializeSetAttribute(const string &payload, CloudioAttribute *attribute);
 
     private:
         static json jsonSerializeEndpoint(CloudioEndpoint *endpoint);
@@ -79,8 +81,7 @@ namespace cloudio {
 
         static json jsonSerializeAttribute(CloudioAttribute *attribute);
 
-        IJsonNlohmannMessageFormatSerializer *jsonNolhmannMessageFormatSerializer;
-
+        IJsonNlohmannMessageFormatSerializer *jsonNlohmannMessageFormatSerializer;
 
     };
 }//cloudio

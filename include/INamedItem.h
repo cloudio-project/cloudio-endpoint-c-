@@ -13,9 +13,11 @@ namespace cloudio {
 
     class INamedItem {
     public:
+
+        virtual ~INamedItem() {}
+
         virtual string getName() = 0;
     };
-
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP_INAMEDITEM_H

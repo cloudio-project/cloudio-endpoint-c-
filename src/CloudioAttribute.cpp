@@ -7,8 +7,8 @@
 
 namespace cloudio {
 
-    CloudioAttribute::CloudioAttribute(string attributeName, CloudioAttributeType type,
-                                       CloudioAttributeConstraint constraint) {
+    CloudioAttribute::CloudioAttribute(const string &attributeName, const CloudioAttributeType type,
+                                       const CloudioAttributeConstraint constraint) {
         this->attributeName = attributeName;
         this->attributeType = type;
         this->constraint = constraint;
@@ -34,27 +34,27 @@ namespace cloudio {
         }
     }
 
-    CloudioAttribute::CloudioAttribute(string attributeName, CloudioAttributeType type,
-                                       CloudioAttributeConstraint constraint, int initialValue) :
+    CloudioAttribute::CloudioAttribute(const string &attributeName, const CloudioAttributeType type,
+                                       const CloudioAttributeConstraint constraint, const int initialValue) :
             CloudioAttribute(attributeName, type, constraint) {
         (*(int *) this->value) = initialValue;
 
     }
 
-    CloudioAttribute::CloudioAttribute(string attributeName, CloudioAttributeType type,
-                                       CloudioAttributeConstraint constraint, double initialValue) :
+    CloudioAttribute::CloudioAttribute(const string &attributeName, const CloudioAttributeType type,
+                                       const CloudioAttributeConstraint constraint, const double initialValue) :
             CloudioAttribute(attributeName, type, constraint) {
         (*(double *) this->value) = initialValue;
     }
 
-    CloudioAttribute::CloudioAttribute(string attributeName, CloudioAttributeType type,
-                                       CloudioAttributeConstraint constraint, string initialValue) :
+    CloudioAttribute::CloudioAttribute(const string &attributeName, const CloudioAttributeType type,
+                                       const CloudioAttributeConstraint constraint, const string initialValue) :
             CloudioAttribute(attributeName, type, constraint) {
         (*(string *) this->value) = initialValue;
     }
 
-    CloudioAttribute::CloudioAttribute(string attributeName, CloudioAttributeType type,
-                                       CloudioAttributeConstraint constraint, bool initialValue) :
+    CloudioAttribute::CloudioAttribute(const string &attributeName, const CloudioAttributeType type,
+                                       const CloudioAttributeConstraint constraint, const bool initialValue) :
             CloudioAttribute(attributeName, type, constraint) {
         (*(bool *) this->value) = initialValue;
     }
@@ -80,7 +80,6 @@ namespace cloudio {
                 delete ((string *) this->value);
                 break;
         }
-
     }
 
     void *CloudioAttribute::getValue() {
@@ -103,166 +102,169 @@ namespace cloudio {
         return this->attributeName;
     }
 
-    void CloudioAttribute::setValue(int value) {
-        this->setValue(value, time(nullptr));
+    void CloudioAttribute::setValue(const int intValue) {
+        this->setValue(intValue, time(nullptr));
     }
 
-    void CloudioAttribute::setValue(double value) {
-        this->setValue(value, time(nullptr));
+    void CloudioAttribute::setValue(const double doubleValue) {
+        this->setValue(doubleValue, time(nullptr));
     }
 
-    void CloudioAttribute::setValue(string value) {
-        this->setValue(value, time(nullptr));
+    void CloudioAttribute::setValue(const string &stringValue) {
+        this->setValue(stringValue, time(nullptr));
     }
 
-    void CloudioAttribute::setValue(bool value) {
-        this->setValue(value, time(nullptr));
+    void CloudioAttribute::setValue(const bool boolValue) {
+        this->setValue(boolValue, time(nullptr));
     }
 
-    void CloudioAttribute::setValue(int value, long timestamp) {
+    void CloudioAttribute::setValue(const int intValue, const long newTimestamp) {
         this->innerPreSetValue();
 
-        this->setIntegerValue(value);
+        this->setIntegerValue(intValue);
 
-        this->innerPostSetValue(timestamp);
+        this->innerPostSetValue(newTimestamp);
     }
 
-    void CloudioAttribute::setValue(double value, long timestamp) {
+    void CloudioAttribute::setValue(const double doubleValue, const long newTimestamp) {
         this->innerPreSetValue();
 
-        this->setNumberValue(value);
+        this->setNumberValue(doubleValue);
 
-        this->innerPostSetValue(timestamp);
+        this->innerPostSetValue(newTimestamp);
     }
 
-    void CloudioAttribute::setValue(string value, long timestamp) {
+    void CloudioAttribute::setValue(const string &stringValue, const long newTimestamp) {
         this->innerPreSetValue();
 
-        this->setStringValue(value);
+        this->setStringValue(stringValue);
 
-        this->innerPostSetValue(timestamp);
+        this->innerPostSetValue(newTimestamp);
     }
 
-    void CloudioAttribute::setValue(bool value, long timestamp) {
+    void CloudioAttribute::setValue(const bool boolValue, const long newTimestamp) {
         this->innerPreSetValue();
 
-        this->setBooleanValue(value);
+        this->setBooleanValue(boolValue);
 
-        this->innerPostSetValue(timestamp);
+        this->innerPostSetValue(newTimestamp);
     }
 
-    bool CloudioAttribute::setValueFromCloud(int value, long timestamp) {
-        bool isSetPossible = innerPostSetValueFromCloud(timestamp);
+    bool CloudioAttribute::setValueFromCloud(const int intValue, const long newTimestamp) {
+        bool isSetPossible = innerPostSetValueFromCloud(newTimestamp);
 
         if (isSetPossible) {
-            setIntegerValue(value);
+            setIntegerValue(intValue);
             this->notifyListeners();
         }
         return isSetPossible;
     }
 
-    bool CloudioAttribute::setValueFromCloud(double value, long timestamp) {
-        bool isSetPossible = innerPostSetValueFromCloud(timestamp);
+    bool CloudioAttribute::setValueFromCloud(double doubleValue, long newTimestamp) {
+        bool isSetPossible = innerPostSetValueFromCloud(newTimestamp);
 
         if (isSetPossible) {
-            setBooleanValue(value);
+            setNumberValue(doubleValue);
             this->notifyListeners();
         }
         return isSetPossible;
     }
 
-    bool CloudioAttribute::setValueFromCloud(string value, long timestamp) {
-        bool isSetPossible = innerPostSetValueFromCloud(timestamp);
+    bool CloudioAttribute::setValueFromCloud(const string &stringValue, long newTimestamp) {
+        bool isSetPossible = innerPostSetValueFromCloud(newTimestamp);
 
         if (isSetPossible) {
-            setStringValue(value);
+            setStringValue(stringValue);
             this->notifyListeners();
         }
         return isSetPossible;
     }
 
-    bool CloudioAttribute::setValueFromCloud(bool value, long timestamp) {
-        bool isSetPossible = innerPostSetValueFromCloud(timestamp);
+    bool CloudioAttribute::setValueFromCloud(const bool boolValue, const long newTimestamp) {
+        bool isSetPossible = innerPostSetValueFromCloud(newTimestamp);
 
         if (isSetPossible) {
-            setBooleanValue(value);
+            setBooleanValue(boolValue);
             this->notifyListeners();
         }
         return isSetPossible;
     }
 
-    bool CloudioAttribute::innerPostSetValueFromCloud(long timestamp) {
+    bool CloudioAttribute::innerPostSetValueFromCloud(const long newTimestamp) {
         if (this->constraint != Parameter && this->constraint != SetPoint) {
             throw CloudioAttributeConstrainException(
                     "Can not change an attribute whose constraint is neither Parameter nor SetPoint ");
         }
-        if (this->timestamp >= timestamp)
+        if (this->timestamp >= newTimestamp)
             return false;
 
-        this->timestamp = timestamp;
+        this->timestamp = newTimestamp;
         return true;
     }
 
-
-    void CloudioAttribute::setIntegerValue(int value) {
+    void CloudioAttribute::setIntegerValue(const int intValue) {
         if (this->attributeType == Integer) {
-            (*(int *) this->value) = value;
+            (*(int *) this->value) = intValue;
         } else {
-            // raise exception
+            throw CloudioAttributeTypeException("Cannot use setIntegerValue on an attribute of type " + string(
+                    CloudioAttributeTypeToString(this->attributeType)));
         }
     }
 
-    void CloudioAttribute::setNumberValue(double value) {
+    void CloudioAttribute::setNumberValue(const double doubleValue) {
         if (this->attributeType == Number) {
-            (*(double *) this->value) = value;
+            (*(double *) this->value) = doubleValue;
         } else {
-            // raise exception
+            throw CloudioAttributeTypeException("Cannot use setNumberValue on an attribute of type " + string(
+                    CloudioAttributeTypeToString(this->attributeType)));
         }
     }
 
-    void CloudioAttribute::setStringValue(string value) {
+    void CloudioAttribute::setStringValue(const string &stringValue) {
         if (this->attributeType == String) {
-            (*(string *) this->value) = value;
+            (*(string *) this->value) = stringValue;
         } else {
-            // raise exception
+            throw CloudioAttributeTypeException("Cannot use setStringValue on an attribute of type " + string(
+                    CloudioAttributeTypeToString(this->attributeType)));
         }
     }
 
-    void CloudioAttribute::setBooleanValue(bool value) {
+    void CloudioAttribute::setBooleanValue(const bool boolValue) {
         if (this->attributeType == Boolean) {
-            (*(bool *) this->value) = value;
+            (*(bool *) this->value) = boolValue;
         } else {
-            // raise exception
+            throw CloudioAttributeTypeException("Cannot use setBooleanValue on an attribute of type " + string(
+                    CloudioAttributeTypeToString(this->attributeType)));
         }
     }
 
     void CloudioAttribute::innerPreSetValue() {
         if (this->constraint != Status && this->constraint != Measure) {
-            string message = "Can only change Status and Measure constraint attribute";
-            throw CloudioAttributeConstrainException("Can only change Status and Measure constraint attribute");
+            throw CloudioAttributeConstrainException("Can only change Status and Measure constraint attribute, not " +
+                                                     string(CloudioAttributeConstraintToString(this->constraint)));
         }
     }
 
-    void CloudioAttribute::innerPostSetValue(long timestamp) {
-        this->timestamp = timestamp;
+    void CloudioAttribute::innerPostSetValue(const long newTimestamp) {
+        this->timestamp = newTimestamp;
         if (this->parent != nullptr) {
             this->parent->attributeHasChangedByEndpoint(this);
         }
     }
 
-    void CloudioAttribute::setParent(ICloudioAttributeContainer *parent) {
-        this->parent = parent;
+    void CloudioAttribute::setParent(ICloudioAttributeContainer *const newParent) {
+        this->parent = newParent;
     }
 
     ICloudioAttributeContainer *CloudioAttribute::getParent() {
         return this->parent;
     }
 
-    void CloudioAttribute::addListener(ICloudioAttributeListener *listener) {
+    void CloudioAttribute::addListener(ICloudioAttributeListener *const listener) {
         this->listeners.push_back(listener);
     }
 
-    void CloudioAttribute::removeListener(ICloudioAttributeListener *listener) {
+    void CloudioAttribute::removeListener(ICloudioAttributeListener *const listener) {
         this->listeners.remove(listener);
     }
 

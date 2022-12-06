@@ -12,9 +12,10 @@
 
 namespace cloudio {
 
-    CloudioEndpoint::CloudioEndpoint(string uuidOrAppName, ICloudioMessageFormat *cloudioMessageFormat,
-                                     ITransportLayer *transportLayer,
-                                     ICloudioEndpointConfiguration *endpointConfiguration) {
+    CloudioEndpoint::CloudioEndpoint(const string &uuidOrAppName,
+                                     ICloudioMessageFormat *const cloudioMessageFormat,
+                                     ITransportLayer *const transportLayer,
+                                     ICloudioEndpointConfiguration *const endpointConfiguration) {
         try {
 
             if (transportLayer == nullptr) {
@@ -66,7 +67,7 @@ namespace cloudio {
         return this->nodes;
     }
 
-    CloudioNode *CloudioEndpoint::getNodeByName(string nodeName) {
+    CloudioNode *CloudioEndpoint::getNodeByName(const string &nodeName) {
         for (auto &nodeIt: this->nodes) {
             if (nodeIt->getName() == nodeName) {
                 return nodeIt;
@@ -83,15 +84,15 @@ namespace cloudio {
         return this->uuid;
     }
 
-    void CloudioEndpoint::addNode(CloudioNode *node) {
+    void CloudioEndpoint::addNode(CloudioNode *const node) {
         node->setParent(this);
         this->nodes.push_front(node);
         this->transportLayer->publish("@nodeAdded/" + this->uuid + "/" + node->getName(),
                                       this->messageFormat->serializeNode(node), 1, false);
     }
 
-    void
-    CloudioEndpoint::set(string topic, list<string> location, ICloudioMessageFormat *messageFormat, string payload) {
+    void CloudioEndpoint::set(const string &topic, list<string> location, ICloudioMessageFormat *const setMessageFormat,
+                              const string &payload) {
         if (!location.empty() && uuid == location.front()) {
             location.pop_front(); // pop the uuid
             // Get the node with the name according to the topic.
@@ -104,7 +105,7 @@ namespace cloudio {
                 if (attribute != nullptr) {
 
                     // Deserialize the message into the attribute using determined messageFormat
-                    string correlationID = messageFormat->deserializeSetAttribute(payload, attribute);
+                    string correlationID = setMessageFormat->deserializeSetAttribute(payload, attribute);
 
                     // User endpoint messageFormat to serialize diSet attribute
                     string dataDidSet = this->messageFormat->serializeDidSetAttribute(attribute, correlationID);
@@ -122,18 +123,18 @@ namespace cloudio {
         }
     }
 
-    void CloudioEndpoint::attributeHasChangedByEndpoint(CloudioAttribute *attribute) {
+    void CloudioEndpoint::attributeHasChangedByEndpoint(CloudioAttribute *const attribute) {
 
         string topicUUID = getAttributeTopic(attribute);
         this->transportLayer->publish("@update/" + topicUUID, this->messageFormat->serializeAttribute(attribute), 1,
                                       true);
     }
 
-    void CloudioEndpoint::messageArrived(string topic, string payload) {
+    void CloudioEndpoint::messageArrived(const string &topic, const string &payload) {
 
         // First determine the message format (first byte identifies the message format).
-        ICloudioMessageFormat *messageFormat = CloudioMessageFormatFactory::messageFormat(payload[0]);
-        if (messageFormat == nullptr) {
+        ICloudioMessageFormat *arrivedMessageFormat = CloudioMessageFormatFactory::messageFormat(payload[0]);
+        if (arrivedMessageFormat == nullptr) {
             cout << "Message-format " << (char) payload[0] << " not supported!" << endl;
             return;
         }
@@ -142,7 +143,7 @@ namespace cloudio {
 
         if (location.front() == "@set") {
             location.pop_front(); // pop the @set
-            set(topic, location, messageFormat, payload);
+            set(topic, location, arrivedMessageFormat, payload);
         }
     }
 

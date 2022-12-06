@@ -2,13 +2,15 @@
 // Created by lucas on 20/10/22.
 //
 
-#ifndef CLOUDIO_ENDPOINT_CPP__CLOUDIOATTRIBUTE_H
-#define CLOUDIO_ENDPOINT_CPP__CLOUDIOATTRIBUTE_H
+#ifndef CLOUDIO_ENDPOINT_CPP_CLOUDIOATTRIBUTE_H
+#define CLOUDIO_ENDPOINT_CPP_CLOUDIOATTRIBUTE_H
 
 #include "CloudioAttributeConstraint.h"
 #include "CloudioAttributeType.h"
-#include "CloudioAttributeConstrainException.h"
 #include "ICloudioAttributeListener.h"
+
+#include "../include/CloudioAttributeConstrainException.h"
+#include "../include/CloudioAttributeTypeException.h"
 
 #include <string>
 #include <list>
@@ -22,18 +24,18 @@ namespace cloudio {
     class CloudioAttribute {
 
     public:
-        CloudioAttribute(string attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint);
+        CloudioAttribute(const string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint);
 
-        CloudioAttribute(string attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
+        CloudioAttribute(const string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
                          int initialValue);
 
-        CloudioAttribute(string attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
+        CloudioAttribute(const string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
                          double initialValue);
 
-        CloudioAttribute(string attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
+        CloudioAttribute(const string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
                          string initialValue);
 
-        CloudioAttribute(string attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
+        CloudioAttribute(const string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
                          bool initialValue);
 
         ~CloudioAttribute();
@@ -48,29 +50,29 @@ namespace cloudio {
 
         string getName();
 
-        void setValue(int value);
+        void setValue(int intValue);
 
-        void setValue(double value);
+        void setValue(double doubleValue);
 
-        void setValue(string value);
+        void setValue(const string &stringValue);
 
-        void setValue(bool value);
+        void setValue(bool boolValue);
 
-        void setValue(int value, long timestamp);
+        void setValue(int intValue, long newTimestamp);
 
-        void setValue(double value, long timestamp);
+        void setValue(double doubleValue, long newTimestamp);
 
-        void setValue(string value, long timestamp);
+        void setValue(const string &stringValue, long newTimestamp);
 
-        void setValue(bool value, long timestamp);
+        void setValue(bool boolValue, long newTimestamp);
 
-        bool setValueFromCloud(int value, long timestamp);
+        bool setValueFromCloud(int intValue, long newTimestamp);
 
-        bool setValueFromCloud(double value, long timestamp);
+        bool setValueFromCloud(double doubleValue, long newTimestamp);
 
-        bool setValueFromCloud(string value, long timestamp);
+        bool setValueFromCloud(const string &stringValue, long newTimestamp);
 
-        bool setValueFromCloud(bool value, long timestamp);
+        bool setValueFromCloud(bool boolValue, long newTimestamp);
 
         void setParent(ICloudioAttributeContainer *parent);
 
@@ -92,22 +94,20 @@ namespace cloudio {
 
         void innerPreSetValue();
 
-        void innerPostSetValue(long timestamp);
+        void innerPostSetValue(long newTimestamp);
 
-        bool innerPostSetValueFromCloud(long timestamp);
+        bool innerPostSetValueFromCloud(long newTimestamp);
 
-        void setIntegerValue(int value);
+        void setIntegerValue(int intValue);
 
-        void setNumberValue(double value);
+        void setNumberValue(double doubleValue);
 
-        void setStringValue(string value);
+        void setStringValue(const string &stringValue);
 
         void setBooleanValue(bool value);
 
         void notifyListeners();
-
     };
-
 } // cloudio
 
-#endif //CLOUDIO_ENDPOINT_CPP__CLOUDIOATTRIBUTE_H
+#endif //CLOUDIO_ENDPOINT_CPP_CLOUDIOATTRIBUTE_H

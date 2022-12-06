@@ -15,7 +15,7 @@ namespace cloudio {
     class CloudioEndpoint : public ICloudioNodeContainer, public ICloudioTransportLayerMessageListener {
 
     public:
-        CloudioEndpoint(string uuidOrAppName, ICloudioMessageFormat *cloudioMessageFormat = nullptr,
+        CloudioEndpoint(const string &uuidOrAppName, ICloudioMessageFormat *cloudioMessageFormat = nullptr,
                         ITransportLayer *transportLayer = nullptr,
                         ICloudioEndpointConfiguration *endpointConfiguration = nullptr);
 
@@ -25,7 +25,7 @@ namespace cloudio {
 
         list<CloudioNode *> getNodes();
 
-        CloudioNode *getNodeByName(string nodeName);
+        CloudioNode *getNodeByName(const string &nodeName);
 
         list<string> getSupportedFormats();
 
@@ -38,7 +38,7 @@ namespace cloudio {
         void attributeHasChangedByEndpoint(CloudioAttribute *attribute);
 
         // ICloudioTransportLayerMessageListener interface
-        void messageArrived(string topic, string payload);
+        void messageArrived(const string &topic, const string &payload);
 
     private:
         string uuid;
@@ -49,10 +49,10 @@ namespace cloudio {
         ITransportLayer *transportLayer;
         ICloudioEndpointConfiguration *endpointConfiguration;
 
-        void set(string topic, list<string> location, ICloudioMessageFormat *messageFormat, string payload);
+        void
+        set(const string &topic, list<string> location, ICloudioMessageFormat *setMessageFormat, const string &payload);
 
     };
-
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP__CLOUDIOENDPOINT_H

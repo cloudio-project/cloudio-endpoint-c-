@@ -11,9 +11,11 @@ namespace cloudio {
 
     class ICloudioAttributeListener {
     public:
+
+        virtual ~ICloudioAttributeListener() {}
+
         virtual void attributeHasChanged(CloudioAttribute *attribute) = 0;
     };
-
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP_ICLOUDIOATTRIBUTELISTENER_H

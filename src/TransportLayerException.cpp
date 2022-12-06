@@ -6,7 +6,7 @@
 
 namespace cloudio {
 
-    TransportLayerException::TransportLayerException(string msg) : message(msg) {
+    TransportLayerException::TransportLayerException(const string &msg) : message(msg) {
         this->message = message;
     }
 

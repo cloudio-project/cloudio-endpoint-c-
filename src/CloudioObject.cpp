@@ -6,7 +6,7 @@
 
 namespace cloudio {
 
-    CloudioObject::CloudioObject(string objectName) {
+    CloudioObject::CloudioObject(const string &objectName) {
         this->objectName = objectName;
     }
 
@@ -22,7 +22,7 @@ namespace cloudio {
         return this->objects;
     }
 
-    CloudioObject *CloudioObject::getObjectByName(string objectName) {
+    CloudioObject *CloudioObject::getObjectByName(const string &objectName) {
         for (auto &objectIt: this->objects) {
             if (objectIt->getName() == objectName) {
                 return objectIt;
@@ -35,7 +35,7 @@ namespace cloudio {
         return this->attributes;
     }
 
-    CloudioAttribute *CloudioObject::getAttributeByName(string attributeName) {
+    CloudioAttribute *CloudioObject::getAttributeByName(const string &attributeName) {
         for (auto &attributeIt: this->attributes) {
             if (attributeIt->getName() == attributeName) {
                 return attributeIt;
@@ -44,12 +44,12 @@ namespace cloudio {
         return nullptr;
     }
 
-    void CloudioObject::addObject(CloudioObject *object) {
+    void CloudioObject::addObject(CloudioObject *const object) {
         object->setParent(this);
         this->objects.push_front(object);
     }
 
-    void CloudioObject::addAttribute(CloudioAttribute *attribute) {
+    void CloudioObject::addAttribute(CloudioAttribute *const attribute) {
         attribute->setParent(this);
         this->attributes.push_front(attribute);
     }
@@ -58,7 +58,7 @@ namespace cloudio {
         return this->objectName;
     }
 
-    void CloudioObject::attributeHasChangedByEndpoint(CloudioAttribute *attribute) {
+    void CloudioObject::attributeHasChangedByEndpoint(CloudioAttribute *const attribute) {
         if (this->parent != nullptr) {
             this->parent->attributeHasChangedByEndpoint(attribute);
         }

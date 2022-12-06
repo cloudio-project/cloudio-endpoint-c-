@@ -46,7 +46,6 @@ namespace cloudio {
         string nodeName;
         ICloudioNodeContainer *parent = nullptr;
     };
-
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP__CLOUDIONODE_H

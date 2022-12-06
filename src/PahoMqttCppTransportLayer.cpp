@@ -15,7 +15,8 @@ namespace cloudio {
     }
 
     void
-    PahoMqttCppTransportLayer::initTransportLayer(string uuid, ICloudioEndpointConfiguration *endpointConfiguration) {
+    PahoMqttCppTransportLayer::initTransportLayer(const string &uuid,
+                                                  ICloudioEndpointConfiguration *const endpointConfiguration) {
 
         // MQTT parameters
         int connectTimeout;
@@ -147,7 +148,8 @@ namespace cloudio {
         mqttClient->disconnect()->wait();
     }
 
-    void PahoMqttCppTransportLayer::publish(string topic, string payload, int qos, bool retained) {
+    void
+    PahoMqttCppTransportLayer::publish(const string &topic, const string &payload, const int qos, const bool retained) {
         bool messageSend = false;
         mqtt::message_ptr timeLeftMessagePointer = mqtt::make_message(
                 topic,
@@ -170,7 +172,7 @@ namespace cloudio {
         }
     }
 
-    void PahoMqttCppTransportLayer::subscribe(string topic, int qos) {
+    void PahoMqttCppTransportLayer::subscribe(const string &topic, const int qos) {
         this->mqttClient->subscribe(topic, qos);
     }
 

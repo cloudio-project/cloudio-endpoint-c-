@@ -5,7 +5,7 @@
 #include "../include/InvalidPropertyException.h"
 
 namespace cloudio {
-    InvalidPropertyException::InvalidPropertyException(string msg) : message(msg) {
+    InvalidPropertyException::InvalidPropertyException(const string &msg) : message(msg) {
 
     }
 

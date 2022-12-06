@@ -19,7 +19,7 @@ namespace cloudio {
     class CloudioObject : public ICloudioAttributeContainer, public ICloudioObjectContainer {
 
     public:
-        CloudioObject(string objectName);
+        CloudioObject(const string &objectName);
 
         ~CloudioObject();
 
@@ -27,11 +27,11 @@ namespace cloudio {
 
         list<CloudioObject *> getObjects();
 
-        CloudioObject *getObjectByName(string objectName);
+        CloudioObject *getObjectByName(const string &objectName);
 
         list<CloudioAttribute *> getAttributes();
 
-        CloudioAttribute *getAttributeByName(string attributeName);
+        CloudioAttribute *getAttributeByName(const string &attributeName);
 
         void addObject(CloudioObject *object);
 
@@ -56,9 +56,7 @@ namespace cloudio {
         string objectName;
         ICloudioObjectContainer *parent = nullptr;
 
-
     };
-
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP_CLOUDIOOBJECT_H

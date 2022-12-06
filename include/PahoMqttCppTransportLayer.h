@@ -17,15 +17,15 @@ namespace cloudio {
 
         ~PahoMqttCppTransportLayer();
 
-        void initTransportLayer(string uuid, ICloudioEndpointConfiguration *endpointConfiguration);
+        void initTransportLayer(const string &uuid, ICloudioEndpointConfiguration *endpointConfiguration);
 
         void connect();
 
         void disconnect();
 
-        void publish(string topic, string payload, int qos, bool retained);
+        void publish(const string &topic, const string &payload, int qos, bool retained);
 
-        void subscribe(string topic, int qos);
+        void subscribe(const string &topic, int qos);
 
         bool isOnline();
 
@@ -46,7 +46,6 @@ namespace cloudio {
         mqtt::connect_options connopts;
 
     };
-
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP_PAHOMQTTCPPTRANSPORTLAYER_H

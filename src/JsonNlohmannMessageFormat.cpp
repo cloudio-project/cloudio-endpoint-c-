@@ -8,50 +8,51 @@
 
 namespace cloudio {
 
-    JsonNlohmannMessageFormat::JsonNlohmannMessageFormat(string format) {
+    JsonNlohmannMessageFormat::JsonNlohmannMessageFormat(const string &format) {
         if (format == "JSON") {
-            jsonNolhmannMessageFormatSerializer = new JSONJsonNlohmannMessageFormatSerializer();
+            jsonNlohmannMessageFormatSerializer = new JSONJsonNlohmannMessageFormatSerializer();
         } else if (format == "CBOR") {
-            jsonNolhmannMessageFormatSerializer = new CBORJsonNlohmannMessageFormatSerializer();
+            jsonNlohmannMessageFormatSerializer = new CBORJsonNlohmannMessageFormatSerializer();
         } else {    //default, JSON
-            jsonNolhmannMessageFormatSerializer = new JSONJsonNlohmannMessageFormatSerializer();
+            jsonNlohmannMessageFormatSerializer = new JSONJsonNlohmannMessageFormatSerializer();
         }
     }
 
     JsonNlohmannMessageFormat::~JsonNlohmannMessageFormat() {
-
+        delete jsonNlohmannMessageFormatSerializer;
     }
 
-    string JsonNlohmannMessageFormat::serializeEndpoint(CloudioEndpoint *endpoint) {
+    string JsonNlohmannMessageFormat::serializeEndpoint(CloudioEndpoint *const endpoint) {
         json endpointJson = jsonSerializeEndpoint(endpoint);
 
-        return jsonNolhmannMessageFormatSerializer->serialize(endpointJson);
+        return jsonNlohmannMessageFormatSerializer->serialize(endpointJson);
     }
 
-    string JsonNlohmannMessageFormat::serializeNode(CloudioNode *node) {
+    string JsonNlohmannMessageFormat::serializeNode(CloudioNode *const node) {
         json nodeJson = jsonSerializeNode(node);
 
-        return jsonNolhmannMessageFormatSerializer->serialize(nodeJson);
+        return jsonNlohmannMessageFormatSerializer->serialize(nodeJson);
     }
 
-    string JsonNlohmannMessageFormat::serializeAttribute(CloudioAttribute *attribute) {
+    string JsonNlohmannMessageFormat::serializeAttribute(CloudioAttribute *const attribute) {
         json attributeJson = jsonSerializeAttribute(attribute);
 
-        return jsonNolhmannMessageFormatSerializer->serialize(attributeJson);
+        return jsonNlohmannMessageFormatSerializer->serialize(attributeJson);
     }
 
-
-    string JsonNlohmannMessageFormat::serializeDidSetAttribute(CloudioAttribute *attribute, string correlationID) {
+    string
+    JsonNlohmannMessageFormat::serializeDidSetAttribute(CloudioAttribute *const attribute,
+                                                        const string &correlationID) {
         json attributeJson = jsonSerializeAttribute(attribute);
         attributeJson["correlationID"] = correlationID;
-        return jsonNolhmannMessageFormatSerializer->serialize(attributeJson);
+        return jsonNlohmannMessageFormatSerializer->serialize(attributeJson);
     }
 
-    void JsonNlohmannMessageFormat::deserializeAttribute(string payload, CloudioAttribute *attribute) {
+    void JsonNlohmannMessageFormat::deserializeAttribute(const string &payload, CloudioAttribute *const attribute) {
         json attributeJson;
         try {
-            attributeJson = jsonNolhmannMessageFormatSerializer->deserialize(payload);
-        }catch (exception e) {
+            attributeJson = jsonNlohmannMessageFormatSerializer->deserialize(payload);
+        } catch (exception e) {
             cout << "Error during main deserialization process " << e.what() << endl;
             return;
         }
@@ -105,12 +106,12 @@ namespace cloudio {
         }
     }
 
-
-    string JsonNlohmannMessageFormat::deserializeSetAttribute(string payload, CloudioAttribute *attribute) {
+    string
+    JsonNlohmannMessageFormat::deserializeSetAttribute(const string &payload, CloudioAttribute *const attribute) {
         json attributeJson;
         try {
-            attributeJson = jsonNolhmannMessageFormatSerializer->deserialize(payload);
-        }catch (exception e) {
+            attributeJson = jsonNlohmannMessageFormatSerializer->deserialize(payload);
+        } catch (exception e) {
             cout << "Error during main deserialization process " << e.what() << endl;
             return "";
         }
@@ -123,8 +124,7 @@ namespace cloudio {
         return correlationID != "null" ? correlationID : "";
     }
 
-
-    json JsonNlohmannMessageFormat::jsonSerializeEndpoint(CloudioEndpoint *endpoint) {
+    json JsonNlohmannMessageFormat::jsonSerializeEndpoint(CloudioEndpoint *const endpoint) {
         json endpointJson;
 
         endpointJson["version"] = endpoint->getVersion();
@@ -150,7 +150,7 @@ namespace cloudio {
         return endpointJson;
     }
 
-    json JsonNlohmannMessageFormat::jsonSerializeNode(CloudioNode *node) {
+    json JsonNlohmannMessageFormat::jsonSerializeNode(CloudioNode *const node) {
         json nobeJson;
 
         json implements = json::array();
@@ -173,7 +173,7 @@ namespace cloudio {
         return nobeJson;
     }
 
-    json JsonNlohmannMessageFormat::jsonSerializeObject(CloudioObject *object) {
+    json JsonNlohmannMessageFormat::jsonSerializeObject(CloudioObject *const object) {
         json objectJson;
 
         if (object->getConforms().empty())
@@ -197,7 +197,7 @@ namespace cloudio {
         return objectJson;
     }
 
-    json JsonNlohmannMessageFormat::jsonSerializeAttribute(CloudioAttribute *attribute) {
+    json JsonNlohmannMessageFormat::jsonSerializeAttribute(CloudioAttribute *const attribute) {
         json attributeJson;
         switch (attribute->getType()) {
             case Invalid:
@@ -259,5 +259,4 @@ namespace cloudio {
 
         return attributeJson;
     }
-
 }

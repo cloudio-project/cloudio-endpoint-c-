@@ -31,7 +31,7 @@ namespace cloudio {
         return this->interfaces;
     }
 
-    void CloudioNode::addObject(CloudioObject *object) {
+    void CloudioNode::addObject(CloudioObject *const object) {
         object->setParent(this);
         this->objects.push_front(object);
     }
@@ -40,13 +40,13 @@ namespace cloudio {
         return this->nodeName;
     }
 
-    void CloudioNode::attributeHasChangedByEndpoint(CloudioAttribute *attribute) {
+    void CloudioNode::attributeHasChangedByEndpoint(CloudioAttribute *const attribute) {
         if (this->parent != nullptr) {
             this->parent->attributeHasChangedByEndpoint(attribute);
         }
     }
 
-    void CloudioNode::setParent(ICloudioNodeContainer *parent) {
+    void CloudioNode::setParent(ICloudioNodeContainer *const parent) {
         this->parent = parent;
     }
 

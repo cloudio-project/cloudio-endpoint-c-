@@ -15,6 +15,9 @@ namespace cloudio {
 
     class ICloudioAttributeContainer : public INamedItem {
     public:
+
+        virtual ~ICloudioAttributeContainer() {}
+
         virtual void attributeHasChangedByEndpoint(CloudioAttribute *attribute) = 0;
 
         virtual ICloudioObjectContainer *getParentObjectContainer() = 0;

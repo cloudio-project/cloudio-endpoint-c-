@@ -10,7 +10,7 @@ namespace cloudio {
     static ICloudioMessageFormat *json;
     static ICloudioMessageFormat *cbor;
 
-    ICloudioMessageFormat *CloudioMessageFormatFactory::messageFormat(char messageFormatId) {
+    ICloudioMessageFormat *CloudioMessageFormatFactory::messageFormat(const char messageFormatId) {
         if (messageFormatId == '{') {
             if (json == nullptr) json = new JsonNlohmannMessageFormat("JSON");
             return json;
@@ -22,7 +22,7 @@ namespace cloudio {
         }
     }
 
-    ICloudioMessageFormat *CloudioMessageFormatFactory::messageFormat(string messageFormatName) {
+    ICloudioMessageFormat *CloudioMessageFormatFactory::messageFormat(const string &messageFormatName) {
         if (messageFormatName == "JSON") {
             if (json == nullptr) json = new JsonNlohmannMessageFormat("JSON");
             return json;

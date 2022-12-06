@@ -19,7 +19,7 @@ namespace cloudio {
 
         static ICloudioMessageFormat *messageFormat(char messageFormatId);
 
-        static ICloudioMessageFormat *messageFormat(string messageFormatName);
+        static ICloudioMessageFormat *messageFormat(const string &messageFormatName);
     };
 } // cloudio
 

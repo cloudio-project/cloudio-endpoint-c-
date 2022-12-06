@@ -16,12 +16,11 @@ namespace cloudio {
         string message;
 
     public:
-        TransportLayerException(string msg);
+        TransportLayerException(const string &msg);
 
         const char *what();
 
     };
-
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP_TRANSPORTLAYEREXCEPTION_H
