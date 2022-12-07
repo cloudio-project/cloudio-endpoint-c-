@@ -7,11 +7,7 @@
 using namespace std;
 
 namespace cloudio {
-    InvalidPropertyException::InvalidPropertyException(const string &msg) : message(msg) {
+    InvalidPropertyException::InvalidPropertyException(const string &msg) : runtime_error(msg) {
 
-    }
-
-    const char *InvalidPropertyException::what() {
-        return message.c_str();
     }
 } // cloudio

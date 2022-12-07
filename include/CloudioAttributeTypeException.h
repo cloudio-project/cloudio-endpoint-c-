@@ -9,16 +9,12 @@
 
 namespace cloudio {
 
-class CloudioAttributeTypeException : public std::exception {
+    class CloudioAttributeTypeException : public std::runtime_error {
     private:
         std::string message;
 
     public:
         CloudioAttributeTypeException(const std::string &msg);
-
-        // exception interface
-        const char *what();
-
     };
 } // cloudio
 

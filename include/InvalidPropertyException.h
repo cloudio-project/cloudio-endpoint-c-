@@ -9,15 +9,12 @@
 #include <string>
 
 namespace cloudio {
-class InvalidPropertyException : public std::exception {
+    class InvalidPropertyException : public std::runtime_error {
     private:
         std::string message;
 
     public:
         InvalidPropertyException(const std::string &msg);
-
-        const char *what();
-
     };
 } // cloudio
 

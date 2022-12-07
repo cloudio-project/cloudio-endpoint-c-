@@ -8,11 +8,7 @@ using namespace std;
 
 namespace cloudio {
 
-    CloudioAttributeTypeException::CloudioAttributeTypeException(const string &msg) : message(msg) {
+    CloudioAttributeTypeException::CloudioAttributeTypeException(const string &msg) : runtime_error(msg) {
 
-    }
-
-    const char *CloudioAttributeTypeException::what() {
-        return message.c_str();
     }
 } // cloudio

@@ -9,16 +9,12 @@
 
 namespace cloudio {
 
-class TransportLayerException : public std::exception {
+    class TransportLayerException : public std::runtime_error {
     private:
         std::string message;
 
     public:
         TransportLayerException(const std::string &msg);
-
-        // exception interface
-        const char *what();
-
     };
 } // cloudio
 

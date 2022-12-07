@@ -8,11 +8,7 @@ using namespace std;
 
 namespace cloudio {
 
-    TransportLayerException::TransportLayerException(const string &msg) : message(msg) {
+    TransportLayerException::TransportLayerException(const string &msg) : runtime_error(msg) {
         this->message = message;
-    }
-
-    const char *TransportLayerException::what() {
-        return message.c_str();
     }
 } // cloudio
