@@ -13,7 +13,8 @@ namespace cloudio {
 
     class ITransportLayer {
     public:
-        virtual void initTransportLayer(const std::string &uuid, ICloudioEndpointConfiguration *endpointConfiguration) = 0;
+        virtual void
+        initTransportLayer(const std::string &uuid, ICloudioEndpointConfiguration *endpointConfiguration) = 0;
 
         virtual void connect() = 0;
 

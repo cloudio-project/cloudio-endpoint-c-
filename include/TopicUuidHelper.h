@@ -9,7 +9,7 @@
 #include "../include/ICloudioNodeContainer.h"
 
 #include <string>
-#include <list>
+#include <queue>
 
 namespace cloudio {
 
@@ -23,7 +23,7 @@ namespace cloudio {
 
     std::string getNodeContainerTopic(ICloudioNodeContainer *nodeContainer);
 
-    std::list<std::string> split(const std::string &s, const std::string &delimiter);
+    std::queue<std::string> split(const std::string &s, const std::string &delimiter);
 
 } // cloudio
 

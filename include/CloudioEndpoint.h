@@ -9,6 +9,7 @@
 #include "ITransportLayer.h"
 #include "ICloudioMessageFormat.h"
 #include "ICloudioNodeContainer.h"
+#include <queue>
 
 namespace cloudio {
 
@@ -23,11 +24,11 @@ namespace cloudio {
 
         std::string getVersion();
 
-        std::list<CloudioNode *> getNodes();
+        std::vector<CloudioNode *> getNodes();
 
         CloudioNode *getNodeByName(const std::string &nodeName);
 
-        std::list<std::string> getSupportedFormats();
+        std::vector<std::string> getSupportedFormats();
 
         std::string getName();
 
@@ -42,14 +43,15 @@ namespace cloudio {
     private:
         std::string uuid;
         std::string version = "v0.2";
-        std::list<CloudioNode *> nodes;
-        std::list<std::string> supportedFormats{"JSON", "CBOR"};
+        std::vector<CloudioNode *> nodes;
+        std::vector<std::string> supportedFormats{"JSON", "CBOR"};
         ICloudioMessageFormat *messageFormat;
         ITransportLayer *transportLayer;
         ICloudioEndpointConfiguration *endpointConfiguration;
 
         void
-        set(const std::string &topic, std::list<std::string> location, ICloudioMessageFormat *setMessageFormat, const std::string &payload);
+        set(const std::string &topic, std::queue<std::string> location, ICloudioMessageFormat *setMessageFormat,
+            const std::string &payload);
 
     };
 } // cloudio

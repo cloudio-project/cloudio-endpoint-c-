@@ -22,18 +22,23 @@ namespace cloudio {
     class CloudioAttribute {
 
     public:
-        CloudioAttribute(const std::string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint);
+        CloudioAttribute(const std::string &attributeName, CloudioAttributeType type,
+                         CloudioAttributeConstraint constraint);
 
-        CloudioAttribute(const std::string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
+        CloudioAttribute(const std::string &attributeName, CloudioAttributeType type,
+                         CloudioAttributeConstraint constraint,
                          int initialValue);
 
-        CloudioAttribute(const std::string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
+        CloudioAttribute(const std::string &attributeName, CloudioAttributeType type,
+                         CloudioAttributeConstraint constraint,
                          double initialValue);
 
-        CloudioAttribute(const std::string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
+        CloudioAttribute(const std::string &attributeName, CloudioAttributeType type,
+                         CloudioAttributeConstraint constraint,
                          std::string initialValue);
 
-        CloudioAttribute(const std::string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
+        CloudioAttribute(const std::string &attributeName, CloudioAttributeType type,
+                         CloudioAttributeConstraint constraint,
                          bool initialValue);
 
         ~CloudioAttribute();

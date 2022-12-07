@@ -16,7 +16,7 @@ namespace cloudio {
 
     }
 
-    list<CloudioObject *> CloudioNode::getObjects() {
+    vector<CloudioObject *> CloudioNode::getObjects() {
         return this->objects;
     }
 
@@ -29,13 +29,13 @@ namespace cloudio {
         return nullptr;
     }
 
-    list<string> CloudioNode::getInterfaces() {
+    vector <string> CloudioNode::getInterfaces() {
         return this->interfaces;
     }
 
     void CloudioNode::addObject(CloudioObject *const object) {
         object->setParent(this);
-        this->objects.push_front(object);
+        this->objects.push_back(object);
     }
 
     string CloudioNode::getName() {
@@ -61,10 +61,10 @@ namespace cloudio {
     }
 
 
-    CloudioAttribute *CloudioNode::findAttribute(list<string> &location) {
+    CloudioAttribute *CloudioNode::findAttribute(queue <string> &location) {
         if (!location.empty()) {
             CloudioObject *object = this->getObjectByName(location.front());
-            location.pop_front(); //pop object name
+            location.pop(); //pop object name
             if (object != nullptr) {
                 return object->findAttribute(location);
             }

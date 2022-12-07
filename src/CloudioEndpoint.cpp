@@ -65,7 +65,7 @@ namespace cloudio {
         return this->version;
     }
 
-    list<CloudioNode *> CloudioEndpoint::getNodes() {
+    vector<CloudioNode *> CloudioEndpoint::getNodes() {
         return this->nodes;
     }
 
@@ -78,7 +78,7 @@ namespace cloudio {
         return nullptr;
     }
 
-    list<string> CloudioEndpoint::getSupportedFormats() {
+    vector <string> CloudioEndpoint::getSupportedFormats() {
         return this->supportedFormats;
     }
 
@@ -88,19 +88,20 @@ namespace cloudio {
 
     void CloudioEndpoint::addNode(CloudioNode *const node) {
         node->setParent(this);
-        this->nodes.push_front(node);
+        this->nodes.push_back(node);
         this->transportLayer->publish("@nodeAdded/" + this->uuid + "/" + node->getName(),
                                       this->messageFormat->serializeNode(node), 1, false);
     }
 
-    void CloudioEndpoint::set(const string &topic, list<string> location, ICloudioMessageFormat *const setMessageFormat,
-                              const string &payload) {
+    void
+    CloudioEndpoint::set(const string &topic, queue <string> location, ICloudioMessageFormat *const setMessageFormat,
+                         const string &payload) {
         if (!location.empty() && uuid == location.front()) {
-            location.pop_front(); // pop the uuid
+            location.pop(); // pop the uuid
             // Get the node with the name according to the topic.
             CloudioNode *node = this->getNodeByName(location.front());
             if (node != nullptr) {
-                location.pop_front(); // pop the node name
+                location.pop(); // pop the node name
 
                 // Get the attribute reference.
                 CloudioAttribute *attribute = node->findAttribute(location);
@@ -141,10 +142,10 @@ namespace cloudio {
             return;
         }
 
-        list<string> location = split(topic, "/");
+        queue<string> location = split(topic, "/");
 
         if (location.front() == "@set") {
-            location.pop_front(); // pop the @set
+            location.pop(); // pop the @set
             set(topic, location, arrivedMessageFormat, payload);
         }
     }

@@ -20,7 +20,7 @@ namespace cloudio {
         return this->conforms;
     }
 
-    list<CloudioObject *> CloudioObject::getObjects() {
+    vector<CloudioObject *> CloudioObject::getObjects() {
         return this->objects;
     }
 
@@ -33,7 +33,7 @@ namespace cloudio {
         return nullptr;
     }
 
-    list<CloudioAttribute *> CloudioObject::getAttributes() {
+    vector<CloudioAttribute *> CloudioObject::getAttributes() {
         return this->attributes;
     }
 
@@ -48,12 +48,12 @@ namespace cloudio {
 
     void CloudioObject::addObject(CloudioObject *const object) {
         object->setParent(this);
-        this->objects.push_front(object);
+        this->objects.push_back(object);
     }
 
     void CloudioObject::addAttribute(CloudioAttribute *const attribute) {
         attribute->setParent(this);
-        this->attributes.push_front(attribute);
+        this->attributes.push_back(attribute);
     }
 
     string CloudioObject::getName() {
@@ -79,18 +79,18 @@ namespace cloudio {
     }
 
 
-    CloudioAttribute *CloudioObject::findAttribute(list<string> &location) {
+    CloudioAttribute *CloudioObject::findAttribute(queue <string> &location) {
         if (!location.empty()) {
             if (location.size() > 1) {
                 CloudioObject *object = getObjectByName(location.front());
-                location.pop_front(); // pop object name
+                location.pop(); // pop object name
                 if (object != nullptr) {
                     return object->findAttribute(location);
                 }
             } else {
                 if (!location.empty()) {
                     CloudioAttribute *attribute = getAttributeByName(location.front());
-                    location.pop_front(); // pop attribute name
+                    location.pop(); // pop attribute name
                     if (attribute != nullptr && location.empty()) {
                         return attribute;
                     }

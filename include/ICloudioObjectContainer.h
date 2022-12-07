@@ -7,7 +7,7 @@
 
 
 #include "INamedItem.h"
-#include <list>
+#include <queue>
 
 namespace cloudio {
 
@@ -26,7 +26,7 @@ namespace cloudio {
 
         virtual ICloudioNodeContainer *getParentNodeContainer() = 0;
 
-        virtual CloudioAttribute *findAttribute(std::list<std::string> &topics) = 0;
+        virtual CloudioAttribute *findAttribute(std::queue<std::string> &topics) = 0;
     };
 } // cloudio
 

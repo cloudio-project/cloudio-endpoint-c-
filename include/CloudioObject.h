@@ -10,7 +10,7 @@
 #include "ICloudioObjectContainer.h"
 
 #include <string>
-#include<list>
+#include<queue>
 
 namespace cloudio {
 
@@ -23,11 +23,11 @@ namespace cloudio {
 
         std::string getConforms();
 
-        std::list<CloudioObject *> getObjects();
+        std::vector<CloudioObject *> getObjects();
 
         CloudioObject *getObjectByName(const std::string &objectName);
 
-        std::list<CloudioAttribute *> getAttributes();
+        std::vector<CloudioAttribute *> getAttributes();
 
         CloudioAttribute *getAttributeByName(const std::string &attributeName);
 
@@ -46,15 +46,15 @@ namespace cloudio {
         // ICloudioObjectContainer interface
         ICloudioNodeContainer *getParentNodeContainer();
 
-        CloudioAttribute *findAttribute(std::list<std::string> &location);
+        CloudioAttribute *findAttribute(std::queue<std::string> &location);
 
         void setParent(ICloudioObjectContainer *parent);
 
 
     private:
         std::string conforms;
-        std::list<CloudioObject *> objects;
-        std::list<CloudioAttribute *> attributes;
+        std::vector<CloudioObject *> objects;
+        std::vector<CloudioAttribute *> attributes;
         std::string objectName;
         ICloudioObjectContainer *parent = nullptr;
 
