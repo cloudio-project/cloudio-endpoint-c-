@@ -7,8 +7,6 @@
 
 #include <string>
 
-using namespace std;
-
 namespace cloudio {
 
     class INamedItem {
@@ -16,7 +14,7 @@ namespace cloudio {
 
         virtual ~INamedItem() {}
 
-        virtual string getName() = 0;
+        virtual std::string getName() = 0;
     };
 } // cloudio
 

@@ -7,16 +7,14 @@
 
 #include <iostream>
 
-using namespace std;
-
 namespace cloudio {
 
-    class TransportLayerException : public exception {
+class TransportLayerException : public std::exception {
     private:
-        string message;
+        std::string message;
 
     public:
-        TransportLayerException(const string &msg);
+        TransportLayerException(const std::string &msg);
 
         // exception interface
         const char *what();

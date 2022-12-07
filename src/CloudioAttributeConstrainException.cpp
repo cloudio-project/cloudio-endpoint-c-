@@ -4,6 +4,8 @@
 
 #include "../include/CloudioAttributeConstrainException.h"
 
+using namespace std;
+
 namespace cloudio {
 
     CloudioAttributeConstrainException::CloudioAttributeConstrainException(const string &msg) : message(msg) {

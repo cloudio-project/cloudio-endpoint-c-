@@ -15,8 +15,6 @@
 #include <string>
 #include <list>
 
-using namespace std;
-
 namespace cloudio {
 
     class ICloudioAttributeContainer;
@@ -24,18 +22,18 @@ namespace cloudio {
     class CloudioAttribute {
 
     public:
-        CloudioAttribute(const string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint);
+        CloudioAttribute(const std::string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint);
 
-        CloudioAttribute(const string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
+        CloudioAttribute(const std::string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
                          int initialValue);
 
-        CloudioAttribute(const string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
+        CloudioAttribute(const std::string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
                          double initialValue);
 
-        CloudioAttribute(const string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
-                         string initialValue);
+        CloudioAttribute(const std::string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
+                         std::string initialValue);
 
-        CloudioAttribute(const string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
+        CloudioAttribute(const std::string &attributeName, CloudioAttributeType type, CloudioAttributeConstraint constraint,
                          bool initialValue);
 
         ~CloudioAttribute();
@@ -48,13 +46,13 @@ namespace cloudio {
 
         CloudioAttributeType getType();
 
-        string getName();
+        std::string getName();
 
         void setValue(int intValue);
 
         void setValue(double doubleValue);
 
-        void setValue(const string &stringValue);
+        void setValue(const std::string &stringValue);
 
         void setValue(bool boolValue);
 
@@ -62,7 +60,7 @@ namespace cloudio {
 
         void setValue(double doubleValue, long newTimestamp);
 
-        void setValue(const string &stringValue, long newTimestamp);
+        void setValue(const std::string &stringValue, long newTimestamp);
 
         void setValue(bool boolValue, long newTimestamp);
 
@@ -70,7 +68,7 @@ namespace cloudio {
 
         bool setValueFromCloud(double doubleValue, long newTimestamp);
 
-        bool setValueFromCloud(const string &stringValue, long newTimestamp);
+        bool setValueFromCloud(const std::string &stringValue, long newTimestamp);
 
         bool setValueFromCloud(bool boolValue, long newTimestamp);
 
@@ -88,9 +86,9 @@ namespace cloudio {
         long timestamp = 0;
         CloudioAttributeConstraint constraint;
         CloudioAttributeType attributeType;
-        string attributeName;
+        std::string attributeName;
         ICloudioAttributeContainer *parent = nullptr;
-        list<ICloudioAttributeListener *> listeners;
+        std::list<ICloudioAttributeListener *> listeners;
 
         void innerPreSetValue();
 
@@ -102,7 +100,7 @@ namespace cloudio {
 
         void setNumberValue(double doubleValue);
 
-        void setStringValue(const string &stringValue);
+        void setStringValue(const std::string &stringValue);
 
         void setBooleanValue(bool value);
 

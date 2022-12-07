@@ -5,6 +5,8 @@
 #include "../include/CloudioMessageFormatFactory.h"
 #include "../include/JsonNlohmannMessageFormat.h"
 
+using namespace std;
+
 namespace cloudio {
 
     static ICloudioMessageFormat *json;

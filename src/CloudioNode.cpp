@@ -4,6 +4,8 @@
 
 #include "../include/CloudioNode.h"
 
+using namespace std;
+
 namespace cloudio {
 
     CloudioNode::CloudioNode(string nodeName) {

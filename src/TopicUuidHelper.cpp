@@ -5,6 +5,8 @@
 #include "../include/TopicUuidHelper.h"
 #include "../include/CloudioAttribute.h"
 
+using namespace std;
+
 namespace cloudio {
 
     string getAttributeTopic(CloudioAttribute *const attribute) {

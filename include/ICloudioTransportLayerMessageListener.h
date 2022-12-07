@@ -7,8 +7,6 @@
 
 #include <string>
 
-using namespace std;
-
 namespace cloudio {
 
     class ICloudioTransportLayerMessageListener {
@@ -16,7 +14,7 @@ namespace cloudio {
 
         virtual ~ICloudioTransportLayerMessageListener() {}
 
-        virtual void messageArrived(const string &topic, const string &payload) = 0;
+        virtual void messageArrived(const std::string &topic, const std::string &payload) = 0;
     };
 } // cloudio
 

@@ -4,6 +4,9 @@
 
 #include "../include/PropertiesEndpointConfiguration.h"
 
+using namespace cppproperties;
+using namespace std;
+
 namespace cloudio {
     PropertiesEndpointConfiguration::PropertiesEndpointConfiguration(const string &propertiesFilePath) {
         this->properties = PropertiesParser::Read(propertiesFilePath);

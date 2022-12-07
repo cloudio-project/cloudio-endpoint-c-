@@ -15,22 +15,22 @@ namespace cloudio {
 
     public:
 
-        CloudioNode(string nodeName);
+        CloudioNode(std::string nodeName);
 
         ~CloudioNode();
 
-        list<CloudioObject *> getObjects();
+        std::list<CloudioObject *> getObjects();
 
-        CloudioObject *getObjectByName(string objectName);
+        CloudioObject *getObjectByName(std::string objectName);
 
-        list<string> getInterfaces();
+        std::list<std::string> getInterfaces();
 
         void addObject(CloudioObject *object);
 
         void setParent(ICloudioNodeContainer *parent);
 
         // INamedItem interface
-        string getName();
+        std::string getName();
 
         // ICloudioObjectContainer interface
         void attributeHasChangedByEndpoint(CloudioAttribute *attribute);
@@ -39,13 +39,13 @@ namespace cloudio {
 
         ICloudioNodeContainer *getParentNodeContainer();
 
-        CloudioAttribute *findAttribute(list<string> &location);
+        CloudioAttribute *findAttribute(std::list<std::string> &location);
 
 
     private:
-        list<CloudioObject *> objects;
-        list<string> interfaces;
-        string nodeName;
+        std::list<CloudioObject *> objects;
+        std::list<std::string> interfaces;
+        std::string nodeName;
         ICloudioNodeContainer *parent = nullptr;
     };
 } // cloudio

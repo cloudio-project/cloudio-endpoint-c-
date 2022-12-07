@@ -7,16 +7,14 @@
 
 #include <iostream>
 
-using namespace std;
-
 namespace cloudio {
 
-    class CloudioAttributeTypeException : public exception {
+class CloudioAttributeTypeException : public std::exception {
     private:
-        string message;
+        std::string message;
 
     public:
-        CloudioAttributeTypeException(const string &msg);
+        CloudioAttributeTypeException(const std::string &msg);
 
         // exception interface
         const char *what();

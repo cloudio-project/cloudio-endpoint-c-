@@ -4,6 +4,8 @@
 
 #include "../include/CloudioAttributeTypeException.h"
 
+using namespace std;
+
 namespace cloudio {
 
     CloudioAttributeTypeException::CloudioAttributeTypeException(const string &msg) : message(msg) {

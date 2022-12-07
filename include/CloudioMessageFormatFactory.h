@@ -7,8 +7,6 @@
 
 #include <string>
 
-using namespace std;
-
 namespace cloudio {
 
     class ICloudioMessageFormat;
@@ -19,7 +17,7 @@ namespace cloudio {
 
         static ICloudioMessageFormat *messageFormat(char messageFormatId);
 
-        static ICloudioMessageFormat *messageFormat(const string &messageFormatName);
+        static ICloudioMessageFormat *messageFormat(const std::string &messageFormatName);
     };
 } // cloudio
 

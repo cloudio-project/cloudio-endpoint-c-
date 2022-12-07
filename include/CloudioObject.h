@@ -12,33 +12,31 @@
 #include <string>
 #include<list>
 
-using namespace std;
-
 namespace cloudio {
 
     class CloudioObject : public ICloudioAttributeContainer, public ICloudioObjectContainer {
 
     public:
-        CloudioObject(const string &objectName);
+        CloudioObject(const std::string &objectName);
 
         ~CloudioObject();
 
-        string getConforms();
+        std::string getConforms();
 
-        list<CloudioObject *> getObjects();
+        std::list<CloudioObject *> getObjects();
 
-        CloudioObject *getObjectByName(const string &objectName);
+        CloudioObject *getObjectByName(const std::string &objectName);
 
-        list<CloudioAttribute *> getAttributes();
+        std::list<CloudioAttribute *> getAttributes();
 
-        CloudioAttribute *getAttributeByName(const string &attributeName);
+        CloudioAttribute *getAttributeByName(const std::string &attributeName);
 
         void addObject(CloudioObject *object);
 
         void addAttribute(CloudioAttribute *attribute);
 
         // INamedItem interface
-        string getName();
+        std::string getName();
 
         // ICloudioAttributeContainer & ICloudioObjectContainer interface
         void attributeHasChangedByEndpoint(CloudioAttribute *attribute);
@@ -48,16 +46,16 @@ namespace cloudio {
         // ICloudioObjectContainer interface
         ICloudioNodeContainer *getParentNodeContainer();
 
-        CloudioAttribute *findAttribute(list<string> &location);
+        CloudioAttribute *findAttribute(std::list<std::string> &location);
 
         void setParent(ICloudioObjectContainer *parent);
 
 
     private:
-        string conforms;
-        list<CloudioObject *> objects;
-        list<CloudioAttribute *> attributes;
-        string objectName;
+        std::string conforms;
+        std::list<CloudioObject *> objects;
+        std::list<CloudioAttribute *> attributes;
+        std::string objectName;
         ICloudioObjectContainer *parent = nullptr;
 
     };

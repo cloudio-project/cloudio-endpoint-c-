@@ -11,21 +11,19 @@
 #include <string>
 #include <list>
 
-using namespace std;
-
 namespace cloudio {
 
     class CloudioAttribute;
 
-    string getAttributeTopic(CloudioAttribute *attribute);
+    std::string getAttributeTopic(CloudioAttribute *attribute);
 
-    string getAttributeContainerTopic(ICloudioAttributeContainer *attributeContainer);
+    std::string getAttributeContainerTopic(ICloudioAttributeContainer *attributeContainer);
 
-    string getObjectContainerTopic(ICloudioObjectContainer *objectContainer);
+    std::string getObjectContainerTopic(ICloudioObjectContainer *objectContainer);
 
-    string getNodeContainerTopic(ICloudioNodeContainer *nodeContainer);
+    std::string getNodeContainerTopic(ICloudioNodeContainer *nodeContainer);
 
-    list<string> split(const string &s, const string &delimiter);
+    std::list<std::string> split(const std::string &s, const std::string &delimiter);
 
 } // cloudio
 

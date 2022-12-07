@@ -4,6 +4,8 @@
 
 #include "../include/TransportLayerException.h"
 
+using namespace std;
+
 namespace cloudio {
 
     TransportLayerException::TransportLayerException(const string &msg) : message(msg) {

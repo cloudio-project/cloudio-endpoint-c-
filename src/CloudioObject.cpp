@@ -4,6 +4,8 @@
 
 #include "../include/CloudioObject.h"
 
+using namespace std;
+
 namespace cloudio {
 
     CloudioObject::CloudioObject(const string &objectName) {

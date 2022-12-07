@@ -10,6 +10,8 @@
 #include "../include/TopicUuidHelper.h"
 #include "../include/CloudioMessageFormatFactory.h"
 
+using namespace std;
+
 namespace cloudio {
 
     CloudioEndpoint::CloudioEndpoint(const string &uuidOrAppName,

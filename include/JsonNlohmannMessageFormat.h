@@ -12,11 +12,6 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 
-using namespace std;
-using json = nlohmann::json;
-
-using value_t = nlohmann::detail::value_t;
-
 namespace cloudio {
     class JsonNlohmannMessageFormat : public ICloudioMessageFormat {
 
@@ -26,63 +21,63 @@ namespace cloudio {
 
             virtual ~IJsonNlohmannMessageFormatSerializer() {}
 
-            virtual string serialize(json data) = 0;
+            virtual std::string serialize(nlohmann::json data) = 0;
 
-            virtual json deserialize(const string &payload) = 0;
+            virtual nlohmann::json deserialize(const std::string &payload) = 0;
         };
 
         class JSONJsonNlohmannMessageFormatSerializer : public IJsonNlohmannMessageFormatSerializer {
         public:
             // IJsonNlohmannMessageFormatSerializer interface
-            string serialize(json data) {
+            std::string serialize(nlohmann::json data) {
                 return to_string(data);
             };
 
-            json deserialize(const string &payload) {
-                return json::parse(payload);
+            nlohmann::json deserialize(const std::string &payload) {
+                return nlohmann::json::parse(payload);
             }
         };
 
         class CBORJsonNlohmannMessageFormatSerializer : public IJsonNlohmannMessageFormatSerializer {
         public:
             // IJsonNlohmannMessageFormatSerializer interface
-            string serialize(json data) {
-                vector<uint8_t> cbor_data = json::to_cbor(data);
+            std::string serialize(nlohmann::json data) {
+                std::vector<uint8_t> cbor_data = nlohmann::json::to_cbor(data);
                 unsigned char *cbordata = cbor_data.data();
-                return string((char *) cbordata);
+                return std::string((char *) cbordata);
             };
 
-            json deserialize(const string &payload) {
-                return json::from_cbor(payload);
+            nlohmann::json deserialize(const std::string &payload) {
+                return nlohmann::json::from_cbor(payload);
             };
         };
 
     public:
-        JsonNlohmannMessageFormat(const string &format);
+        JsonNlohmannMessageFormat(const std::string &format);
 
         ~JsonNlohmannMessageFormat();
 
         // ICloudioMessageFormat interface
-        string serializeEndpoint(CloudioEndpoint *endpoint);
+        std::string serializeEndpoint(CloudioEndpoint *endpoint);
 
-        string serializeNode(CloudioNode *node);
+        std::string serializeNode(CloudioNode *node);
 
-        string serializeAttribute(CloudioAttribute *attribute);
+        std::string serializeAttribute(CloudioAttribute *attribute);
 
-        string serializeDidSetAttribute(CloudioAttribute *attribute, const string &correlationID);
+        std::string serializeDidSetAttribute(CloudioAttribute *attribute, const std::string &correlationID);
 
-        void deserializeAttribute(const string &payload, CloudioAttribute *attribute);
+        void deserializeAttribute(const std::string &payload, CloudioAttribute *attribute);
 
-        string deserializeSetAttribute(const string &payload, CloudioAttribute *attribute);
+        std::string deserializeSetAttribute(const std::string &payload, CloudioAttribute *attribute);
 
     private:
-        static json jsonSerializeEndpoint(CloudioEndpoint *endpoint);
+        static nlohmann::json jsonSerializeEndpoint(CloudioEndpoint *endpoint);
 
-        static json jsonSerializeNode(CloudioNode *node);
+        static nlohmann::json jsonSerializeNode(CloudioNode *node);
 
-        static json jsonSerializeObject(CloudioObject *object);
+        static nlohmann::json jsonSerializeObject(CloudioObject *object);
 
-        static json jsonSerializeAttribute(CloudioAttribute *attribute);
+        static nlohmann::json jsonSerializeAttribute(CloudioAttribute *attribute);
 
         IJsonNlohmannMessageFormatSerializer *jsonNlohmannMessageFormatSerializer;
 

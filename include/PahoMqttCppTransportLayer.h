@@ -18,24 +18,24 @@ namespace cloudio {
         ~PahoMqttCppTransportLayer();
 
         // ITransportLayer interface
-        void initTransportLayer(const string &uuid, ICloudioEndpointConfiguration *endpointConfiguration);
+        void initTransportLayer(const std::string &uuid, ICloudioEndpointConfiguration *endpointConfiguration);
 
         void connect();
 
         void disconnect();
 
-        void publish(const string &topic, const string &payload, int qos, bool retained);
+        void publish(const std::string &topic, const std::string &payload, int qos, bool retained);
 
-        void subscribe(const string &topic, int qos);
+        void subscribe(const std::string &topic, int qos);
 
         bool isOnline();
 
         void setTransportLayerMessageListener(ICloudioTransportLayerMessageListener *);
 
         // mqtt::callback interface
-        void connected(const string &cause);
+        void connected(const std::string &cause);
 
-        void connection_lost(const string &cause);
+        void connection_lost(const std::string &cause);
 
         void message_arrived(mqtt::const_message_ptr msg);
 

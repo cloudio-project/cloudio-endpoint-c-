@@ -5,6 +5,8 @@
 #include "../include/CloudioAttribute.h"
 #include "../include/ICloudioAttributeContainer.h"
 
+using namespace std;
+
 namespace cloudio {
 
     CloudioAttribute::CloudioAttribute(const string &attributeName, const CloudioAttributeType type,

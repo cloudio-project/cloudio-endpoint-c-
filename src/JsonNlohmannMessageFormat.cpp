@@ -6,6 +6,11 @@
 #include "../include/CloudioEndpoint.h"
 #include <iostream>
 
+using namespace std;
+using json = nlohmann::json;
+
+using value_t = nlohmann::detail::value_t;
+
 namespace cloudio {
 
     JsonNlohmannMessageFormat::JsonNlohmannMessageFormat(const string &format) {

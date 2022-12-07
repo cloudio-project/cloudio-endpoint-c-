@@ -5,6 +5,8 @@
 #include "../include/PahoMqttCppTransportLayer.h"
 #include "../include/CloudioEndpointPropertyConstants.h"
 
+using namespace std;
+
 namespace cloudio {
     PahoMqttCppTransportLayer::PahoMqttCppTransportLayer() {
 
