@@ -69,6 +69,14 @@ namespace cloudio {
 
         void setValue(bool boolValue, long newTimestamp);
 
+        CloudioAttribute &operator=(int intValue);
+
+        CloudioAttribute &operator=(double doubleValue);
+
+        CloudioAttribute &operator=(const std::string &stringValue);
+
+        CloudioAttribute &operator=(bool boolValue);
+
         bool setValueFromCloud(int intValue, long newTimestamp);
 
         bool setValueFromCloud(double doubleValue, long newTimestamp);

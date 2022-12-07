@@ -152,6 +152,26 @@ namespace cloudio {
         this->innerPostSetValue(newTimestamp);
     }
 
+    CloudioAttribute& CloudioAttribute::operator=(int intValue) {
+        setValue(intValue);
+        return *this;
+    }
+
+    CloudioAttribute& CloudioAttribute::operator=(double doubleValue) {
+        setValue(doubleValue);
+        return *this;
+    }
+
+    CloudioAttribute& CloudioAttribute::operator=(const std::string &stringValue) {
+        setValue(stringValue);
+        return *this;
+    }
+
+    CloudioAttribute& CloudioAttribute::operator=(bool boolValue) {
+        setValue(boolValue);
+        return *this;
+    }
+
     bool CloudioAttribute::setValueFromCloud(const int intValue, const long newTimestamp) {
         bool isSetPossible = innerPostSetValueFromCloud(newTimestamp);
 
