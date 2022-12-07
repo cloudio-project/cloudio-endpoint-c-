@@ -20,11 +20,11 @@ namespace cloudio {
 
         virtual void disconnect() = 0;
 
-        virtual void publish(const std::string &topic, const std::string &payload, int qos, bool retained) = 0;
+        virtual void publish(const std::string &topic, const std::string &payload, int qos, bool retained) const = 0;
 
-        virtual void subscribe(const std::string &topic, int qos) = 0;
+        virtual void subscribe(const std::string &topic, int qos) const = 0;
 
-        virtual bool isOnline() = 0;
+        virtual bool isOnline() const = 0;
 
         virtual void setTransportLayerMessageListener(ICloudioTransportLayerMessageListener *) = 0;
 

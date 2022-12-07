@@ -24,11 +24,11 @@ namespace cloudio {
 
         void disconnect();
 
-        void publish(const std::string &topic, const std::string &payload, int qos, bool retained);
+        void publish(const std::string &topic, const std::string &payload, int qos, bool retained) const;
 
-        void subscribe(const std::string &topic, int qos);
+        void subscribe(const std::string &topic, int qos) const;
 
-        bool isOnline();
+        bool isOnline() const;
 
         void setTransportLayerMessageListener(ICloudioTransportLayerMessageListener *);
 

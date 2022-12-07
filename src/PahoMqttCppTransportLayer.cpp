@@ -151,7 +151,8 @@ namespace cloudio {
     }
 
     void
-    PahoMqttCppTransportLayer::publish(const string &topic, const string &payload, const int qos, const bool retained) {
+    PahoMqttCppTransportLayer::publish(const string &topic, const string &payload, const int qos,
+                                       const bool retained) const {
         bool messageSend = false;
         mqtt::message_ptr timeLeftMessagePointer = mqtt::make_message(
                 topic,
@@ -174,11 +175,11 @@ namespace cloudio {
         }
     }
 
-    void PahoMqttCppTransportLayer::subscribe(const string &topic, const int qos) {
+    void PahoMqttCppTransportLayer::subscribe(const string &topic, const int qos) const {
         this->mqttClient->subscribe(topic, qos);
     }
 
-    bool PahoMqttCppTransportLayer::isOnline() {
+    bool PahoMqttCppTransportLayer::isOnline() const {
         return mqttClient->is_connected();
     }
 

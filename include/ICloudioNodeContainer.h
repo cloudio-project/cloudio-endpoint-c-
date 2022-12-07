@@ -15,7 +15,7 @@ namespace cloudio {
     public:
         virtual ~ICloudioNodeContainer() {}
 
-        virtual void attributeHasChangedByEndpoint(CloudioAttribute *attribute) = 0;
+        virtual void attributeHasChangedByEndpoint(CloudioAttribute &attribute) = 0;
     };
 } // cloudio
 

@@ -20,21 +20,21 @@ namespace cloudio {
 
         ~CloudioNode();
 
-        std::vector<CloudioObject *> getObjects();
+        const std::vector<CloudioObject *> &getObjects();
 
-        CloudioObject *getObjectByName(std::string objectName);
+        CloudioObject *getObjectByName(const std::string &objectName);
 
-        std::vector<std::string> getInterfaces();
+        const std::vector<std::string> &getInterfaces();
 
         void addObject(CloudioObject *object);
 
         void setParent(ICloudioNodeContainer *parent);
 
         // INamedItem interface
-        std::string getName();
+        const std::string &getName() const;
 
         // ICloudioObjectContainer interface
-        void attributeHasChangedByEndpoint(CloudioAttribute *attribute);
+        void attributeHasChangedByEndpoint(CloudioAttribute &attribute);
 
         ICloudioObjectContainer *getParentObjectContainer();
 

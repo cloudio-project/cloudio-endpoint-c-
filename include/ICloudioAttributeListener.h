@@ -14,7 +14,7 @@ namespace cloudio {
 
         virtual ~ICloudioAttributeListener() {}
 
-        virtual void attributeHasChanged(CloudioAttribute *attribute) = 0;
+        virtual void attributeHasChanged(CloudioAttribute &attribute) = 0;
     };
 } // cloudio
 

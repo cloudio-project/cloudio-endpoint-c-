@@ -250,7 +250,7 @@ namespace cloudio {
     void CloudioAttribute::innerPostSetValue(const long newTimestamp) {
         this->timestamp = newTimestamp;
         if (this->parent != nullptr) {
-            this->parent->attributeHasChangedByEndpoint(this);
+            this->parent->attributeHasChangedByEndpoint(*this);
         }
     }
 
@@ -273,7 +273,7 @@ namespace cloudio {
     void CloudioAttribute::notifyListeners() {
         if (!this->listeners.empty()) {
             for (auto &listener: this->listeners) {
-                listener->attributeHasChanged(this);
+                listener->attributeHasChanged(*this);
             }
         }
     }

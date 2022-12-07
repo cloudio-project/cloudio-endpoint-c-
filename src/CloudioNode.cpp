@@ -16,11 +16,11 @@ namespace cloudio {
 
     }
 
-    vector<CloudioObject *> CloudioNode::getObjects() {
+    const vector<CloudioObject *> &CloudioNode::getObjects() {
         return this->objects;
     }
 
-    CloudioObject *CloudioNode::getObjectByName(string objectName) {
+    CloudioObject *CloudioNode::getObjectByName(const string &objectName) {
         for (auto &objectIt: this->objects) {
             if (objectIt->getName() == objectName) {
                 return objectIt;
@@ -29,7 +29,7 @@ namespace cloudio {
         return nullptr;
     }
 
-    vector <string> CloudioNode::getInterfaces() {
+    const std::vector<std::string> &CloudioNode::getInterfaces() {
         return this->interfaces;
     }
 
@@ -38,11 +38,11 @@ namespace cloudio {
         this->objects.push_back(object);
     }
 
-    string CloudioNode::getName() {
+    const string &CloudioNode::getName() const {
         return this->nodeName;
     }
 
-    void CloudioNode::attributeHasChangedByEndpoint(CloudioAttribute *const attribute) {
+    void CloudioNode::attributeHasChangedByEndpoint(CloudioAttribute &attribute) {
         if (this->parent != nullptr) {
             this->parent->attributeHasChangedByEndpoint(attribute);
         }

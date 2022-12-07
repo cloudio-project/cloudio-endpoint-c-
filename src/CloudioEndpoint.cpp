@@ -65,7 +65,7 @@ namespace cloudio {
         return this->version;
     }
 
-    vector<CloudioNode *> CloudioEndpoint::getNodes() {
+    const std::vector<CloudioNode *> &CloudioEndpoint::getNodes() {
         return this->nodes;
     }
 
@@ -82,7 +82,7 @@ namespace cloudio {
         return this->supportedFormats;
     }
 
-    string CloudioEndpoint::getName() {
+    const std::string &CloudioEndpoint::getName() const {
         return this->uuid;
     }
 
@@ -126,10 +126,10 @@ namespace cloudio {
         }
     }
 
-    void CloudioEndpoint::attributeHasChangedByEndpoint(CloudioAttribute *const attribute) {
+    void CloudioEndpoint::attributeHasChangedByEndpoint(CloudioAttribute &attribute) {
 
-        string topicUUID = getAttributeTopic(attribute);
-        this->transportLayer->publish("@update/" + topicUUID, this->messageFormat->serializeAttribute(attribute), 1,
+        string topicUUID = getAttributeTopic(&attribute);
+        this->transportLayer->publish("@update/" + topicUUID, this->messageFormat->serializeAttribute(&attribute), 1,
                                       true);
     }
 

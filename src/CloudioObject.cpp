@@ -16,11 +16,11 @@ namespace cloudio {
 
     }
 
-    string CloudioObject::getConforms() {
+    const string &CloudioObject::getConforms() const {
         return this->conforms;
     }
 
-    vector<CloudioObject *> CloudioObject::getObjects() {
+    const vector<CloudioObject *> &CloudioObject::getObjects() {
         return this->objects;
     }
 
@@ -33,7 +33,7 @@ namespace cloudio {
         return nullptr;
     }
 
-    vector<CloudioAttribute *> CloudioObject::getAttributes() {
+    const vector<CloudioAttribute *> &CloudioObject::getAttributes() {
         return this->attributes;
     }
 
@@ -56,11 +56,11 @@ namespace cloudio {
         this->attributes.push_back(attribute);
     }
 
-    string CloudioObject::getName() {
+    const std::string &CloudioObject::getName() const {
         return this->objectName;
     }
 
-    void CloudioObject::attributeHasChangedByEndpoint(CloudioAttribute *const attribute) {
+    void CloudioObject::attributeHasChangedByEndpoint(CloudioAttribute &attribute) {
         if (this->parent != nullptr) {
             this->parent->attributeHasChangedByEndpoint(attribute);
         }

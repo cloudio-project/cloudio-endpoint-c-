@@ -24,18 +24,18 @@ namespace cloudio {
 
         std::string getVersion();
 
-        std::vector<CloudioNode *> getNodes();
+        const std::vector<CloudioNode *> &getNodes();
 
         CloudioNode *getNodeByName(const std::string &nodeName);
 
         std::vector<std::string> getSupportedFormats();
 
-        std::string getName();
+        const std::string &getName() const;
 
         void addNode(CloudioNode *node);
 
         // ICloudioNodeContainer interface
-        void attributeHasChangedByEndpoint(CloudioAttribute *attribute);
+        void attributeHasChangedByEndpoint(CloudioAttribute &attribute);
 
         // ICloudioTransportLayerMessageListener interface
         void messageArrived(const std::string &topic, const std::string &payload);

@@ -21,13 +21,13 @@ namespace cloudio {
 
         ~CloudioObject();
 
-        std::string getConforms();
+        const std::string &getConforms() const;
 
-        std::vector<CloudioObject *> getObjects();
+        const std::vector<CloudioObject *> &getObjects();
 
         CloudioObject *getObjectByName(const std::string &objectName);
 
-        std::vector<CloudioAttribute *> getAttributes();
+        const std::vector<CloudioAttribute *> &getAttributes();
 
         CloudioAttribute *getAttributeByName(const std::string &attributeName);
 
@@ -36,10 +36,10 @@ namespace cloudio {
         void addAttribute(CloudioAttribute *attribute);
 
         // INamedItem interface
-        std::string getName();
+        const std::string &getName() const;
 
         // ICloudioAttributeContainer & ICloudioObjectContainer interface
-        void attributeHasChangedByEndpoint(CloudioAttribute *attribute);
+        void attributeHasChangedByEndpoint(CloudioAttribute &attribute);
 
         ICloudioObjectContainer *getParentObjectContainer();
 
