@@ -209,7 +209,7 @@ namespace cloudio {
             (*(int *) this->value) = intValue;
         } else {
             throw CloudioAttributeTypeException("Cannot use setIntegerValue on an attribute of type " + string(
-                    CloudioAttributeTypeToString(this->attributeType)));
+                    to_string(this->attributeType)));
         }
     }
 
@@ -218,7 +218,7 @@ namespace cloudio {
             (*(double *) this->value) = doubleValue;
         } else {
             throw CloudioAttributeTypeException("Cannot use setNumberValue on an attribute of type " + string(
-                    CloudioAttributeTypeToString(this->attributeType)));
+                    to_string(this->attributeType)));
         }
     }
 
@@ -227,7 +227,7 @@ namespace cloudio {
             (*(string *) this->value) = stringValue;
         } else {
             throw CloudioAttributeTypeException("Cannot use setStringValue on an attribute of type " + string(
-                    CloudioAttributeTypeToString(this->attributeType)));
+                    to_string(this->attributeType)));
         }
     }
 
@@ -236,14 +236,14 @@ namespace cloudio {
             (*(bool *) this->value) = boolValue;
         } else {
             throw CloudioAttributeTypeException("Cannot use setBooleanValue on an attribute of type " + string(
-                    CloudioAttributeTypeToString(this->attributeType)));
+                    to_string(this->attributeType)));
         }
     }
 
     void CloudioAttribute::innerPreSetValue() {
         if (this->constraint != Status && this->constraint != Measure) {
             throw CloudioAttributeConstrainException("Can only change Status and Measure constraint attribute, not " +
-                                                     string(CloudioAttributeConstraintToString(this->constraint)));
+                                                     to_string(this->constraint));
         }
     }
 

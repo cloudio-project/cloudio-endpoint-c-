@@ -5,6 +5,8 @@
 #ifndef CLOUDIO_ENDPOINT_CPP_CLOUDIOATTRIBUTETYPE_H
 #define CLOUDIO_ENDPOINT_CPP_CLOUDIOATTRIBUTETYPE_H
 
+#include <string>
+
 namespace cloudio {
 
     enum CloudioAttributeType {
@@ -15,7 +17,7 @@ namespace cloudio {
         String
     };
 
-    const char *CloudioAttributeTypeToString(CloudioAttributeType constraint);
+    std::string to_string(CloudioAttributeType constraint);
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP_CLOUDIOATTRIBUTETYPE_H

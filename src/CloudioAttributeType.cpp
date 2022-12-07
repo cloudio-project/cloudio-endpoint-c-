@@ -4,7 +4,7 @@
 #include "../include/CloudioAttributeType.h"
 
 namespace cloudio {
-    const char *CloudioAttributeTypeToString(CloudioAttributeType constraint) {
+    std::string to_string(CloudioAttributeType constraint) {
         switch (constraint) {
             case CloudioAttributeType::Invalid:
                 return "Invalid";

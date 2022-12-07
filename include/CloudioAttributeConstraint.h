@@ -5,6 +5,8 @@
 #ifndef CLOUDIO_ENDPOINT_CPP_CLOUDIOATTRIBUTECONSTRAINT_H
 #define CLOUDIO_ENDPOINT_CPP_CLOUDIOATTRIBUTECONSTRAINT_H
 
+#include <string>
+
 namespace cloudio {
 
     enum CloudioAttributeConstraint {
@@ -15,7 +17,7 @@ namespace cloudio {
         Measure
     };
 
-    const char *CloudioAttributeConstraintToString(CloudioAttributeConstraint constraint);
+    std::string to_string(CloudioAttributeConstraint constraint);
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP_CLOUDIOATTRIBUTECONSTRAINT_H

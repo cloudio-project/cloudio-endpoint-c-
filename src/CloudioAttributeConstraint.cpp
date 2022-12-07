@@ -4,7 +4,7 @@
 #include "../include/CloudioAttributeConstraint.h"
 
 namespace cloudio {
-    const char *CloudioAttributeConstraintToString(CloudioAttributeConstraint constraint) {
+    std::string to_string(CloudioAttributeConstraint constraint) {
         switch (constraint) {
             case CloudioAttributeConstraint::Static:
                 return "Static";
