@@ -8,21 +8,22 @@
 #include "../include/ICloudioObjectContainer.h"
 #include "../include/ICloudioNodeContainer.h"
 
-#include "string"
-
-using namespace std;
+#include <string>
+#include <queue>
 
 namespace cloudio {
 
     class CloudioAttribute;
 
-    string getAttributeTopic(CloudioAttribute *attribute);
+    std::string getAttributeTopic(CloudioAttribute *attribute);
 
-    string getAttributeContainerTopic(ICloudioAttributeContainer *attributeContainer);
+    std::string getAttributeContainerTopic(ICloudioAttributeContainer *attributeContainer);
 
-    string getObjectContainerTopic(ICloudioObjectContainer *objectContainer);
+    std::string getObjectContainerTopic(ICloudioObjectContainer *objectContainer);
 
-    string getNodeContainerTopic(ICloudioNodeContainer *nodeContainer);
+    std::string getNodeContainerTopic(ICloudioNodeContainer *nodeContainer);
+
+    std::queue<std::string> split(const std::string &s, const std::string &delimiter);
 
 } // cloudio
 

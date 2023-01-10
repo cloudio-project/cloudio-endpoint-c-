@@ -4,8 +4,11 @@
 
 #include "../include/PropertiesEndpointConfiguration.h"
 
+using namespace cppproperties;
+using namespace std;
+
 namespace cloudio {
-    PropertiesEndpointConfiguration::PropertiesEndpointConfiguration(const string propertiesFilePath) {
+    PropertiesEndpointConfiguration::PropertiesEndpointConfiguration(const string &propertiesFilePath) {
         this->properties = PropertiesParser::Read(propertiesFilePath);
     }
 
@@ -13,11 +16,11 @@ namespace cloudio {
 
     }
 
-    string PropertiesEndpointConfiguration::getProperty(string key) {
+    string PropertiesEndpointConfiguration::getProperty(const string &key) {
         return this->getProperty(key, "");
     }
 
-    string PropertiesEndpointConfiguration::getProperty(string key, string defaultValue) {
+    string PropertiesEndpointConfiguration::getProperty(const string &key, const string &defaultValue) {
         string outputProperty;
         try {
             outputProperty = properties.GetProperty(key);
@@ -28,7 +31,7 @@ namespace cloudio {
         return outputProperty;
     }
 
-    bool PropertiesEndpointConfiguration::containsKey(string key) {
+    bool PropertiesEndpointConfiguration::containsKey(const string &key) {
         try {
             properties.GetProperty(key);
             return true;
@@ -37,5 +40,4 @@ namespace cloudio {
             return false;
         }
     }
-
 } // cloudio

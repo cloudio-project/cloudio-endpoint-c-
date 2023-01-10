@@ -6,36 +6,130 @@
 #include "../include/CloudioEndpoint.h"
 #include <iostream>
 
+using namespace std;
+using json = nlohmann::json;
+
+using value_t = nlohmann::detail::value_t;
+
 namespace cloudio {
 
-    JsonNlohmannMessageFormat::JsonNlohmannMessageFormat() {
-
+    JsonNlohmannMessageFormat::JsonNlohmannMessageFormat(const string &format) {
+        if (format == "JSON") {
+            jsonNlohmannMessageFormatSerializer = new JSONJsonNlohmannMessageFormatSerializer();
+        } else if (format == "CBOR") {
+            jsonNlohmannMessageFormatSerializer = new CBORJsonNlohmannMessageFormatSerializer();
+        } else {    //default, JSON
+            jsonNlohmannMessageFormatSerializer = new JSONJsonNlohmannMessageFormatSerializer();
+        }
     }
 
     JsonNlohmannMessageFormat::~JsonNlohmannMessageFormat() {
-
+        delete jsonNlohmannMessageFormatSerializer;
     }
 
-    string JsonNlohmannMessageFormat::serializeEndpoint(CloudioEndpoint *endpoint) {
+    string JsonNlohmannMessageFormat::serializeEndpoint(CloudioEndpoint *const endpoint) {
         json endpointJson = jsonSerializeEndpoint(endpoint);
 
-        return to_string(endpointJson);
+        return jsonNlohmannMessageFormatSerializer->serialize(endpointJson);
     }
 
-    string JsonNlohmannMessageFormat::serializeNode(CloudioNode *node) {
+    string JsonNlohmannMessageFormat::serializeNode(CloudioNode *const node) {
         json nodeJson = jsonSerializeNode(node);
 
-        return to_string(nodeJson);
+        return jsonNlohmannMessageFormatSerializer->serialize(nodeJson);
     }
 
-    string JsonNlohmannMessageFormat::serializeAttribute(CloudioAttribute *attribute) {
+    string JsonNlohmannMessageFormat::serializeAttribute(CloudioAttribute *const attribute) {
         json attributeJson = jsonSerializeAttribute(attribute);
 
-        return to_string(attributeJson);
+        return jsonNlohmannMessageFormatSerializer->serialize(attributeJson);
     }
 
+    string
+    JsonNlohmannMessageFormat::serializeDidSetAttribute(CloudioAttribute *const attribute,
+                                                        const string &correlationID) {
+        json attributeJson = jsonSerializeAttribute(attribute);
+        attributeJson["correlationID"] = correlationID;
+        return jsonNlohmannMessageFormatSerializer->serialize(attributeJson);
+    }
 
-    json JsonNlohmannMessageFormat::jsonSerializeEndpoint(CloudioEndpoint *endpoint) {
+    void JsonNlohmannMessageFormat::deserializeAttribute(const string &payload, CloudioAttribute *const attribute) {
+        json attributeJson;
+        try {
+            attributeJson = jsonNlohmannMessageFormatSerializer->deserialize(payload);
+        } catch (exception e) {
+            cout << "Error during main deserialization process " << e.what() << endl;
+            return;
+        }
+
+        long timestamp;
+        try {
+            timestamp = attributeJson["timestamp"];
+        }
+        catch (exception e) {
+            cout << "Error during deserialization, no valid timestamp found " << e.what() << endl;
+            return;
+        }
+
+        if (timestamp != 0) {
+            try {
+                switch (attribute->getType()) {
+                    case Invalid:
+                        break;
+                    case Boolean: {
+                        bool boolValue = attributeJson["value"];
+                        attribute->setValueFromCloud(boolValue, timestamp);
+                        break;
+                    }
+                    case Integer: {
+                        int integerValue = attributeJson["value"];
+                        attribute->setValueFromCloud(integerValue, timestamp);
+                        break;
+                    }
+
+                    case Number: {
+                        double doubleValue = attributeJson["value"];
+                        attribute->setValueFromCloud(doubleValue, timestamp);
+                        break;
+                    }
+
+                    case String: {
+                        string strValue = attributeJson["value"];
+                        attribute->setValueFromCloud(strValue, timestamp);
+                        break;
+                    }
+
+                    default:
+                        cout << "Type error while deserializing value from @set message" << endl;
+                        break;
+                }
+            }
+            catch (exception e) {
+                cout << "Type error while deserializing value from @set message" << endl;
+                return;
+            }
+        }
+    }
+
+    string
+    JsonNlohmannMessageFormat::deserializeSetAttribute(const string &payload, CloudioAttribute *const attribute) {
+        json attributeJson;
+        try {
+            attributeJson = jsonNlohmannMessageFormatSerializer->deserialize(payload);
+        } catch (exception e) {
+            cout << "Error during main deserialization process " << e.what() << endl;
+            return "";
+        }
+
+        this->deserializeAttribute(payload, attribute);
+
+        string correlationID = "";
+        if (attributeJson["correlationID"] != nullptr && attributeJson["correlationID"].type() == value_t::string)
+            correlationID = attributeJson["correlationID"];
+        return correlationID != "null" ? correlationID : "";
+    }
+
+    json JsonNlohmannMessageFormat::jsonSerializeEndpoint(CloudioEndpoint *const endpoint) {
         json endpointJson;
 
         endpointJson["version"] = endpoint->getVersion();
@@ -61,7 +155,7 @@ namespace cloudio {
         return endpointJson;
     }
 
-    json JsonNlohmannMessageFormat::jsonSerializeNode(CloudioNode *node) {
+    json JsonNlohmannMessageFormat::jsonSerializeNode(CloudioNode *const node) {
         json nobeJson;
 
         json implements = json::array();
@@ -84,7 +178,7 @@ namespace cloudio {
         return nobeJson;
     }
 
-    json JsonNlohmannMessageFormat::jsonSerializeObject(CloudioObject *object) {
+    json JsonNlohmannMessageFormat::jsonSerializeObject(CloudioObject *const object) {
         json objectJson;
 
         if (object->getConforms().empty())
@@ -108,7 +202,7 @@ namespace cloudio {
         return objectJson;
     }
 
-    json JsonNlohmannMessageFormat::jsonSerializeAttribute(CloudioAttribute *attribute) {
+    json JsonNlohmannMessageFormat::jsonSerializeAttribute(CloudioAttribute *const attribute) {
         json attributeJson;
         switch (attribute->getType()) {
             case Invalid:
@@ -170,5 +264,4 @@ namespace cloudio {
 
         return attributeJson;
     }
-
-}
+} // cloudio

@@ -8,6 +8,7 @@
 #include "CloudioObject.h"
 #include "ICloudioNodeContainer.h"
 #include "ICloudioObjectContainer.h"
+#include <queue>
 
 namespace cloudio {
 
@@ -15,34 +16,39 @@ namespace cloudio {
 
     public:
 
-        CloudioNode(string nodeName);
+        CloudioNode(std::string nodeName);
 
         ~CloudioNode();
 
-        list<CloudioObject *> getObjects();
+        const std::vector<CloudioObject *> &getObjects();
 
-        list<string> getInterfaces();
+        CloudioObject *getObjectByName(const std::string &objectName);
+
+        const std::vector<std::string> &getInterfaces();
 
         void addObject(CloudioObject *object);
 
-        string getName();
-
         void setParent(ICloudioNodeContainer *parent);
 
-        void attributeHasChangedByEndpoint(CloudioAttribute *attribute);
+        // INamedItem interface
+        const std::string &getName() const;
+
+        // ICloudioObjectContainer interface
+        void attributeHasChangedByEndpoint(CloudioAttribute &attribute);
 
         ICloudioObjectContainer *getParentObjectContainer();
 
         ICloudioNodeContainer *getParentNodeContainer();
 
+        CloudioAttribute *findAttribute(std::queue<std::string> &location);
+
 
     private:
-        list<CloudioObject *> objects;
-        list<string> interfaces;
-        string nodeName;
+        std::vector<CloudioObject *> objects;
+        std::vector<std::string> interfaces;
+        std::string nodeName;
         ICloudioNodeContainer *parent = nullptr;
     };
-
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP__CLOUDIONODE_H

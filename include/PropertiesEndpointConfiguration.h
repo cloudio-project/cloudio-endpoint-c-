@@ -9,28 +9,24 @@
 #include <iostream>
 #include "PropertiesParser.h"
 
-using namespace cppproperties;
-using namespace std;
-
 namespace cloudio {
 
     class PropertiesEndpointConfiguration : public ICloudioEndpointConfiguration {
     public:
-        PropertiesEndpointConfiguration(const string propertiesFilePath);
+        PropertiesEndpointConfiguration(const std::string &propertiesFilePath);
 
         ~PropertiesEndpointConfiguration();
 
-        string getProperty(string key);
+        // ICloudioEndpointConfiguration interface
+        std::string getProperty(const std::string &key);
 
-        string getProperty(string key, string defaultValue);
+        std::string getProperty(const std::string &key, const std::string &defaultValue);
 
-        bool containsKey(string key);
+        bool containsKey(const std::string &key);
 
     private:
-        Properties properties;
-
+        cppproperties::Properties properties;
     };
-
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP_PROPERTIESENDPOINTCONFIGURATION_H

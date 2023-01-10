@@ -7,19 +7,12 @@
 
 #include <iostream>
 
-using namespace std;
-
 namespace cloudio {
 
-    class CloudioAttributeConstrainException : public exception {
-    private:
-        string message;
+    class CloudioAttributeConstrainException : public std::runtime_error {
 
     public:
-        CloudioAttributeConstrainException(string msg);
-
-        const char *what();
-
+        CloudioAttributeConstrainException(const std::string &msg);
     };
 } // cloudio
 

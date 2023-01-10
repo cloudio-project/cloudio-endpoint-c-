@@ -4,6 +4,8 @@
 
 #include "../include/CloudioNode.h"
 
+using namespace std;
+
 namespace cloudio {
 
     CloudioNode::CloudioNode(string nodeName) {
@@ -14,30 +16,39 @@ namespace cloudio {
 
     }
 
-    list<CloudioObject *> CloudioNode::getObjects() {
+    const vector<CloudioObject *> &CloudioNode::getObjects() {
         return this->objects;
     }
 
-    list<string> CloudioNode::getInterfaces() {
+    CloudioObject *CloudioNode::getObjectByName(const string &objectName) {
+        for (auto &objectIt: this->objects) {
+            if (objectIt->getName() == objectName) {
+                return objectIt;
+            }
+        }
+        return nullptr;
+    }
+
+    const std::vector<std::string> &CloudioNode::getInterfaces() {
         return this->interfaces;
     }
 
-    void CloudioNode::addObject(CloudioObject *object) {
+    void CloudioNode::addObject(CloudioObject *const object) {
         object->setParent(this);
-        this->objects.push_front(object);
+        this->objects.push_back(object);
     }
 
-    string CloudioNode::getName() {
+    const string &CloudioNode::getName() const {
         return this->nodeName;
     }
 
-    void CloudioNode::attributeHasChangedByEndpoint(CloudioAttribute *attribute) {
+    void CloudioNode::attributeHasChangedByEndpoint(CloudioAttribute &attribute) {
         if (this->parent != nullptr) {
             this->parent->attributeHasChangedByEndpoint(attribute);
         }
     }
 
-    void CloudioNode::setParent(ICloudioNodeContainer *parent) {
+    void CloudioNode::setParent(ICloudioNodeContainer *const parent) {
         this->parent = parent;
     }
 
@@ -47,5 +58,17 @@ namespace cloudio {
 
     ICloudioNodeContainer *CloudioNode::getParentNodeContainer() {
         return parent;
+    }
+
+
+    CloudioAttribute *CloudioNode::findAttribute(queue <string> &location) {
+        if (!location.empty()) {
+            CloudioObject *object = this->getObjectByName(location.front());
+            location.pop(); //pop object name
+            if (object != nullptr) {
+                return object->findAttribute(location);
+            }
+        }
+        return nullptr;
     }
 } // cloudio

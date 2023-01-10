@@ -5,18 +5,20 @@
 #include "../include/TopicUuidHelper.h"
 #include "../include/CloudioAttribute.h"
 
+using namespace std;
+
 namespace cloudio {
 
-    string getAttributeTopic(CloudioAttribute *attribute) {
+    string getAttributeTopic(CloudioAttribute *const attribute) {
         return getAttributeContainerTopic(attribute->getParent()) + "/" + attribute->getName();
     }
 
-    string getAttributeContainerTopic(ICloudioAttributeContainer *attributeContainer) {
+    string getAttributeContainerTopic(ICloudioAttributeContainer *const attributeContainer) {
         return getObjectContainerTopic(attributeContainer->getParentObjectContainer()) + "/" +
                attributeContainer->getName();
     }
 
-    string getObjectContainerTopic(ICloudioObjectContainer *objectContainer) {
+    string getObjectContainerTopic(ICloudioObjectContainer *const objectContainer) {
         ICloudioObjectContainer *parentObjectContainer = objectContainer->getParentObjectContainer();
         if (parentObjectContainer != nullptr) {
             return getObjectContainerTopic(parentObjectContainer) + "/" + objectContainer->getName();
@@ -29,7 +31,22 @@ namespace cloudio {
         return "";
     }
 
-    string getNodeContainerTopic(ICloudioNodeContainer *nodeContainer) {
+    string getNodeContainerTopic(ICloudioNodeContainer *const nodeContainer) {
         return nodeContainer->getName();
+    }
+
+    queue <string> split(const string &s, const string &delimiter) {
+        size_t pos_start = 0, pos_end, delim_len = delimiter.length();
+        string token;
+        queue<string> res;
+
+        while ((pos_end = s.find(delimiter, pos_start)) != string::npos) {
+            token = s.substr(pos_start, pos_end - pos_start);
+            pos_start = pos_end + delim_len;
+            res.push(token);
+        }
+
+        res.push(s.substr(pos_start));
+        return res;
     }
 } // cloudio

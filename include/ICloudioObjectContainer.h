@@ -7,6 +7,7 @@
 
 
 #include "INamedItem.h"
+#include <queue>
 
 namespace cloudio {
 
@@ -16,13 +17,17 @@ namespace cloudio {
 
     class ICloudioObjectContainer : public INamedItem {
     public:
-        virtual void attributeHasChangedByEndpoint(CloudioAttribute *attribute) = 0;
+
+        virtual ~ICloudioObjectContainer() {}
+
+        virtual void attributeHasChangedByEndpoint(CloudioAttribute &attribute) = 0;
 
         virtual ICloudioObjectContainer *getParentObjectContainer() = 0;
 
         virtual ICloudioNodeContainer *getParentNodeContainer() = 0;
-    };
 
+        virtual CloudioAttribute *findAttribute(std::queue<std::string> &topics) = 0;
+    };
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP_ICLOUDIOOBJECTCONTAINER_H

@@ -8,16 +8,17 @@
 #include <string>
 #include "InvalidPropertyException.h"
 
-using namespace std;
-
 namespace cloudio {
     class ICloudioEndpointConfiguration {
     public:
-        virtual string getProperty(string key) = 0;
 
-        virtual string getProperty(string key, string defaultValue) = 0;
+        virtual ~ICloudioEndpointConfiguration() {}
 
-        virtual bool containsKey(string key) = 0;
+        virtual std::string getProperty(const std::string &key) = 0;
+
+        virtual std::string getProperty(const std::string &key, const std::string &defaultValue) = 0;
+
+        virtual bool containsKey(const std::string &key) = 0;
     };
 } // cloudio
 #endif //CLOUDIO_ENDPOINT_CPP_ICLOUDIOENDPOINTCONFIGURATION_H

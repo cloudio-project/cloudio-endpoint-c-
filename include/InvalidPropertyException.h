@@ -6,21 +6,16 @@
 #define CLOUDIO_ENDPOINT_CPP_INVALIDPROPERTYEXCEPTION_H
 
 #include <iostream>
-
-using namespace std;
+#include <string>
 
 namespace cloudio {
-    class InvalidPropertyException : public exception {
+    class InvalidPropertyException : public std::runtime_error {
     private:
-        string message;
+        std::string message;
 
     public:
-        InvalidPropertyException(string msg);
-
-        const char *what();
-
+        InvalidPropertyException(const std::string &msg);
     };
-}
-
+} // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP_INVALIDPROPERTYEXCEPTION_H

@@ -10,49 +10,55 @@
 #include "ICloudioObjectContainer.h"
 
 #include <string>
-#include<list>
-
-using namespace std;
+#include<queue>
 
 namespace cloudio {
 
     class CloudioObject : public ICloudioAttributeContainer, public ICloudioObjectContainer {
 
     public:
-        CloudioObject(string objectName);
+        CloudioObject(const std::string &objectName);
 
         ~CloudioObject();
 
-        string getConforms();
+        const std::string &getConforms() const;
 
-        list<CloudioObject *> getObjects();
+        const std::vector<CloudioObject *> &getObjects();
 
-        list<CloudioAttribute *> getAttributes();
+        CloudioObject *getObjectByName(const std::string &objectName);
+
+        const std::vector<CloudioAttribute *> &getAttributes();
+
+        CloudioAttribute *getAttributeByName(const std::string &attributeName);
 
         void addObject(CloudioObject *object);
 
         void addAttribute(CloudioAttribute *attribute);
 
-        string getName();
+        // INamedItem interface
+        const std::string &getName() const;
 
-        void attributeHasChangedByEndpoint(CloudioAttribute *attribute);
+        // ICloudioAttributeContainer & ICloudioObjectContainer interface
+        void attributeHasChangedByEndpoint(CloudioAttribute &attribute);
 
         ICloudioObjectContainer *getParentObjectContainer();
 
+        // ICloudioObjectContainer interface
         ICloudioNodeContainer *getParentNodeContainer();
+
+        CloudioAttribute *findAttribute(std::queue<std::string> &location);
 
         void setParent(ICloudioObjectContainer *parent);
 
+
     private:
-        string conforms;
-        list<CloudioObject *> objects;
-        list<CloudioAttribute *> attributes;
-        string objectName;
+        std::string conforms;
+        std::vector<CloudioObject *> objects;
+        std::vector<CloudioAttribute *> attributes;
+        std::string objectName;
         ICloudioObjectContainer *parent = nullptr;
 
-
     };
-
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP_CLOUDIOOBJECT_H

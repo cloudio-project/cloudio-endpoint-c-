@@ -9,41 +9,51 @@
 #include "ITransportLayer.h"
 #include "ICloudioMessageFormat.h"
 #include "ICloudioNodeContainer.h"
+#include <queue>
 
 namespace cloudio {
 
-    class CloudioEndpoint : public ICloudioNodeContainer {
+    class CloudioEndpoint : public ICloudioNodeContainer, public ICloudioTransportLayerMessageListener {
 
     public:
-        CloudioEndpoint(string uuidOrAppName, ICloudioMessageFormat *cloudioMessageFormat = nullptr,
+        CloudioEndpoint(const std::string &uuidOrAppName, ICloudioMessageFormat *cloudioMessageFormat = nullptr,
                         ITransportLayer *transportLayer = nullptr,
                         ICloudioEndpointConfiguration *endpointConfiguration = nullptr);
 
         ~CloudioEndpoint();
 
-        string getVersion();
+        std::string getVersion();
 
-        list<CloudioNode *> getNodes();
+        const std::vector<CloudioNode *> &getNodes();
 
-        list<string> getSupportedFormats();
+        CloudioNode *getNodeByName(const std::string &nodeName);
 
-        string getName();
+        std::vector<std::string> getSupportedFormats();
+
+        const std::string &getName() const;
 
         void addNode(CloudioNode *node);
 
-        void attributeHasChangedByEndpoint(CloudioAttribute *attribute);
+        // ICloudioNodeContainer interface
+        void attributeHasChangedByEndpoint(CloudioAttribute &attribute);
+
+        // ICloudioTransportLayerMessageListener interface
+        void messageArrived(const std::string &topic, const std::string &payload);
 
     private:
-        string uuid;
-        string version = "v0.2";
-        list<CloudioNode *> nodes;
-        list<string> supportedFormats{"JSON"};
+        std::string uuid;
+        std::string version = "v0.2";
+        std::vector<CloudioNode *> nodes;
+        std::vector<std::string> supportedFormats{"JSON", "CBOR"};
         ICloudioMessageFormat *messageFormat;
         ITransportLayer *transportLayer;
         ICloudioEndpointConfiguration *endpointConfiguration;
 
-    };
+        void
+        set(const std::string &topic, std::queue<std::string> location, ICloudioMessageFormat *setMessageFormat,
+            const std::string &payload);
 
+    };
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP__CLOUDIOENDPOINT_H

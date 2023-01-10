@@ -7,15 +7,15 @@
 
 #include <string>
 
-using namespace std;
-
 namespace cloudio {
 
     class INamedItem {
     public:
-        virtual string getName() = 0;
-    };
 
+        virtual ~INamedItem() {}
+
+        virtual const std::string &getName() const = 0;
+    };
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP_INAMEDITEM_H
