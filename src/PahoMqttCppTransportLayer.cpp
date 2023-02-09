@@ -1,7 +1,7 @@
 //
 // Created by lucas on 21/10/22.
 //
-
+#ifdef __unix__
 #include "../include/PahoMqttCppTransportLayer.h"
 #include "../include/CloudioEndpointPropertyConstants.h"
 
@@ -175,8 +175,7 @@ namespace cloudio {
         }
     }
 
-    void PahoMqttCppTransportLayer::subscribe(const string &topic, const int qos) const {
-        this->mqttClient->subscribe(topic, qos);
+    void PahoMqttCppTransportLayer
     }
 
     bool PahoMqttCppTransportLayer::isOnline() const {
@@ -201,3 +200,4 @@ namespace cloudio {
     void PahoMqttCppTransportLayer::delivery_complete(mqtt::delivery_token_ptr tok) {
     }
 } // cloudio
+#endif//__unix__

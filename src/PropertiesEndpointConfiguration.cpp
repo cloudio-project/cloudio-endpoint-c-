@@ -1,7 +1,7 @@
 //
 // Created by lucas on 20/10/22.
 //
-
+#ifdef __unix__
 #include "../include/PropertiesEndpointConfiguration.h"
 
 using namespace cppproperties;
@@ -41,3 +41,4 @@ namespace cloudio {
         }
     }
 } // cloudio
+#endif

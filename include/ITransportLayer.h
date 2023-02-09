@@ -29,7 +29,7 @@ namespace cloudio {
         virtual void setTransportLayerMessageListener(ICloudioTransportLayerMessageListener *) = 0;
 
     protected:
-        ICloudioTransportLayerMessageListener *cloudioTransportLayerMessageListener;
+        ICloudioTransportLayerMessageListener *cloudioTransportLayerMessageListener = nullptr;
 
     };
 } // cloudio

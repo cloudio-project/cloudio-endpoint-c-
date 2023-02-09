@@ -1,0 +1,23 @@
+
+
+idf_component_register(SRCS "src/CloudioAttribute.cpp"
+        "src/CloudioNode.cpp"
+        "src/CloudioEndpoint.cpp"
+        "src/JsonNlohmannMessageFormat.cpp"
+        "src/PropertiesEndpointConfiguration.cpp"
+        "src/CloudioObject.cpp"
+        "src/PahoMqttCppTransportLayer.cpp"
+        "src/InvalidPropertyException.cpp"
+        "src/TopicUuidHelper.cpp"
+        "src/CloudioAttributeConstrainException.cpp"
+        "src/TransportLayerException.cpp"
+        "src/CloudioMessageFormatFactory.cpp"
+        "src/CloudioAttributeTypeException.cpp"
+        "src/CloudioAttributeConstraint.cpp"
+        "src/CloudioAttributeType.cpp"
+        "src/ESP32MqttTransportLayer.cpp"
+        "src/MapEndpointConfiguration.cpp"
+        "src/CJsonMessageFormat.cpp"
+		INCLUDE_DIRS "include"
+		REQUIRES json mqtt)
+		
