@@ -13,20 +13,20 @@
 
 namespace cloudio {
 
-	class ESP32TimestampManager: public ITimestampManager {
-	public:
-		virtual ~ESP32TimestampManager();
+    class ESP32TimestampManager: public ITimestampManager {
+    public:
+        virtual ~ESP32TimestampManager();
 
-		static ESP32TimestampManager& getInstance();
+        static ESP32TimestampManager& getInstance();
 
 
-		// from ITimestampManager interface
-		void init();
-		int64_t getTimestamp();
+        // from ITimestampManager interface
+        void init();
+        int64_t getTimestamp();
 
-	private:
-		ESP32TimestampManager();
-	};
+    private:
+        ESP32TimestampManager();
+    };
 
 } /* namespace cloudio */
 

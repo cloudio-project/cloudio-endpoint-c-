@@ -15,33 +15,33 @@
 
 namespace cloudio {
 
-	class CJsonMessageFormat : public ICloudioMessageFormat{
-	public:
-		CJsonMessageFormat();
-		virtual ~CJsonMessageFormat();
+    class CJsonMessageFormat : public ICloudioMessageFormat{
+    public:
+        CJsonMessageFormat();
+        virtual ~CJsonMessageFormat();
 
-		// ICloudioMessageFormat interface
-		std::string serializeEndpoint(CloudioEndpoint *endpoint);
+        // ICloudioMessageFormat interface
+        std::string serializeEndpoint(CloudioEndpoint *endpoint);
 
-		std::string serializeNode(CloudioNode *node);
+        std::string serializeNode(CloudioNode *node);
 
-		std::string serializeAttribute(CloudioAttribute *attribute);
+        std::string serializeAttribute(CloudioAttribute *attribute);
 
-		std::string serializeDidSetAttribute(CloudioAttribute *attribute, const std::string &correlationID);
+        std::string serializeDidSetAttribute(CloudioAttribute *attribute, const std::string &correlationID);
 
-		void deserializeAttribute(const std::string &payload, CloudioAttribute *attribute);
+        void deserializeAttribute(const std::string &payload, CloudioAttribute *attribute);
 
-		std::string deserializeSetAttribute(const std::string &payload, CloudioAttribute *attribute);
+        std::string deserializeSetAttribute(const std::string &payload, CloudioAttribute *attribute);
 
-	private:
-		static cJSON * jsonSerializeEndpoint(CloudioEndpoint *endpoint);
+    private:
+        static cJSON * jsonSerializeEndpoint(CloudioEndpoint *endpoint);
 
-		static cJSON * jsonSerializeNode(CloudioNode *node);
+        static cJSON * jsonSerializeNode(CloudioNode *node);
 
-		static cJSON * jsonSerializeObject(CloudioObject *object);
+        static cJSON * jsonSerializeObject(CloudioObject *object);
 
-		static cJSON * jsonSerializeAttribute(CloudioAttribute *attribute);
-	};
+        static cJSON * jsonSerializeAttribute(CloudioAttribute *attribute);
+    };
 } // cloudio
 #endif /* COMPONENTS_CLOUDIO_ENDPOINT_CPP_INCLUDE_CJSONMESSAGEFORMAT_H_ */
 #endif //ESP_PLATFORM

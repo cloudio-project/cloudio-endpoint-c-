@@ -27,6 +27,7 @@ namespace cloudio {
         virtual bool isOnline() const = 0;
 
         virtual void setTransportLayerMessageListener(ICloudioTransportLayerMessageListener *) = 0;
+
         ICloudioTransportLayerMessageListener *cloudioTransportLayerMessageListener = nullptr;
 
     protected:

@@ -10,23 +10,23 @@
 
 namespace cloudio {
 
-	BasicTimestampManager::BasicTimestampManager() {
+    BasicTimestampManager::BasicTimestampManager() {
 
-	}
+    }
 
-	BasicTimestampManager::~BasicTimestampManager() {
-	}
+    BasicTimestampManager::~BasicTimestampManager() {
+    }
 
-	BasicTimestampManager& BasicTimestampManager::getInstance() {
-		static BasicTimestampManager timestampManager;
-		return timestampManager;
-	}
+    BasicTimestampManager &BasicTimestampManager::getInstance() {
+        static BasicTimestampManager timestampManager;
+        return timestampManager;
+    }
 
-	void BasicTimestampManager::init() {
-	}
+    void BasicTimestampManager::init() {
+    }
 
-	int64_t BasicTimestampManager::getTimestamp() {
-		return time(nullptr);
-	}
+    int64_t BasicTimestampManager::getTimestamp() {
+        return time(nullptr);
+    }
 
 } /* namespace cloudio */

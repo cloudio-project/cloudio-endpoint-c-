@@ -13,19 +13,19 @@
 
 namespace cloudio {
 
-	struct transportLayerProperties{
-		int connectTimeout;
-		int retryInterval;
-		int keepAliveInterval;
-		int maxInflight;
-		std::string endpointIdentityFilePath;
-		std::string authorityFilePath;
-		std::string identityKeyPath;
-		std::string hostURI;
-		bool verifyHostname;
-	};
+    struct transportLayerProperties {
+        int connectTimeout;
+        int retryInterval;
+        int keepAliveInterval;
+        int maxInflight;
+        std::string endpointIdentityFilePath;
+        std::string authorityFilePath;
+        std::string identityKeyPath;
+        std::string hostURI;
+        bool verifyHostname;
+    };
 
-	transportLayerProperties getTransportLayerProperties(ICloudioEndpointConfiguration *endpointConfiguration);
+    transportLayerProperties getTransportLayerProperties(ICloudioEndpointConfiguration *endpointConfiguration);
 
 } /* namespace cloudio */
 

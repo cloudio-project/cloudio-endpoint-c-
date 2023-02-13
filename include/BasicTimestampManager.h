@@ -12,19 +12,20 @@
 
 namespace cloudio {
 
-	class BasicTimestampManager: public ITimestampManager {
-	public:
-		virtual ~BasicTimestampManager();
+    class BasicTimestampManager : public ITimestampManager {
+    public:
+        virtual ~BasicTimestampManager();
 
-		static BasicTimestampManager& getInstance();
+        static BasicTimestampManager &getInstance();
 
-		// from ITimestampManager interface
-		void init();
-		int64_t getTimestamp();
+        // from ITimestampManager interface
+        void init();
 
-	private:
-		BasicTimestampManager();
-	};
+        int64_t getTimestamp();
+
+    private:
+        BasicTimestampManager();
+    };
 
 } /* namespace cloudio */
 

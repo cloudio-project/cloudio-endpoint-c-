@@ -161,22 +161,22 @@ namespace cloudio {
         this->innerPostSetValue(newTimestamp);
     }
 
-    CloudioAttribute& CloudioAttribute::operator=(int intValue) {
+    CloudioAttribute &CloudioAttribute::operator=(int intValue) {
         setValue(intValue);
         return *this;
     }
 
-    CloudioAttribute& CloudioAttribute::operator=(double doubleValue) {
+    CloudioAttribute &CloudioAttribute::operator=(double doubleValue) {
         setValue(doubleValue);
         return *this;
     }
 
-    CloudioAttribute& CloudioAttribute::operator=(const std::string &stringValue) {
+    CloudioAttribute &CloudioAttribute::operator=(const std::string &stringValue) {
         setValue(stringValue);
         return *this;
     }
 
-    CloudioAttribute& CloudioAttribute::operator=(bool boolValue) {
+    CloudioAttribute &CloudioAttribute::operator=(bool boolValue) {
         setValue(boolValue);
         return *this;
     }

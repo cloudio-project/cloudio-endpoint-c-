@@ -2,9 +2,11 @@
 // Created by lucas on 21/10/22.
 //
 #ifdef __unix__
+
 #include "../include/PahoMqttCppTransportLayer.h"
 #include "../include/CloudioEndpointPropertyConstants.h"
 #include "../include/PropertiesHelper.h"
+
 using namespace std;
 
 namespace cloudio {
@@ -20,10 +22,10 @@ namespace cloudio {
     PahoMqttCppTransportLayer::initTransportLayer(const string &uuid,
                                                   ICloudioEndpointConfiguration *const endpointConfiguration) {
         transportLayerProperties localProperties;
-        try{
+        try {
             localProperties = getTransportLayerProperties(endpointConfiguration);
         }
-        catch(InvalidPropertyException &e){
+        catch (InvalidPropertyException &e) {
             throw e;
         }
 

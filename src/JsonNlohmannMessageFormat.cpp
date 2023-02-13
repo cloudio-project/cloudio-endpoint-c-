@@ -2,6 +2,7 @@
 // Created by lucas on 20/10/22.
 //
 #ifdef __unix__
+
 #include "../include/JsonNlohmannMessageFormat.h"
 #include "../include/CloudioEndpoint.h"
 #include <iostream>
@@ -194,7 +195,7 @@ namespace cloudio {
         json attributes;
 
         for (auto &attributeIt: object->getAttributes()) {
-        	attributes[attributeIt->getName()] = jsonSerializeAttribute(attributeIt);
+            attributes[attributeIt->getName()] = jsonSerializeAttribute(attributeIt);
         }
 
         objectJson["attributes"] = attributes;

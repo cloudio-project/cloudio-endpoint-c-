@@ -105,7 +105,7 @@ namespace cloudio {
         ICloudioAttributeContainer *parent = nullptr;
         std::list<ICloudioAttributeListener *> listeners;
 
-        ITimestampManager* timestampManager;
+        ITimestampManager *timestampManager;
 
         void innerPreSetValue();
 
