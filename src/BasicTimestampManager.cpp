@@ -25,7 +25,7 @@ namespace cloudio {
 	void BasicTimestampManager::init() {
 	}
 
-	long BasicTimestampManager::getTimestamp() {
+	int64_t BasicTimestampManager::getTimestamp() {
 		return time(nullptr);
 	}
 

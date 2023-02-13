@@ -5,19 +5,21 @@
  *      Author: Lucas Bonvin
  */
 
+#ifdef ESP_PLATFORM
 #include "../include/ESP32MqttTransportLayer.h"
 
 #include "../include/CloudioAttributeConstrainException.h"
 #include "../include/CloudioAttributeTypeException.h"
+#include "../include/PropertiesHelper.h"
 
 using namespace std;
 
-extern const uint8_t client_cert_pem_start[] asm("_binary_client_crt_start");
-extern const uint8_t client_cert_pem_end[] asm("_binary_client_crt_end");
-extern const uint8_t client_key_pem_start[] asm("_binary_client_key_start");
-extern const uint8_t client_key_pem_end[] asm("_binary_client_key_end");
-extern const uint8_t server_cert_pem_start[] asm("_binary_mosquitto_org_crt_start");
-extern const uint8_t server_cert_pem_end[] asm("_binary_mosquitto_org_crt_end");
+extern const uint8_t client_cert_pem_start[] asm("_binary_clientCertificate_PEM_start");
+extern const uint8_t client_cert_pem_end[] asm("_binary_clientCertificate_PEM_end");
+extern const uint8_t client_key_pem_start[] asm("_binary_clientPrivateKey_PEM_start");
+extern const uint8_t client_key_pem_end[] asm("_binary_clientPrivateKey_PEM_end");
+extern const uint8_t server_cert_pem_start[] asm("_binary_caCertificate_PEM_start");
+extern const uint8_t server_cert_pem_end[] asm("_binary_caCertificate_PEM_end");
 
 namespace cloudio {
 	ESP32MqttTransportLayer::ESP32MqttTransportLayer() {
@@ -33,11 +35,19 @@ namespace cloudio {
 
 	void ESP32MqttTransportLayer::initTransportLayer(const string &uuid,
 			ICloudioEndpointConfiguration *const endpointConfiguration) {
+		transportLayerProperties localProperties;
+		try{
+			localProperties = getTransportLayerProperties(endpointConfiguration);
+		}
+		catch(InvalidPropertyException &e){
+			throw e;
+		}
 
-		this->mqtt_cfg.broker.address.uri = "mqtts://207.180.220.211:8883";
+
+		this->mqtt_cfg.broker.address.uri = localProperties.hostURI.c_str();
 		this->mqtt_cfg.broker.verification.certificate =
 				(const char*) server_cert_pem_start;
-		this->mqtt_cfg.broker.verification.skip_cert_common_name_check = true; // equivalent to disable the hostname verification in paho
+		this->mqtt_cfg.broker.verification.skip_cert_common_name_check = !localProperties.verifyHostname; // equivalent to disable the hostname verification in paho
 		this->mqtt_cfg.credentials.authentication.certificate =
 				(const char*) client_cert_pem_start;
 		this->mqtt_cfg.credentials.authentication.key =
@@ -58,14 +68,14 @@ namespace cloudio {
 
 	void ESP32MqttTransportLayer::publish(const string &topic,
 			const string &payload, const int qos, const bool retained) const {
-		int msg_id = esp_mqtt_client_publish(this->client, topic.c_str(),
+		esp_mqtt_client_publish(this->client, topic.c_str(),
 				payload.c_str(), payload.size(), qos, retained);
 
 	}
 
 	void ESP32MqttTransportLayer::subscribe(const string &topic,
 			const int qos) const {
-		int msg_id = esp_mqtt_client_subscribe(this->client, topic.c_str(), qos);
+		esp_mqtt_client_subscribe(this->client, topic.c_str(), qos);
 
 	}
 
@@ -116,4 +126,5 @@ namespace cloudio {
 			break;
 		}
 	}
-}
+}/* namespace cloudio */
+#endif //ESP_PLATFORM

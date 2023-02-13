@@ -97,7 +97,7 @@ namespace cloudio {
         return this->value;
     }
 
-    long CloudioAttribute::getTimestamp() {
+    int64_t CloudioAttribute::getTimestamp() {
         return this->timestamp;
     }
 
@@ -129,7 +129,7 @@ namespace cloudio {
         this->setValue(boolValue, timestampManager->getTimestamp());
     }
 
-    void CloudioAttribute::setValue(const int intValue, const long newTimestamp) {
+    void CloudioAttribute::setValue(const int intValue, const int64_t newTimestamp) {
         this->innerPreSetValue();
 
         this->setIntegerValue(intValue);
@@ -137,7 +137,7 @@ namespace cloudio {
         this->innerPostSetValue(newTimestamp);
     }
 
-    void CloudioAttribute::setValue(const double doubleValue, const long newTimestamp) {
+    void CloudioAttribute::setValue(const double doubleValue, const int64_t newTimestamp) {
         this->innerPreSetValue();
 
         this->setNumberValue(doubleValue);
@@ -145,7 +145,7 @@ namespace cloudio {
         this->innerPostSetValue(newTimestamp);
     }
 
-    void CloudioAttribute::setValue(const string &stringValue, const long newTimestamp) {
+    void CloudioAttribute::setValue(const string &stringValue, const int64_t newTimestamp) {
         this->innerPreSetValue();
 
         this->setStringValue(stringValue);
@@ -153,7 +153,7 @@ namespace cloudio {
         this->innerPostSetValue(newTimestamp);
     }
 
-    void CloudioAttribute::setValue(const bool boolValue, const long newTimestamp) {
+    void CloudioAttribute::setValue(const bool boolValue, const int64_t newTimestamp) {
         this->innerPreSetValue();
 
         this->setBooleanValue(boolValue);
@@ -181,7 +181,7 @@ namespace cloudio {
         return *this;
     }
 
-    bool CloudioAttribute::setValueFromCloud(const int intValue, const long newTimestamp) {
+    bool CloudioAttribute::setValueFromCloud(const int intValue, const int64_t newTimestamp) {
         bool isSetPossible = innerPostSetValueFromCloud(newTimestamp);
 
         if (isSetPossible) {
@@ -191,7 +191,7 @@ namespace cloudio {
         return isSetPossible;
     }
 
-    bool CloudioAttribute::setValueFromCloud(double doubleValue, long newTimestamp) {
+    bool CloudioAttribute::setValueFromCloud(double doubleValue, int64_t newTimestamp) {
         bool isSetPossible = innerPostSetValueFromCloud(newTimestamp);
 
         if (isSetPossible) {
@@ -201,7 +201,7 @@ namespace cloudio {
         return isSetPossible;
     }
 
-    bool CloudioAttribute::setValueFromCloud(const string &stringValue, long newTimestamp) {
+    bool CloudioAttribute::setValueFromCloud(const string &stringValue, int64_t newTimestamp) {
         bool isSetPossible = innerPostSetValueFromCloud(newTimestamp);
 
         if (isSetPossible) {
@@ -211,7 +211,7 @@ namespace cloudio {
         return isSetPossible;
     }
 
-    bool CloudioAttribute::setValueFromCloud(const bool boolValue, const long newTimestamp) {
+    bool CloudioAttribute::setValueFromCloud(const bool boolValue, const int64_t newTimestamp) {
         bool isSetPossible = innerPostSetValueFromCloud(newTimestamp);
 
         if (isSetPossible) {
@@ -221,7 +221,7 @@ namespace cloudio {
         return isSetPossible;
     }
 
-    bool CloudioAttribute::innerPostSetValueFromCloud(const long newTimestamp) {
+    bool CloudioAttribute::innerPostSetValueFromCloud(const int64_t newTimestamp) {
         if (this->constraint != Parameter && this->constraint != SetPoint) {
             throw CloudioAttributeConstrainException(
                     "Can not change an attribute whose constraint is neither Parameter nor SetPoint ");
@@ -276,7 +276,7 @@ namespace cloudio {
         }
     }
 
-    void CloudioAttribute::innerPostSetValue(const long newTimestamp) {
+    void CloudioAttribute::innerPostSetValue(const int64_t newTimestamp) {
         this->timestamp = newTimestamp;
         if (this->parent != nullptr) {
             this->parent->attributeHasChangedByEndpoint(*this);

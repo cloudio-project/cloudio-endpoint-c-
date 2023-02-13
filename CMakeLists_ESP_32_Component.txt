@@ -1,5 +1,3 @@
-
-
 idf_component_register(SRCS "src/CloudioAttribute.cpp"
         "src/CloudioNode.cpp"
         "src/CloudioEndpoint.cpp"
@@ -18,6 +16,9 @@ idf_component_register(SRCS "src/CloudioAttribute.cpp"
         "src/ESP32MqttTransportLayer.cpp"
         "src/MapEndpointConfiguration.cpp"
         "src/CJsonMessageFormat.cpp"
+        "src/BasicTimestampManager.cpp"
+        "src/ESP32TimestampManager.cpp"
+        "src/PropertiesHelper.cpp"
 		INCLUDE_DIRS "include"
 		REQUIRES json mqtt)
 		

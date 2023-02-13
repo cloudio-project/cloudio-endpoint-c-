@@ -5,6 +5,7 @@
  *      Author: Lucas Bonvin
  */
 
+#ifdef ESP_PLATFORM
 #ifndef COMPONENTS_CLOUDIO_ENDPOINT_CPP_INCLUDE_ESP32TIMESTAMPMANAGER_H_
 #define COMPONENTS_CLOUDIO_ENDPOINT_CPP_INCLUDE_ESP32TIMESTAMPMANAGER_H_
 
@@ -21,7 +22,7 @@ namespace cloudio {
 
 		// from ITimestampManager interface
 		void init();
-		long getTimestamp();
+		int64_t getTimestamp();
 
 	private:
 		ESP32TimestampManager();
@@ -30,3 +31,4 @@ namespace cloudio {
 } /* namespace cloudio */
 
 #endif /* COMPONENTS_CLOUDIO_ENDPOINT_CPP_INCLUDE_ESP32TIMESTAMPMANAGER_H_ */
+#endif //ESP_PLATFORM

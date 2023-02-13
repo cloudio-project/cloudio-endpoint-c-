@@ -5,6 +5,8 @@
 #ifndef CLOUDIO_ENDPOINT_CPP__ITIMESTAMPMANAGER_H
 #define CLOUDIO_ENDPOINT_CPP__ITIMESTAMPMANAGER_H
 
+#include <stdint.h>
+
 namespace cloudio {
 
     class ITimestampManager {
@@ -14,7 +16,7 @@ namespace cloudio {
 
         virtual void init() = 0;
 
-        virtual long getTimestamp() = 0;
+        virtual int64_t getTimestamp() = 0;
 
     };
 } // cloudio
