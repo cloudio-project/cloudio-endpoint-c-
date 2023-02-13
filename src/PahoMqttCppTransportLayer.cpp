@@ -4,7 +4,7 @@
 #ifdef __unix__
 #include "../include/PahoMqttCppTransportLayer.h"
 #include "../include/CloudioEndpointPropertyConstants.h"
-
+#include "../include/PropertiesHelper.h"
 using namespace std;
 
 namespace cloudio {
@@ -19,115 +19,36 @@ namespace cloudio {
     void
     PahoMqttCppTransportLayer::initTransportLayer(const string &uuid,
                                                   ICloudioEndpointConfiguration *const endpointConfiguration) {
-
-        // MQTT parameters
-        int connectTimeout;
-        int retryInterval;
-        int keepAliveInterval;
-        int maxInflight;
-
-        try {
-            connectTimeout = stoi(endpointConfiguration->getProperty(MQTT_CONNECTION_TIMEOUT_PROPERTY,
-                                                                     MQTT_CONNECTION_TIMEOUT_DEFAULT));
+        transportLayerProperties localProperties;
+        try{
+            localProperties = getTransportLayerProperties(endpointConfiguration);
         }
-        catch (exception e) {
-            throw InvalidPropertyException("Invalid connect timeout (" + MQTT_CONNECTION_TIMEOUT_PROPERTY +
-                                           "), must be a valid integer number, " + e.what());
+        catch(InvalidPropertyException &e){
+            throw e;
         }
-
-        try {
-            retryInterval = stoi(endpointConfiguration->getProperty(MQTT_CONNECT_RETRY_PROPERTY,
-                                                                    MQTT_CONNECT_RETRY_DEFAULT));
-        }
-        catch (exception e) {
-            throw InvalidPropertyException("Invalid retry interval (" + MQTT_CONNECT_RETRY_PROPERTY +
-                                           "), must be a valid integer number, " + e.what());
-        }
-
-        try {
-            keepAliveInterval = stoi(endpointConfiguration->getProperty(MQTT_KEEPALIVE_INTERVAL_PROPERTY,
-                                                                        MQTT_KEEPALIVE_INTERVAL_DEFAULT));
-        }
-        catch (exception e) {
-            throw InvalidPropertyException("Invalid keep alive interval (" + MQTT_KEEPALIVE_INTERVAL_PROPERTY +
-                                           "), must be a valid integer number, " + e.what());
-        }
-
-        try {
-            maxInflight = stoi(endpointConfiguration->getProperty(MQTT_MAXINFLIGHT_PROPERTY,
-                                                                  MQTT_MAXINFLIGHT_DEFAULT));
-        }
-        catch (exception e) {
-            throw InvalidPropertyException("Invalid max in flight messages (" + MQTT_MAXINFLIGHT_PROPERTY +
-                                           "), must be a valid integer number, " + e.what());
-        }
-
-
-        // Certificates parameters
-        string endpointIdentityFilePath;
-        string authorityFilePath;
-        string identityKeyPath;
-        string hostURI;
-
-        if (endpointConfiguration->containsKey(ENDPOINT_IDENTITY_FILE_PROPERTY)) {
-            endpointIdentityFilePath = endpointConfiguration->getProperty(ENDPOINT_IDENTITY_FILE_PROPERTY);
-        } else {
-            throw InvalidPropertyException("No endpoint certificate path given");
-        }
-
-        if (endpointConfiguration->containsKey(CERT_AUTHORITY_FILE_PROPERTY)) {
-            authorityFilePath = endpointConfiguration->getProperty(CERT_AUTHORITY_FILE_PROPERTY);
-        } else {
-            throw InvalidPropertyException("No authority path given");
-        }
-
-        if (endpointConfiguration->containsKey(ENDPOINT_IDENTITY_KEY_PROPERTY)) {
-            identityKeyPath = endpointConfiguration->getProperty(ENDPOINT_IDENTITY_KEY_PROPERTY);
-        } else {
-            throw InvalidPropertyException("No endpoint private key path given");
-        }
-
-        if (endpointConfiguration->containsKey(MQTT_HOST_URI_PROPERTY)) {
-            hostURI = endpointConfiguration->getProperty(MQTT_HOST_URI_PROPERTY);
-        } else {
-            throw InvalidPropertyException("No hoste URI given");
-        }
-
-        if (endpointConfiguration->containsKey(MQTT_HOST_URI_PROPERTY)) {
-            hostURI = endpointConfiguration->getProperty(MQTT_HOST_URI_PROPERTY);
-        } else {
-            throw InvalidPropertyException("No hoste URI given");
-        }
-
-
-        string verifyHostnameStr = endpointConfiguration->getProperty(SSL_VERIFY_HOSTNAME_PROPERTY,
-                                                                      SSL_VERIFY_HOSTNAME_DEFAULT);
-        bool verifyHostname = verifyHostnameStr.compare("true") == 0;
-
 
         // Construct a client using the Ip and Id
-        mqttClient = new mqtt::async_client(hostURI, uuid);
+        mqttClient = new mqtt::async_client(localProperties.hostURI, uuid);
 
         mqttClient->set_callback(*this);
 
         mqtt::ssl_options sslopts = mqtt::ssl_options_builder()
-                .trust_store(authorityFilePath)
-                .key_store(endpointIdentityFilePath)
-                .private_key(identityKeyPath)
+                .trust_store(localProperties.authorityFilePath)
+                .key_store(localProperties.endpointIdentityFilePath)
+                .private_key(localProperties.identityKeyPath)
                 .ssl_version(3)
-                .verify(verifyHostname)
+                .verify(localProperties.verifyHostname)
                 .finalize();
 
         mqtt::message willmsg = mqtt::message("@offline/" + uuid, "", mqtt::GRANTED_QOS_1, true);
 
         this->connopts = mqtt::connect_options_builder()
-                .connect_timeout(chrono::seconds(connectTimeout))
-                .keep_alive_interval(chrono::seconds(keepAliveInterval))
-                .max_inflight(maxInflight)
+                .connect_timeout(chrono::seconds(localProperties.connectTimeout))
+                .keep_alive_interval(chrono::seconds(localProperties.keepAliveInterval))
+                .max_inflight(localProperties.maxInflight)
                 .will(move(willmsg))
                 .ssl(move(sslopts))
                 .finalize();
-
     }
 
     void PahoMqttCppTransportLayer::connect() {
@@ -175,7 +96,8 @@ namespace cloudio {
         }
     }
 
-    void PahoMqttCppTransportLayer
+    void PahoMqttCppTransportLayer::subscribe(const string &topic, const int qos) const {
+        this->mqttClient->subscribe(topic, qos);
     }
 
     bool PahoMqttCppTransportLayer::isOnline() const {

@@ -5,8 +5,8 @@
  *      Author: Lucas Bonvin
  */
 
-#include "PropertiesHelper.h"
-#include "CloudioEndpointPropertyConstants.h"
+#include "../include/PropertiesHelper.h"
+#include "../include/CloudioEndpointPropertyConstants.h"
 
 using namespace std;
 

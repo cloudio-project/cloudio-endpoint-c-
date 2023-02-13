@@ -5,6 +5,7 @@
  *      Author: Lucas Bonvin
  */
 
+#ifdef ESP_PLATFORM
 #include "CJsonMessageFormat.h"
 #include "../include/CloudioEndpoint.h"
 
@@ -308,3 +309,4 @@ namespace cloudio {
 		return attributeJson;
 	}
 } // cloudio
+#endif //ESP_PLATFORM

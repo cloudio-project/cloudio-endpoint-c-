@@ -5,7 +5,7 @@
  *      Author: Lucas Bonvin
  */
 
-#include "BasicTimestampManager.h"
+#include "../include/BasicTimestampManager.h"
 #include "time.h"
 
 namespace cloudio {
