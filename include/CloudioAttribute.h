@@ -8,6 +8,7 @@
 #include "CloudioAttributeConstraint.h"
 #include "CloudioAttributeType.h"
 #include "ICloudioAttributeListener.h"
+#include "ITimestampManager.h"
 
 #include "../include/CloudioAttributeConstrainException.h"
 #include "../include/CloudioAttributeTypeException.h"
@@ -102,6 +103,8 @@ namespace cloudio {
         std::string attributeName;
         ICloudioAttributeContainer *parent = nullptr;
         std::list<ICloudioAttributeListener *> listeners;
+
+        ITimestampManager* timestampManager;
 
         void innerPreSetValue();
 

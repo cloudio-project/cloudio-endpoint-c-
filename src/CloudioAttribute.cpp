@@ -5,6 +5,9 @@
 #include "../include/CloudioAttribute.h"
 #include "../include/ICloudioAttributeContainer.h"
 
+#include "../include/ESP32TimestampManager.h"
+#include "../include/BasicTimestampManager.h"
+
 using namespace std;
 
 namespace cloudio {
@@ -34,6 +37,12 @@ namespace cloudio {
                 this->value = new string;
                 break;
         }
+
+#ifdef ESP_PLATFORM
+        timestampManager = &ESP32TimestampManager::getInstance();
+#else
+        timestampManager = &BasicTimestampManager::getInstance();
+#endif
     }
 
     CloudioAttribute::CloudioAttribute(const string &attributeName, const CloudioAttributeType type,
@@ -105,19 +114,19 @@ namespace cloudio {
     }
 
     void CloudioAttribute::setValue(const int intValue) {
-        this->setValue(intValue, time(nullptr));
+        this->setValue(intValue, timestampManager->getTimestamp());
     }
 
     void CloudioAttribute::setValue(const double doubleValue) {
-        this->setValue(doubleValue, time(nullptr));
+        this->setValue(doubleValue, timestampManager->getTimestamp());
     }
 
     void CloudioAttribute::setValue(const string &stringValue) {
-        this->setValue(stringValue, time(nullptr));
+        this->setValue(stringValue, timestampManager->getTimestamp());
     }
 
     void CloudioAttribute::setValue(const bool boolValue) {
-        this->setValue(boolValue, time(nullptr));
+        this->setValue(boolValue, timestampManager->getTimestamp());
     }
 
     void CloudioAttribute::setValue(const int intValue, const long newTimestamp) {

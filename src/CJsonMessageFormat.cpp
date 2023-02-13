@@ -22,19 +22,31 @@ CJsonMessageFormat::~CJsonMessageFormat() {
 string CJsonMessageFormat::serializeEndpoint(CloudioEndpoint *endpoint) {
 	cJSON *endpointJson = this->jsonSerializeEndpoint(endpoint);
 
-	return cJSON_Print(endpointJson);
+	char * toReturnChar = cJSON_Print(endpointJson);
+	string toReturn = toReturnChar;
+	cJSON_free(toReturnChar);
+	cJSON_Delete(endpointJson);
+	return toReturn;
 }
 
 string CJsonMessageFormat::serializeNode(CloudioNode *node) {
-	cJSON *endpointjson = this->jsonSerializeNode(node);
+	cJSON *nodejson = this->jsonSerializeNode(node);
 
-	return cJSON_Print(endpointjson);
+	char * toReturnChar = cJSON_Print(nodejson);
+	string toReturn = toReturnChar;
+	cJSON_free(toReturnChar);
+	cJSON_Delete(nodejson);
+	return toReturn;
 }
 
 string CJsonMessageFormat::serializeAttribute(CloudioAttribute *attribute) {
 	cJSON *attributeJson = this->jsonSerializeAttribute(attribute);
 
-	return cJSON_Print(attributeJson);
+	char * toReturnChar = cJSON_Print(attributeJson);
+	string toReturn = toReturnChar;
+	cJSON_free(toReturnChar);
+	cJSON_Delete(attributeJson);
+	return toReturn;
 }
 
 string CJsonMessageFormat::serializeDidSetAttribute(CloudioAttribute *attribute,
@@ -44,7 +56,11 @@ string CJsonMessageFormat::serializeDidSetAttribute(CloudioAttribute *attribute,
 	cJSON_AddStringToObject(attributeJson, "correlationID",
 			correlationID.c_str());
 
-	return cJSON_Print(attributeJson);
+	char * toReturnChar = cJSON_Print(attributeJson);
+	string toReturn = toReturnChar;
+	cJSON_free(toReturnChar);
+	cJSON_Delete(attributeJson);
+	return toReturn;
 }
 
 void CJsonMessageFormat::deserializeAttribute(const string &payload,
@@ -54,6 +70,7 @@ void CJsonMessageFormat::deserializeAttribute(const string &payload,
 	attributeJson = cJSON_Parse(payload.c_str());
 	if (attributeJson == NULL) {
 		cout << "Error during main deserialization process " << endl;
+		cJSON_Delete(attributeJson);
 		return;
 	}
 
@@ -62,6 +79,9 @@ void CJsonMessageFormat::deserializeAttribute(const string &payload,
 	if (timestampJson == NULL) {
 		cout << "Error during deserialization, no valid timestamp found "
 				<< endl;
+
+		cJSON_Delete(timestampJson);
+		cJSON_Delete(attributeJson);
 		return;
 	} else {
 
@@ -109,18 +129,22 @@ void CJsonMessageFormat::deserializeAttribute(const string &payload,
 		} catch (const exception &e) {
 			cout << "Type error while deserializing value from @set message"
 					<< endl;
+
+			cJSON_Delete(timestampJson);
+			cJSON_Delete(attributeJson);
 			return;
 		}
 	}
+	cJSON_Delete(timestampJson);
 }
 
 string CJsonMessageFormat::deserializeSetAttribute(const string &payload,
 		CloudioAttribute *attribute) {
 	cJSON *attributeJson;
-
 	attributeJson = cJSON_Parse(payload.c_str());
 	if (attributeJson == NULL) {
 		cout << "Error during main deserialization process " << endl;
+		cJSON_Delete(attributeJson);
 		return "";
 	}
 
@@ -130,6 +154,8 @@ string CJsonMessageFormat::deserializeSetAttribute(const string &payload,
 	if (cJSON_GetObjectItem(attributeJson, "correlationID") != NULL)
 		correlationID =
 				cJSON_GetObjectItem(attributeJson, "correlationID")->valuestring;
+
+	cJSON_Delete(attributeJson);
 	return correlationID;
 }
 
