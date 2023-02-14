@@ -1,5 +1,5 @@
 # cloudio-endpoint-cplusplus
-
+C++ endpoint (IoT device) library for [cloud.iO](https://cloudio.hevs.ch).
 ## Requirements
 
 ### Libraries
@@ -41,9 +41,11 @@ Execute ```./build.sh``` as described in the [git repository](https://github.com
 CMake as per the other libraries. The library is then used in the cloudio-endpoint-cpp CMake project.
 
 #### Uses with ESP32
-On ESP32, The cloudio-endpoint-cplusplus uses only esp-idf components:
+On ESP32, The cloudio-endpoint-cplusplus does not need external dependencies. It only uses already integrated esp-idf components:
 
-- [cJSON](https://github.com/DaveGamble/cJSON)
+- [cJSON integrated as esp components](https://github.com/DaveGamble/cJSON)
+- [esp ntp](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/system_time.html)
+- [ESP-MQTT](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/protocols/mqtt.html)
 
 ## Use the library in your CMake project (with operating system)
 
@@ -111,3 +113,10 @@ esp-idf-project/
 ├─ CMakeLists.txt
 ├─ sdkconfig
 ```
+
+### Known problem on esp32
+*(IDF Eclipse Plugin Version: 2.7.0.202211101524
+ESP-IDF v5.0-dirty)*
+
+When Using Optimization Level **Debug(-Og)**, the mqtt publish can create a Stack overflow for unknown reason. 
+The only tested solution is to change the Optimization Level to **Optimize for size (-Os)**.

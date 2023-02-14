@@ -23,7 +23,7 @@ namespace cloudio {
     string CJsonMessageFormat::serializeEndpoint(CloudioEndpoint *endpoint) {
         cJSON *endpointJson = this->jsonSerializeEndpoint(endpoint);
 
-        char *toReturnChar = cJSON_Print(endpointJson);
+        char *toReturnChar = cJSON_PrintUnformatted(endpointJson);
         string toReturn = toReturnChar;
         cJSON_free(toReturnChar);
         cJSON_Delete(endpointJson);
@@ -33,7 +33,7 @@ namespace cloudio {
     string CJsonMessageFormat::serializeNode(CloudioNode *node) {
         cJSON *nodejson = this->jsonSerializeNode(node);
 
-        char *toReturnChar = cJSON_Print(nodejson);
+        char *toReturnChar = cJSON_PrintUnformatted(nodejson);
         string toReturn = toReturnChar;
         cJSON_free(toReturnChar);
         cJSON_Delete(nodejson);
@@ -43,7 +43,7 @@ namespace cloudio {
     string CJsonMessageFormat::serializeAttribute(CloudioAttribute *attribute) {
         cJSON *attributeJson = this->jsonSerializeAttribute(attribute);
 
-        char *toReturnChar = cJSON_Print(attributeJson);
+        char *toReturnChar = cJSON_PrintUnformatted(attributeJson);
         string toReturn = toReturnChar;
         cJSON_free(toReturnChar);
         cJSON_Delete(attributeJson);
@@ -57,7 +57,7 @@ namespace cloudio {
         cJSON_AddStringToObject(attributeJson, "correlationID",
                 correlationID.c_str());
 
-        char *toReturnChar = cJSON_Print(attributeJson);
+        char *toReturnChar = cJSON_PrintUnformatted(attributeJson);
         string toReturn = toReturnChar;
         cJSON_free(toReturnChar);
         cJSON_Delete(attributeJson);
