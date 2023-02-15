@@ -28,6 +28,8 @@ namespace cloudio {
                 this->transportLayer = new PahoMqttCppTransportLayer();
 #elif ESP_PLATFORM
                 this->transportLayer = &ESP32MqttTransportLayer::getInstance();
+#else // default value
+                this->transportLayer = new PahoMqttCppTransportLayer();
 #endif//__unix
             } else {
                 this->transportLayer = transportLayer;
@@ -54,6 +56,8 @@ namespace cloudio {
                 this->messageFormat = new JsonNlohmannMessageFormat(messageFormatId);
 #elif ESP_PLATFORM
                 this->messageFormat = new CJsonMessageFormat();
+#else // default value
+                this->messageFormat = new JsonNlohmannMessageFormat(messageFormatId);
 #endif//__unix
             } else {
                 this->messageFormat = cloudioMessageFormat;
