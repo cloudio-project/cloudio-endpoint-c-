@@ -8,10 +8,12 @@
 #include "CloudioAttributeConstraint.h"
 #include "CloudioAttributeType.h"
 #include "ICloudioAttributeListener.h"
+#include "ITimestampManager.h"
 
 #include "../include/CloudioAttributeConstrainException.h"
 #include "../include/CloudioAttributeTypeException.h"
 
+#include <stdint.h>
 #include <string>
 #include <list>
 
@@ -45,7 +47,7 @@ namespace cloudio {
 
         void *getValue();
 
-        long getTimestamp();
+        int64_t getTimestamp();
 
         CloudioAttributeConstraint getConstraint();;
 
@@ -61,13 +63,13 @@ namespace cloudio {
 
         void setValue(bool boolValue);
 
-        void setValue(int intValue, long newTimestamp);
+        void setValue(int intValue, int64_t newTimestamp);
 
-        void setValue(double doubleValue, long newTimestamp);
+        void setValue(double doubleValue, int64_t newTimestamp);
 
-        void setValue(const std::string &stringValue, long newTimestamp);
+        void setValue(const std::string &stringValue, int64_t newTimestamp);
 
-        void setValue(bool boolValue, long newTimestamp);
+        void setValue(bool boolValue, int64_t newTimestamp);
 
         CloudioAttribute &operator=(int intValue);
 
@@ -77,13 +79,13 @@ namespace cloudio {
 
         CloudioAttribute &operator=(bool boolValue);
 
-        bool setValueFromCloud(int intValue, long newTimestamp);
+        bool setValueFromCloud(int intValue, int64_t newTimestamp);
 
-        bool setValueFromCloud(double doubleValue, long newTimestamp);
+        bool setValueFromCloud(double doubleValue, int64_t newTimestamp);
 
-        bool setValueFromCloud(const std::string &stringValue, long newTimestamp);
+        bool setValueFromCloud(const std::string &stringValue, int64_t newTimestamp);
 
-        bool setValueFromCloud(bool boolValue, long newTimestamp);
+        bool setValueFromCloud(bool boolValue, int64_t newTimestamp);
 
         void setParent(ICloudioAttributeContainer *parent);
 
@@ -96,18 +98,20 @@ namespace cloudio {
 
     private:
         void *value;
-        long timestamp = 0;
+        int64_t timestamp = 0;
         CloudioAttributeConstraint constraint;
         CloudioAttributeType attributeType;
         std::string attributeName;
         ICloudioAttributeContainer *parent = nullptr;
         std::list<ICloudioAttributeListener *> listeners;
 
+        ITimestampManager *timestampManager;
+
         void innerPreSetValue();
 
-        void innerPostSetValue(long newTimestamp);
+        void innerPostSetValue(int64_t newTimestamp);
 
-        bool innerPostSetValueFromCloud(long newTimestamp);
+        bool innerPostSetValueFromCloud(int64_t newTimestamp);
 
         void setIntegerValue(int intValue);
 

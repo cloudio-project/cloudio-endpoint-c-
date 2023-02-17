@@ -2,6 +2,7 @@
 // Created by lucas on 21/10/22.
 //
 
+#ifdef __unix__
 #ifndef CLOUDIO_ENDPOINT_CPP_PAHOMQTTCPPTRANSPORTLAYER_H
 #define CLOUDIO_ENDPOINT_CPP_PAHOMQTTCPPTRANSPORTLAYER_H
 
@@ -51,3 +52,4 @@ namespace cloudio {
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP_PAHOMQTTCPPTRANSPORTLAYER_H
+#endif //__unix__

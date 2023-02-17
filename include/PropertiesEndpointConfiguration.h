@@ -1,7 +1,7 @@
 //
 // Created by lucas on 20/10/22.
 //
-
+#ifdef __unix__
 #ifndef CLOUDIO_ENDPOINT_CPP_PROPERTIESENDPOINTCONFIGURATION_H
 #define CLOUDIO_ENDPOINT_CPP_PROPERTIESENDPOINTCONFIGURATION_H
 
@@ -30,3 +30,4 @@ namespace cloudio {
 } // cloudio
 
 #endif //CLOUDIO_ENDPOINT_CPP_PROPERTIESENDPOINTCONFIGURATION_H
+#endif

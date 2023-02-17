@@ -44,7 +44,11 @@ namespace cloudio {
         std::string uuid;
         std::string version = "v0.2";
         std::vector<CloudioNode *> nodes;
+#ifdef __unix__
         std::vector<std::string> supportedFormats{"JSON", "CBOR"};
+#elif ESP_PLATFORM
+        std::vector<std::string> supportedFormats{"JSON"};
+#endif
         ICloudioMessageFormat *messageFormat;
         ITransportLayer *transportLayer;
         ICloudioEndpointConfiguration *endpointConfiguration;

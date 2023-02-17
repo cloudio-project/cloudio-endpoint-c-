@@ -4,8 +4,11 @@
 
 #include "../include/CloudioEndpoint.h"
 #include "../include/PahoMqttCppTransportLayer.h"
+#include "../include/ESP32MqttTransportLayer.h"
 #include "../include/PropertiesEndpointConfiguration.h"
+#include "../include/MapEndpointConfiguration.h"
 #include "../include/JsonNlohmannMessageFormat.h"
+#include "../include/CJsonMessageFormat.h"
 #include "../include/CloudioEndpointPropertyConstants.h"
 #include "../include/TopicUuidHelper.h"
 #include "../include/CloudioMessageFormatFactory.h"
@@ -21,14 +24,25 @@ namespace cloudio {
         try {
 
             if (transportLayer == nullptr) {
+#ifdef __unix__
                 this->transportLayer = new PahoMqttCppTransportLayer();
+#elif ESP_PLATFORM
+                this->transportLayer = &ESP32MqttTransportLayer::getInstance();
+#else // default value
+                this->transportLayer = new PahoMqttCppTransportLayer();
+#endif//__unix
             } else {
                 this->transportLayer = transportLayer;
             }
 
             if (endpointConfiguration == nullptr) {
+#ifdef __unix__
                 this->endpointConfiguration = new PropertiesEndpointConfiguration(
                         "/etc/cloud.io/" + uuidOrAppName + ".properties");
+#else
+                this->endpointConfiguration = new MapEndpointConfiguration();
+#endif//__unix
+
             } else {
                 this->endpointConfiguration = endpointConfiguration;
             }
@@ -38,7 +52,13 @@ namespace cloudio {
             if (cloudioMessageFormat == nullptr) {
                 string messageFormatId = this->endpointConfiguration->getProperty(MESSAGE_FORMAT,
                                                                                   MESSAGE_FORMAT_DEFAULT);
+#ifdef __unix__
                 this->messageFormat = new JsonNlohmannMessageFormat(messageFormatId);
+#elif ESP_PLATFORM
+                this->messageFormat = new CJsonMessageFormat();
+#else // default value
+                this->messageFormat = new JsonNlohmannMessageFormat(messageFormatId);
+#endif//__unix
             } else {
                 this->messageFormat = cloudioMessageFormat;
             }

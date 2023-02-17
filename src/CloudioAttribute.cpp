@@ -5,6 +5,9 @@
 #include "../include/CloudioAttribute.h"
 #include "../include/ICloudioAttributeContainer.h"
 
+#include "../include/ESP32TimestampManager.h"
+#include "../include/BasicTimestampManager.h"
+
 using namespace std;
 
 namespace cloudio {
@@ -34,6 +37,12 @@ namespace cloudio {
                 this->value = new string;
                 break;
         }
+
+#ifdef ESP_PLATFORM
+        timestampManager = &ESP32TimestampManager::getInstance();
+#else
+        timestampManager = &BasicTimestampManager::getInstance();
+#endif
     }
 
     CloudioAttribute::CloudioAttribute(const string &attributeName, const CloudioAttributeType type,
@@ -88,7 +97,7 @@ namespace cloudio {
         return this->value;
     }
 
-    long CloudioAttribute::getTimestamp() {
+    int64_t CloudioAttribute::getTimestamp() {
         return this->timestamp;
     }
 
@@ -105,22 +114,22 @@ namespace cloudio {
     }
 
     void CloudioAttribute::setValue(const int intValue) {
-        this->setValue(intValue, time(nullptr));
+        this->setValue(intValue, timestampManager->getTimestamp());
     }
 
     void CloudioAttribute::setValue(const double doubleValue) {
-        this->setValue(doubleValue, time(nullptr));
+        this->setValue(doubleValue, timestampManager->getTimestamp());
     }
 
     void CloudioAttribute::setValue(const string &stringValue) {
-        this->setValue(stringValue, time(nullptr));
+        this->setValue(stringValue, timestampManager->getTimestamp());
     }
 
     void CloudioAttribute::setValue(const bool boolValue) {
-        this->setValue(boolValue, time(nullptr));
+        this->setValue(boolValue, timestampManager->getTimestamp());
     }
 
-    void CloudioAttribute::setValue(const int intValue, const long newTimestamp) {
+    void CloudioAttribute::setValue(const int intValue, const int64_t newTimestamp) {
         this->innerPreSetValue();
 
         this->setIntegerValue(intValue);
@@ -128,7 +137,7 @@ namespace cloudio {
         this->innerPostSetValue(newTimestamp);
     }
 
-    void CloudioAttribute::setValue(const double doubleValue, const long newTimestamp) {
+    void CloudioAttribute::setValue(const double doubleValue, const int64_t newTimestamp) {
         this->innerPreSetValue();
 
         this->setNumberValue(doubleValue);
@@ -136,7 +145,7 @@ namespace cloudio {
         this->innerPostSetValue(newTimestamp);
     }
 
-    void CloudioAttribute::setValue(const string &stringValue, const long newTimestamp) {
+    void CloudioAttribute::setValue(const string &stringValue, const int64_t newTimestamp) {
         this->innerPreSetValue();
 
         this->setStringValue(stringValue);
@@ -144,7 +153,7 @@ namespace cloudio {
         this->innerPostSetValue(newTimestamp);
     }
 
-    void CloudioAttribute::setValue(const bool boolValue, const long newTimestamp) {
+    void CloudioAttribute::setValue(const bool boolValue, const int64_t newTimestamp) {
         this->innerPreSetValue();
 
         this->setBooleanValue(boolValue);
@@ -152,27 +161,27 @@ namespace cloudio {
         this->innerPostSetValue(newTimestamp);
     }
 
-    CloudioAttribute& CloudioAttribute::operator=(int intValue) {
+    CloudioAttribute &CloudioAttribute::operator=(int intValue) {
         setValue(intValue);
         return *this;
     }
 
-    CloudioAttribute& CloudioAttribute::operator=(double doubleValue) {
+    CloudioAttribute &CloudioAttribute::operator=(double doubleValue) {
         setValue(doubleValue);
         return *this;
     }
 
-    CloudioAttribute& CloudioAttribute::operator=(const std::string &stringValue) {
+    CloudioAttribute &CloudioAttribute::operator=(const std::string &stringValue) {
         setValue(stringValue);
         return *this;
     }
 
-    CloudioAttribute& CloudioAttribute::operator=(bool boolValue) {
+    CloudioAttribute &CloudioAttribute::operator=(bool boolValue) {
         setValue(boolValue);
         return *this;
     }
 
-    bool CloudioAttribute::setValueFromCloud(const int intValue, const long newTimestamp) {
+    bool CloudioAttribute::setValueFromCloud(const int intValue, const int64_t newTimestamp) {
         bool isSetPossible = innerPostSetValueFromCloud(newTimestamp);
 
         if (isSetPossible) {
@@ -182,7 +191,7 @@ namespace cloudio {
         return isSetPossible;
     }
 
-    bool CloudioAttribute::setValueFromCloud(double doubleValue, long newTimestamp) {
+    bool CloudioAttribute::setValueFromCloud(double doubleValue, int64_t newTimestamp) {
         bool isSetPossible = innerPostSetValueFromCloud(newTimestamp);
 
         if (isSetPossible) {
@@ -192,7 +201,7 @@ namespace cloudio {
         return isSetPossible;
     }
 
-    bool CloudioAttribute::setValueFromCloud(const string &stringValue, long newTimestamp) {
+    bool CloudioAttribute::setValueFromCloud(const string &stringValue, int64_t newTimestamp) {
         bool isSetPossible = innerPostSetValueFromCloud(newTimestamp);
 
         if (isSetPossible) {
@@ -202,7 +211,7 @@ namespace cloudio {
         return isSetPossible;
     }
 
-    bool CloudioAttribute::setValueFromCloud(const bool boolValue, const long newTimestamp) {
+    bool CloudioAttribute::setValueFromCloud(const bool boolValue, const int64_t newTimestamp) {
         bool isSetPossible = innerPostSetValueFromCloud(newTimestamp);
 
         if (isSetPossible) {
@@ -212,7 +221,7 @@ namespace cloudio {
         return isSetPossible;
     }
 
-    bool CloudioAttribute::innerPostSetValueFromCloud(const long newTimestamp) {
+    bool CloudioAttribute::innerPostSetValueFromCloud(const int64_t newTimestamp) {
         if (this->constraint != Parameter && this->constraint != SetPoint) {
             throw CloudioAttributeConstrainException(
                     "Can not change an attribute whose constraint is neither Parameter nor SetPoint ");
@@ -267,7 +276,7 @@ namespace cloudio {
         }
     }
 
-    void CloudioAttribute::innerPostSetValue(const long newTimestamp) {
+    void CloudioAttribute::innerPostSetValue(const int64_t newTimestamp) {
         this->timestamp = newTimestamp;
         if (this->parent != nullptr) {
             this->parent->attributeHasChangedByEndpoint(*this);
