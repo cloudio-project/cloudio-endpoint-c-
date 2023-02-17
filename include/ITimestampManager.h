@@ -14,8 +14,6 @@ namespace cloudio {
 
         virtual ~ITimestampManager() {}
 
-        virtual void init() = 0;
-
         virtual int64_t getTimestamp() = 0;
 
     };

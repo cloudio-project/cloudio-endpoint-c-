@@ -5,7 +5,7 @@
  *      Author: Lucas Bonvin
  */
 
-#include "MapEndpointConfiguration.h"
+#include "../include/MapEndpointConfiguration.h"
 
 using namespace std;
 

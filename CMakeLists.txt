@@ -37,6 +37,7 @@ add_library(cloudio_endpoint_cpp
         include/CloudioAttributeTypeException.h
         include/BasicTimestampManager.h
         include/PropertiesHelper.h
+        include/MapEndpointConfiguration.h
         src/CloudioAttribute.cpp
         src/CloudioNode.cpp
         src/CloudioEndpoint.cpp
@@ -53,7 +54,8 @@ add_library(cloudio_endpoint_cpp
         src/CloudioAttributeConstraint.cpp
         src/CloudioAttributeType.cpp
         src/BasicTimestampManager.cpp
-        src/PropertiesHelper.cpp)
+        src/PropertiesHelper.cpp
+        src/MapEndpointConfiguration.cpp)
 
 include_directories(${CPP_PROPERTIES_INCLUDE_DIR})
 

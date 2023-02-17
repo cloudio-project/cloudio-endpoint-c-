@@ -19,8 +19,6 @@ namespace cloudio {
         static BasicTimestampManager &getInstance();
 
         // from ITimestampManager interface
-        void init();
-
         int64_t getTimestamp();
 
     private:
