@@ -14,6 +14,8 @@ namespace cloudio {
 
     class CloudioAttribute;
 
+    class Transaction;
+
     class ICloudioMessageFormat {
     public:
 
@@ -26,6 +28,8 @@ namespace cloudio {
         virtual std::string serializeAttribute(CloudioAttribute *attribute) = 0;
 
         virtual std::string serializeDidSetAttribute(CloudioAttribute *attribute, const std::string &correlationID) = 0;
+
+        virtual std::string serializeTransaction(Transaction * transaction) = 0;
 
         virtual void deserializeAttribute(const std::string &payload, CloudioAttribute *attribute) = 0;
 

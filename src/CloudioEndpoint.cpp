@@ -75,6 +75,7 @@ namespace cloudio {
         } catch (TransportLayerException &e) {
             throw;
         }
+        transaction = new Transaction();
     }
 
     CloudioEndpoint::~CloudioEndpoint() {
@@ -113,6 +114,10 @@ namespace cloudio {
                                       this->messageFormat->serializeNode(node), 1, false);
     }
 
+    bool CloudioEndpoint::isOnline() {
+        return this->transportLayer->isOnline();
+    }
+
     void
     CloudioEndpoint::set(const string &topic, queue <string> location, ICloudioMessageFormat *const setMessageFormat,
                          const string &payload) {
@@ -148,9 +153,14 @@ namespace cloudio {
 
     void CloudioEndpoint::attributeHasChangedByEndpoint(CloudioAttribute &attribute) {
 
-        string topicUUID = getAttributeTopic(&attribute);
-        this->transportLayer->publish("@update/" + topicUUID, this->messageFormat->serializeAttribute(&attribute), 1,
-                                      true);
+        if (this->inTransaction) {
+            this->transaction->addAttribute(&attribute);
+        } else {
+            string topicUUID = getAttributeTopic(&attribute);
+            this->transportLayer->publish("@update/" + topicUUID, this->messageFormat->serializeAttribute(&attribute),
+                                          1,
+                                          true);
+        }
     }
 
     void CloudioEndpoint::messageArrived(const string &topic, const string &payload) {
@@ -168,5 +178,31 @@ namespace cloudio {
             location.pop(); // pop the @set
             set(topic, location, arrivedMessageFormat, payload);
         }
+    }
+
+
+    void CloudioEndpoint::beginTransaction() {
+        this->inTransaction = true;
+    }
+
+    void CloudioEndpoint::commitTransaction() {
+        string data = messageFormat->serializeTransaction(this->transaction);
+        bool messageSend = false;
+
+        if (this->isOnline()) {
+            this->transportLayer->publish("@transaction/" + this->uuid, data, 1, true);
+            messageSend = true;
+            transaction->clearAttributes();
+        }
+
+        if (!messageSend) {
+            //pass, condition will be used when persistence will be implemented
+        }
+
+        this->inTransaction = false;
+    }
+
+    void CloudioEndpoint::rollbackTransaction() {
+        this->transaction->clearAttributes();
     }
 } // cloudio
