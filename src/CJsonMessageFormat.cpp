@@ -6,7 +6,7 @@
  */
 
 #ifdef ESP_PLATFORM
-#include "CJsonMessageFormat.h"
+#include "../include/CJsonMessageFormat.h"
 #include "../include/CloudioEndpoint.h"
 
 using namespace std;
@@ -160,6 +160,16 @@ namespace cloudio {
         return correlationID;
     }
 
+    string CJsonMessageFormat::serializeTransaction(Transaction * transaction);
+        cJSON *transactionJson = this->jsonSerializeTransaction(transaction);
+
+        char *toReturnChar = cJSON_PrintUnformatted(transactionJson);
+        string toReturn = toReturnChar;
+        cJSON_free(toReturnChar);
+        cJSON_Delete(transactionJson);
+        return toReturn;
+    }
+
     cJSON* CJsonMessageFormat::jsonSerializeEndpoint(CloudioEndpoint *endpoint) {
         cJSON *endpointJson = cJSON_CreateObject();
 
@@ -307,6 +317,18 @@ namespace cloudio {
         }
 
         return attributeJson;
+    }
+
+    cJSON* CJsonMessageFormat::jsonSerializeTransaction(Transaction * transaction){
+
+        cJSON *transaction = cJSON_CreateObject();
+        cJSON *attributes = cJSON_CreateObject();
+
+        for (auto &attributeIt: transaction->getAttributes()) {
+            cJSON_AddItemToObject(attributes, getAttributeTopic(attributeIt.second),
+                                  jsonSerializeAttribute(attributeIt.second));
+        }
+        cJSON_AddItemToObject(transaction, "attributes", attributes);
     }
 } // cloudio
 #endif //ESP_PLATFORM
