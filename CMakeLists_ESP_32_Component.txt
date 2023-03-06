@@ -19,6 +19,7 @@ idf_component_register(SRCS "src/CloudioAttribute.cpp"
         "src/BasicTimestampManager.cpp"
         "src/ESP32TimestampManager.cpp"
         "src/PropertiesHelper.cpp"
+        "src/Transaction.cpp"
 		INCLUDE_DIRS "include"
 		REQUIRES json mqtt)
 		
