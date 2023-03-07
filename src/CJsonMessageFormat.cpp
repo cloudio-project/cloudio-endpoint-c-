@@ -160,7 +160,7 @@ namespace cloudio {
         return correlationID;
     }
 
-    string CJsonMessageFormat::serializeTransaction(Transaction * transaction);
+    string CJsonMessageFormat::serializeTransaction(Transaction * transaction){
         cJSON *transactionJson = this->jsonSerializeTransaction(transaction);
 
         char *toReturnChar = cJSON_PrintUnformatted(transactionJson);
@@ -321,14 +321,15 @@ namespace cloudio {
 
     cJSON* CJsonMessageFormat::jsonSerializeTransaction(Transaction * transaction){
 
-        cJSON *transaction = cJSON_CreateObject();
+        cJSON *transactionJson = cJSON_CreateObject();
         cJSON *attributes = cJSON_CreateObject();
 
         for (auto &attributeIt: transaction->getAttributes()) {
-            cJSON_AddItemToObject(attributes, getAttributeTopic(attributeIt.second),
+            cJSON_AddItemToObject(attributes, getAttributeTopic(attributeIt.second).c_str(),
                                   jsonSerializeAttribute(attributeIt.second));
         }
-        cJSON_AddItemToObject(transaction, "attributes", attributes);
+        cJSON_AddItemToObject(transactionJson, "attributes", attributes);
+        return transactionJson;
     }
 } // cloudio
 #endif //ESP_PLATFORM
