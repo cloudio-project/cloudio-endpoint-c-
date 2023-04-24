@@ -56,6 +56,8 @@ namespace cloudio {
         std::vector<std::string> supportedFormats{"JSON", "CBOR"};
 #elif ESP_PLATFORM
         std::vector<std::string> supportedFormats{"JSON"};
+#elif __ZEPHYR__
+        std::vector<std::string> supportedFormats{"JSON"};//TODO Zephyr
 #endif
         ICloudioMessageFormat *messageFormat;
         ITransportLayer *transportLayer;

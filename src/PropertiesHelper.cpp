@@ -88,6 +88,10 @@ namespace cloudio {
         if (endpointConfiguration->containsKey(MQTT_HOST_URI_PROPERTY)) {
             toReturn.hostURI = endpointConfiguration->getProperty(
                     MQTT_HOST_URI_PROPERTY);
+            // hostURI should look like this "mqtts://your-cloudio-server:port"
+            // so retrieve hostname and port from substring
+            toReturn.hostname = toReturn.hostURI.substr(8,toReturn.hostURI.length()-13);
+            toReturn.port= stoi(toReturn.hostURI.substr(toReturn.hostURI.length()-4, 4));
         } else {
             throw InvalidPropertyException("No hoste URI given");
         }

@@ -22,6 +22,8 @@ namespace cloudio {
         std::string authorityFilePath;
         std::string identityKeyPath;
         std::string hostURI;
+        std::string hostname;
+        int port;
         bool verifyHostname;
     };
 

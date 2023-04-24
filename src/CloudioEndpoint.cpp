@@ -5,6 +5,7 @@
 #include "../include/CloudioEndpoint.h"
 #include "../include/PahoMqttCppTransportLayer.h"
 #include "../include/ESP32MqttTransportLayer.h"
+#include "../include/ZephyrMqttTransportLayer.h"
 #include "../include/PropertiesEndpointConfiguration.h"
 #include "../include/MapEndpointConfiguration.h"
 #include "../include/JsonNlohmannMessageFormat.h"
@@ -28,6 +29,8 @@ namespace cloudio {
                 this->transportLayer = new PahoMqttCppTransportLayer();
 #elif ESP_PLATFORM
                 this->transportLayer = &ESP32MqttTransportLayer::getInstance();
+#elif __ZEPHYR__
+                this->transportLayer = &ZephyrMqttTransportLayer::getInstance(); //TODO Zephyr
 #else // default value
                 this->transportLayer = new PahoMqttCppTransportLayer();
 #endif//__unix
@@ -56,6 +59,8 @@ namespace cloudio {
                 this->messageFormat = new JsonNlohmannMessageFormat(messageFormatId);
 #elif ESP_PLATFORM
                 this->messageFormat = new CJsonMessageFormat();
+#elif __ZEPHYR__
+                this->messageFormat = nullptr;//TODO Zephyr
 #else // default value
                 this->messageFormat = new JsonNlohmannMessageFormat(messageFormatId);
 #endif//__unix

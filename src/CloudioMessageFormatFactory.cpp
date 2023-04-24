@@ -19,6 +19,8 @@ namespace cloudio {
             if (json == nullptr) json = new JsonNlohmannMessageFormat("JSON");
 #elif ESP_PLATFORM
             if (json == nullptr) json = new CJsonMessageFormat();
+#elif __ZEPHYR__
+            if (json == nullptr) json =nullptr; //TODO Zephyr
 #else// by default, consider we have an OS
             if (json == nullptr) json = new JsonNlohmannMessageFormat("JSON");
 #endif//__unix ESP_PLATFORM
@@ -28,6 +30,8 @@ namespace cloudio {
             if (cbor == nullptr) cbor = new JsonNlohmannMessageFormat("CBOR");
 #elif ESP_PLATFORM
             cbor = nullptr; // for now CBOR is not yet supported on ESP platform
+#elif __ZEPHYR__
+            if (cbor == nullptr) json =nullptr; //TODO Zephyr
 #else// by default, consider we have an OS
             if (cbor == nullptr) json = new JsonNlohmannMessageFormat("CBOR");
 #endif//__unix ESP_PLATFORM
@@ -43,6 +47,8 @@ namespace cloudio {
             if (json == nullptr) json = new JsonNlohmannMessageFormat("JSON");
 #elif ESP_PLATFORM
             if (json == nullptr) json = new CJsonMessageFormat();
+#elif __ZEPHYR__
+            if (json == nullptr) json =nullptr; //TODO Zephyr
 #else// by default, consider we have an OS
             if (json == nullptr) json = new JsonNlohmannMessageFormat("JSON");
 #endif//__unix__  ESP_PLATFORM
@@ -52,6 +58,8 @@ namespace cloudio {
             if (cbor == nullptr) cbor = new JsonNlohmannMessageFormat("CBOR");
 #elif ESP_PLATFORM
             cbor = nullptr; // for now CBOR is not yet supported on ESP platform
+#elif __ZEPHYR__
+            if (cbor == nullptr) json =nullptr; //TODO Zephyr
 #else// by default, consider we have an OS
             if (cbor == nullptr) cbor = new JsonNlohmannMessageFormat("CBOR");
 #endif//__unix ESP_PLATFORM
