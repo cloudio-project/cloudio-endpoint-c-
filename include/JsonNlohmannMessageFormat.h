@@ -66,6 +66,8 @@ namespace cloudio {
 
         std::string serializeDidSetAttribute(CloudioAttribute *attribute, const std::string &correlationID);
 
+        std::string serializeTransaction(Transaction * transaction);
+
         void deserializeAttribute(const std::string &payload, CloudioAttribute *attribute);
 
         std::string deserializeSetAttribute(const std::string &payload, CloudioAttribute *attribute);
@@ -78,6 +80,8 @@ namespace cloudio {
         static nlohmann::json jsonSerializeObject(CloudioObject *object);
 
         static nlohmann::json jsonSerializeAttribute(CloudioAttribute *attribute);
+
+        static nlohmann::json jsonSerializeTransaction(Transaction * transaction);
 
         IJsonNlohmannMessageFormatSerializer *jsonNlohmannMessageFormatSerializer;
 

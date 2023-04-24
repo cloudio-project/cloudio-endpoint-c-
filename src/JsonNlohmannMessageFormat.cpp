@@ -53,6 +53,11 @@ namespace cloudio {
         attributeJson["correlationID"] = correlationID;
         return jsonNlohmannMessageFormatSerializer->serialize(attributeJson);
     }
+    string JsonNlohmannMessageFormat::serializeTransaction(Transaction * transaction){
+        json transactionJson = jsonSerializeTransaction(transaction);
+
+        return jsonNlohmannMessageFormatSerializer->serialize(transactionJson);
+    }
 
     void JsonNlohmannMessageFormat::deserializeAttribute(const string &payload, CloudioAttribute *const attribute) {
         json attributeJson;
@@ -264,6 +269,19 @@ namespace cloudio {
         }
 
         return attributeJson;
+    }
+
+    json JsonNlohmannMessageFormat::jsonSerializeTransaction(Transaction * transaction){
+        json transactionJson;
+        json attributes;
+
+        for (auto &attributeIt: transaction->getAttributes()) {
+
+            attributes[getAttributeTopic(attributeIt.second)] = jsonSerializeAttribute(attributeIt.second);
+        }
+
+        transactionJson["attributes"] = attributes;
+        return transactionJson;
     }
 } // cloudio
 #endif//__unix

@@ -9,6 +9,7 @@
 #include "ITransportLayer.h"
 #include "ICloudioMessageFormat.h"
 #include "ICloudioNodeContainer.h"
+#include "Transaction.h"
 #include <queue>
 
 namespace cloudio {
@@ -34,6 +35,13 @@ namespace cloudio {
 
         void addNode(CloudioNode *node);
 
+        bool isOnline();
+
+        void beginTransaction();
+
+        void commitTransaction();
+
+        void rollbackTransaction();
         // ICloudioNodeContainer interface
         void attributeHasChangedByEndpoint(CloudioAttribute &attribute);
 
@@ -52,6 +60,9 @@ namespace cloudio {
         ICloudioMessageFormat *messageFormat;
         ITransportLayer *transportLayer;
         ICloudioEndpointConfiguration *endpointConfiguration;
+
+        Transaction *transaction;
+        bool inTransaction = false;
 
         void
         set(const std::string &topic, std::queue<std::string> location, ICloudioMessageFormat *setMessageFormat,

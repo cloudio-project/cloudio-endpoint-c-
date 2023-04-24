@@ -29,6 +29,8 @@ namespace cloudio {
 
         std::string serializeDidSetAttribute(CloudioAttribute *attribute, const std::string &correlationID);
 
+        std::string serializeTransaction(Transaction * transaction);
+
         void deserializeAttribute(const std::string &payload, CloudioAttribute *attribute);
 
         std::string deserializeSetAttribute(const std::string &payload, CloudioAttribute *attribute);
@@ -41,6 +43,8 @@ namespace cloudio {
         static cJSON * jsonSerializeObject(CloudioObject *object);
 
         static cJSON * jsonSerializeAttribute(CloudioAttribute *attribute);
+
+        static cJSON * jsonSerializeTransaction(Transaction * transaction);
     };
 } // cloudio
 #endif /* COMPONENTS_CLOUDIO_ENDPOINT_CPP_INCLUDE_CJSONMESSAGEFORMAT_H_ */
