@@ -42,16 +42,23 @@ namespace cloudio
         void setTransportLayerMessageListener(
             ICloudioTransportLayerMessageListener *);
 
+        void mqttPoll();
+
     private:
         ZephyrMqttTransportLayer();
 
         int brokerInit(transportLayerProperties localProperties);
-        const char* client_id_get();
+        const char *client_id_get();
+        int fds_init(struct mqtt_client *c);
 
         bool online = false;
 
         struct mqtt_client client;
         struct sockaddr_storage broker;
+        struct pollfd fds;
+
+        uint32_t connect_attempt = 0;
+        bool online = false;
 
         uint8_t rx_buffer[128];
         uint8_t tx_buffer[128];
